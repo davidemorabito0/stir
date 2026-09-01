@@ -208,6 +208,7 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
   padding:0 17px 12px;scrollbar-width:none;background:transparent;
   overflow-x:hidden;touch-action:pan-y;overscroll-behavior:contain}
 .scorre::-webkit-scrollbar{display:none}
+.fermo.casa{padding-top:4px}
 .fermo{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;
   padding:0 17px 8px;background:transparent}
 /* il margine di sicurezza lo mette SOLO chi tocca davvero il fondo dello schermo */
@@ -857,6 +858,8 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .striscia .tt span{display:block;font-size:12px;color:rgba(255,255,255,.6);font-weight:500;
   margin-top:1px}
 .striscia .fr{color:rgb(var(--c));flex:0 0 auto;display:flex;opacity:.8}
+.striscia .citta{display:none}
+.striscia .tt b .nuovo{display:none}
 
 /* ================= impostazioni ================= */
 .scelte{display:flex;gap:8px;overflow-x:auto;touch-action:pan-x;
@@ -948,7 +951,322 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .rotola-giu.dopo{animation-delay:.06s}
 .vista.ferma{animation:none}
 
+
+/* =====================================================================
+   ADATTAMENTO A TABLET E COMPUTER
+   Riferimento 1672x941. Le misure stanno in variabili, cosi il disegno
+   regge anche a 1366, 1440, 1920 e sui tablet.
+   ===================================================================== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---- la scrivania: intestazione e ricerca, solo su schermi larghi ---- */
+
+
+.capo-profilo{display:flex;align-items:center;gap:16px;margin:6px 0 4px}
+.capo-profilo .tt{flex:1;min-width:0}
+.capo-profilo .nome{font-size:22px;font-weight:800;letter-spacing:-.035em}
+
+/* ---- icona nelle statistiche ---- */
+.ist{width:44px;height:44px;border-radius:14px;display:none;align-items:center;
+  justify-content:center;margin:0 auto 10px;color:rgb(var(--c));
+  background:radial-gradient(circle at 50% 28%, rgba(var(--c),.2), rgba(var(--c),.05));
+  box-shadow:inset 0 0 0 1.4px rgba(var(--c),.45),0 0 22px -8px rgba(var(--c),.7)}
+
+
+
+#righello{position:fixed;right:14px;bottom:14px;z-index:999;width:min(560px,calc(100vw - 28px));
+  max-height:76dvh;display:flex;flex-direction:column;border-radius:18px;overflow:hidden;
+  background:rgba(14,13,16,.97);box-shadow:0 24px 60px rgba(0,0,0,.7),
+    inset 0 0 0 1px rgba(255,255,255,.14);
+  -webkit-user-select:text;user-select:text}
+#righello .rig-capo{display:flex;align-items:center;gap:10px;padding:12px 14px;
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.1)}
+#righello .rig-capo b{flex:1;font-size:14px;font-weight:800;letter-spacing:-.02em}
+#righello button{font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:999px;
+  color:var(--ink);background:rgba(255,255,255,.1);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+#righello pre{flex:1;min-height:0;overflow:auto;padding:14px;margin:0;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.6;
+  color:rgba(245,242,236,.86);white-space:pre;-webkit-user-select:text;user-select:text}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+
+/* =====================================================================
+   SCHERMO LARGO — tablet e computer
+   Scritto in un blocco solo, in coda al foglio di stile, cosi nessuna
+   regola del telefono lo puo scavalcare.
+   Riferimento: 1672x941 con barra 300, area 1276, tre carte 409x520.
+   ===================================================================== */
+#lato{display:none}
+.scrivania{display:none}
+.scrivania .riga{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:24px;flex-wrap:wrap}
+.scrivania .cercona{display:flex;align-items:center;gap:11px}
+.scrivania .cercona input{flex:1;min-width:0;background:none;border:none;outline:none;
+  font-family:inherit;font-weight:500;color:var(--ink)}
+.scrivania .cercona input::placeholder{color:rgba(255,255,255,.4)}
+
+@media (min-width:768px){
+  :root{
+    --barra:220px;        /* larghezza barra laterale */
+    --bordo:24px;         /* margine interno del contenuto */
+    --spazio:18px;        /* spazio fra le carte */
+    --colonne:2;
+    --altezza-carta:400px;
+    --raggio:18px;
+    --cta:124px;
+  }
+
+  /* --- il tetto da telefono va tolto, altrimenti strozza tutto --- */
+  .vista{max-width:none;margin:0;padding:0}
+
+  /* ================= BARRA LATERALE ================= */
+  #lato{display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:20;
+    width:var(--barra);min-width:var(--barra);flex-shrink:0;
+    height:100dvh;height:var(--vh,100dvh);
+    padding:32px 26px calc(28px + env(safe-area-inset-bottom));
+    background:rgba(8,8,10,.88);
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    box-shadow:inset -1px 0 0 rgba(255,255,255,.1)}
+  #app{left:var(--barra);width:auto}
+
+  .lato-capo{display:block;padding:0 0 28px}
+  .lato-capo .ciao{font-size:22px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+  .lato-capo .ciao-sub{font-size:14px;color:rgba(255,255,255,.55);margin-top:8px;line-height:1.4}
+  .lato-capo .tondino{width:44px;height:44px;margin-top:20px}
+
+  .lato-voci{display:flex;flex-direction:column;gap:8px;flex:1 1 auto;min-height:0;
+    overflow-y:auto;scrollbar-width:none}
+  .lato-voci::-webkit-scrollbar{display:none}
+  .voce{display:flex;align-items:center;gap:14px;width:100%;height:52px;padding:0 18px;
+    border-radius:28px;color:rgba(255,255,255,.62);font-size:15px;font-weight:600;
+    text-align:left;position:relative;transition:all .22s var(--molla)}
+  .voce svg{flex:0 0 auto}
+  .voce .et{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .voce .sub{position:absolute;left:52px;top:36px;font-size:12px;font-weight:500;
+    color:rgba(255,255,255,.4);white-space:nowrap}
+  .voce:has(.sub){height:auto;padding:12px 18px 30px}
+  .voce:hover{color:#fff;background:rgba(255,255,255,.045)}
+  .voce[aria-current="true"]{color:var(--arancio);
+    background:linear-gradient(90deg,rgba(255,91,35,.2),rgba(255,91,35,.07));
+    box-shadow:inset 0 0 0 1px rgba(255,91,35,.25),0 0 30px rgba(255,91,35,.08)}
+  .voce.piccola{height:46px;font-size:14.5px;color:rgba(255,255,255,.58)}
+  .nuovo{font-size:9px;font-weight:800;letter-spacing:.1em;padding:3px 7px;border-radius:999px;
+    color:#FFB800;background:rgba(255,184,0,.14);flex:0 0 auto;
+    box-shadow:inset 0 0 0 1px rgba(255,184,0,.42)}
+
+  .lato-fondo{flex:0 0 auto;padding-top:16px;display:flex;flex-direction:column;gap:2px}
+  .lato-bere{display:flex;align-items:center;gap:13px;width:100%;min-height:72px;
+    margin:24px 0 12px;padding:14px 16px;border-radius:16px;text-align:left;color:#FFB800;
+    background:linear-gradient(135deg,rgba(110,75,0,.28),rgba(40,28,0,.18));
+    box-shadow:inset 0 0 0 1px rgba(255,184,0,.35);transition:transform .18s var(--molla)}
+  .lato-bere:active{transform:scale(.98)}
+  .lato-bere .ico{width:36px;height:36px;border-radius:999px;flex:0 0 auto;display:flex;
+    align-items:center;justify-content:center;background:none;
+    box-shadow:inset 0 0 0 1.4px rgba(255,184,0,.5)}
+  .lato-bere .tt{flex:1;min-width:0;line-height:1.35}
+  .lato-bere .tt b{display:block;font-size:14px;font-weight:700;color:#fff}
+  .lato-bere .tt span{display:block;font-size:11.5px;color:rgba(255,255,255,.5);font-weight:500}
+
+  /* la barra in fondo e il saluto della home non servono piu */
+  .tabbar{display:none!important}
+  .cima{display:none}
+  .scrivania{display:block}
+
+  /* ================= AREA CONTENUTI ================= */
+  .fermo,.scorre,.testa,.mappa-testa,.catfiltri,.elenco-locali{
+    width:100%;max-width:none;margin:0;
+    padding-left:var(--bordo);padding-right:var(--bordo)}
+  .fermo,.scorre{display:block;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;
+    padding-top:var(--bordo);
+    padding-bottom:calc(var(--bordo) + env(safe-area-inset-bottom))}
+  .fermo.casa{padding-top:var(--bordo)}
+  .fermo::-webkit-scrollbar,.scorre::-webkit-scrollbar{width:0}
+  .mappa-guscio{max-width:none;margin:0 var(--bordo);height:44dvh}
+
+  /* ================= INTESTAZIONE ================= */
+  .scrivania{padding:0 0 28px}
+  .scrivania h2{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+  .scrivania p{font-size:14px;margin-top:8px;color:rgba(255,255,255,.55)}
+  .scrivania .cercona{width:100%;height:48px;border-radius:14px;padding:0 18px;
+    flex:0 0 auto;align-self:flex-start;background:rgba(255,255,255,.025);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
+  .scrivania .cercona input{font-size:14.5px}
+  .scrivania .tasto{font-size:11px;font-weight:600;color:rgba(255,255,255,.42);
+    padding:3px 7px;border-radius:6px;flex:0 0 auto;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+
+  /* ================= LE TRE CARTE ================= */
+  .carte{display:grid;grid-template-columns:repeat(var(--colonne),minmax(0,1fr));
+    gap:var(--spazio);width:100%;overflow:visible;flex:0 0 auto;align-items:stretch}
+  .hcard{position:relative;overflow:hidden;display:block;padding:20px;
+    height:var(--altezza-carta);min-height:var(--altezza-carta);max-height:none;
+    border-radius:var(--raggio);
+    background:
+      radial-gradient(56% 42% at 50% 40%, rgba(var(--c),.14), transparent 72%),
+      radial-gradient(120% 92% at 50% 50%, rgba(var(--c),.045), transparent 78%),
+      #0A0A0C;
+    box-shadow:inset 0 0 0 1px rgba(var(--c),.2),
+      0 24px 60px -28px rgba(var(--c),.32),0 8px 26px rgba(0,0,0,.5)}
+  .hcard::before{content:none}
+  .hcard:active{transform:scale(.99)}
+  .hcard .ico{position:absolute;left:20px;top:20px;width:48px;height:48px;
+    border-radius:999px;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+    box-shadow:inset 0 0 0 1.5px rgba(var(--c),.5)}
+  .hcard .art{position:absolute;left:50%;top:44%;right:auto;bottom:auto;
+    transform:translate(-50%,-50%);
+    width:78%;height:62%;max-width:none;max-height:none;aspect-ratio:auto;opacity:1;
+    display:flex;align-items:center;justify-content:center;
+    filter:drop-shadow(0 24px 56px rgba(var(--c),.42))}
+  .hcard .art>svg{width:100%;height:100%;object-fit:contain}
+  .hcard .tt{position:absolute;left:22px;right:22px;bottom:24px;max-width:none;z-index:3}
+  .hcard h3{font-size:24px;font-weight:700;letter-spacing:-.03em;white-space:normal}
+  .hcard p{font-size:14px;line-height:1.45;margin-top:9px;max-width:280px;
+    color:rgba(255,255,255,.55);-webkit-line-clamp:2}
+  .hcard .go{position:absolute;right:20px;bottom:22px;width:44px;height:44px;
+    border-radius:50%;background:rgba(var(--c),.08);
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+    box-shadow:inset 0 0 0 1px rgba(var(--c),.5)}
+
+  /* ================= IL BANNER ================= */
+  .striscia{display:grid;grid-template-columns:auto auto 1fr auto;align-items:center;
+    width:100%;height:var(--cta);margin-top:var(--spazio);padding:0 26px 0 28px;gap:26px;
+    border-radius:var(--raggio);
+    background:linear-gradient(100deg,rgba(var(--c),.1),rgba(0,0,0,.28) 72%),#0A0A0C;
+    box-shadow:inset 0 0 0 1px rgba(var(--c),.3),
+      0 20px 48px -26px rgba(var(--c),.28),0 6px 22px rgba(0,0,0,.45)}
+  .striscia .ico{width:76px;height:76px;background:none;
+    box-shadow:inset 0 0 0 1.5px rgba(var(--c),.5)}
+  .striscia .tt{min-width:0;max-width:none}
+  .striscia .tt b{font-size:21px;font-weight:700;letter-spacing:-.03em;
+    display:flex;align-items:center;gap:12px}
+  .striscia .tt b .nuovo{font-style:normal;display:inline-flex}
+  .striscia .tt span{display:block;font-size:14px;line-height:1.45;margin-top:8px;
+    color:rgba(255,255,255,.55);white-space:normal}
+  .striscia .citta{display:none;width:100%;height:88px;min-width:0;opacity:.8}
+  .striscia .fr{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;opacity:1;background:rgba(var(--c),.08);
+    box-shadow:inset 0 0 0 1px rgba(var(--c),.5)}
+
+  /* ================= LE ALTRE SCHERMATE ================= */
+  .testa{justify-content:flex-start;gap:0;padding-top:26px;padding-bottom:6px}
+  .testa>.tondo[data-back]{width:auto;height:46px;padding:0 6px 0 14px;flex:0 0 auto;
+    border-radius:23px 0 0 23px;background:rgba(255,255,255,.05);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+  .testa>h2{flex:0 1 auto!important;font-size:16.5px!important;font-weight:700;height:46px;
+    display:flex;align-items:center;padding:0 22px 0 6px;border-radius:0 23px 23px 0;
+    text-align:left!important;background:rgba(255,255,255,.05);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+  .testa>span{display:none}
+  .testa::after{content:none}
+
+  .titolone{font-size:32px!important;font-weight:700;text-align:left;letter-spacing:-.035em;
+    max-width:none;margin:16px 0 8px!important;line-height:1.1}
+  .paragrafo{text-align:left;font-size:15px!important;max-width:640px;margin:0;
+    color:rgba(255,255,255,.55)}
+
+  .cerca{max-width:none;height:52px;border-radius:14px}
+  .filtri{margin:16px 0 4px;gap:9px}
+  .filtro{padding:11px 18px;font-size:14.5px;border-radius:13px}
+  .griglia-drink{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    gap:14px;align-items:start}
+  .drink{margin-bottom:0;padding:13px;border-radius:var(--raggio);gap:16px}
+  .drink .fot{width:84px;height:84px;border-radius:16px}
+  .drink .n{font-size:18px}
+
+  .livelli{max-width:820px;margin:24px 0 0;gap:14px}
+  .liv{height:auto;padding:18px 22px;border-radius:20px}
+  .liv .tass{width:54px;height:54px;border-radius:16px;font-size:23px}
+  .liv .n{font-size:19px}
+  .divisore{max-width:820px;margin:22px 0}
+  .tris{max-width:none;gap:0;padding:0;margin-top:26px;border-radius:22px;
+    background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+  .tris>div{background:none!important;box-shadow:none!important;padding:26px 18px;
+    display:flex;flex-direction:column;align-items:center;border-radius:0;position:relative}
+  .tris>div+div::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;
+    background:rgba(255,255,255,.08)}
+  .tris .ist{display:flex}
+  .tris .v{font-size:32px;letter-spacing:-.04em}
+
+  .due-colonne{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:20px;align-items:start;max-width:none;margin:24px 0 0;
+    justify-content:initial!important}
+  .due-colonne .qdrink{padding:20px;border-radius:20px;gap:20px}
+  .due-colonne .qdrink .fot{width:110px;height:110px;border-radius:18px}
+  .due-colonne .qdrink .n{font-size:24px}
+  .due-colonne .dosi{padding:6px 22px!important;border-radius:20px}
+  .qdom{max-width:none;margin:24px 0 0}
+
+  .eroe{max-width:1000px;margin:20px auto 0;border-radius:var(--raggio) var(--raggio) 0 0;
+    height:clamp(240px,32dvh,320px)}
+  .eroe h1{font-size:38px}
+  .telo{max-width:1000px;margin:-24px auto 0;border-radius:var(--raggio);
+    padding:10px 28px 24px;
+    box-shadow:0 -10px 40px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.07)}
+  .telo .corpo,.telo>.cta,.telo>.link{max-width:none}
+
+  .capo-profilo{padding:20px 24px;border-radius:22px;margin:18px 0 0;
+    background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+  .capo-profilo .nome{font-size:25px}
+  .avatarone{width:72px;height:72px;border-radius:22px;font-size:25px}
+  .scelte{margin:0;padding:2px 0;flex-wrap:wrap;overflow:visible}
+  .scelta{padding:12px 18px;font-size:14.5px;border-radius:14px}
+
+  .elenco-locali{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:10px;align-items:start;max-height:none}
+  .elenco-locali .locale{margin-bottom:0}
+  .elenco-locali .vuoto{grid-column:1/-1}
+
+  .prep{max-width:760px;margin:0 auto}
+  .velo{align-items:center}
+  .foglio{border-radius:26px;max-width:560px;max-height:86dvh}
+  .foglio.scheda-luogo{max-width:600px}
+  .cta,.link{max-width:520px;margin-left:auto;margin-right:auto}
+  .prep .cta,.prep .link{max-width:520px}
+}
+
+/* ---- tablet largo: 900-1199 ---- */
+@media (min-width:900px){
+  :root{--barra:240px;--bordo:32px;--spazio:20px;--altezza-carta:400px}
+  .scrivania .cercona{width:300px}
+}
+
+/* ---- computer: 1200-1439 ---- */
+@media (min-width:1200px){
+  :root{--barra:300px;--bordo:48px;--spazio:24px;--colonne:3;
+    --altezza-carta:460px;--cta:132px}
+  #lato{padding:32px 30px calc(28px + env(safe-area-inset-bottom))}
+  .lato-capo .ciao{font-size:26px}
+  .scrivania h2{font-size:32px}
+  .scrivania .cercona{width:360px}
+  .striscia .citta{display:block}
+  .eroe,.telo{max-width:1040px}
+}
+
+/* ---- computer grande: da 1440 la scala piena del riferimento ---- */
+@media (min-width:1440px){
+  :root{--altezza-carta:520px}
+  .fermo,.scorre,.testa,.mappa-testa,.catfiltri,.elenco-locali,.mappa-guscio{max-width:1700px}
+}
+
+/* ---- schermi bassi: le carte si accorciano quanto basta ---- */
+@media (min-width:1200px) and (max-height:900px){
+  :root{--altezza-carta:min(520px,52dvh)}
+}
 
 </style>
 </head>
@@ -1000,6 +1318,7 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
     </div>
   </div>
 </div>
+<aside id="lato" aria-hidden="true"></aside>
 <div id="app"></div>
 <div class="velo" id="velo"><div class="foglio" id="foglio"></div></div>
 <div class="avviso" id="avviso"></div>
@@ -1338,7 +1657,9 @@ it:{
  volume:"Volume",gradazione:"Gradazione",per_n:"per {n}",
  segn_ricetta:"Cerchio Rosso",segn_ingr:"Gin London Dry",segn_ghiaccio:"Cubetti / Un cubo grande / Senza ghiaccio",segn_fin:"Fetta d'arancia",segn_nota:"Negroni, tecnica, attrezzatura",cond_ko:"Condivisione non riuscita",no_dose:"Nessuna dose da chiedere",pdf_ok:"PDF salvato",esci2:"Premi di nuovo per uscire",
  ricetta_pdf:"RICETTA CONDIVISA",proporzioni_pdf:"LE PROPORZIONI",
- pregio_fuori:"Tavoli fuori",pregio_wifi:"Wi-Fi",pregio_musica:"Musica dal vivo",pregio_artigianale:"Birra artigianale",pregio_accesso:"Accessibile",pregio_cucina:"Si mangia",pregio_fumo:"Area fumatori",pregio_aperitivo:"Aperitivo",pregio_prenota:"Su prenotazione",pregio_asporto:"Asporto",mappa_nessunfiltro:"Nessun locale di questo tipo qui intorno.",
+ pregio_fuori:"Tavoli fuori",pregio_wifi:"Wi-Fi",pregio_musica:"Musica dal vivo",pregio_artigianale:"Birra artigianale",pregio_accesso:"Accessibile",pregio_cucina:"Si mangia",pregio_fumo:"Area fumatori",pregio_aperitivo:"Aperitivo",pregio_prenota:"Su prenotazione",pregio_asporto:"Asporto",mappa_nessunfiltro:"Nessun locale di questo tipo qui intorno.",nuovo_b:"NUOVO",esci:"Esci",
+ andiamo_lungo:"Scopri i migliori locali vicino a te e vivi l'esperienza del bere bene.",
+ inizia:"Inizia da qui",inizia_d:"Tutto quello che ti serve per diventare il barman che vuoi essere.",cerca_qualcosa:"Cerca qualcosa…",
  a_piedi:"{n} min a piedi",oggi:"Oggi",apre:"apre alle {h}",sempre_aperto:"Sempre aperto",chiama:"Chiama",cerca_web:"Cerca sul web",cucina:"Cucina",gestore:"Gestore",posti:"Posti",citta:"Citt\u00e0",cerco_info:"Cerco informazioni\u2026",leggi_di_piu:"Leggi di pi\u00f9",
  no_trovata:"Ricetta non trovata.",tua_ricetta:"La tua ricetta",agg_ingr:"aggiungi gli ingredienti",st_mia:"Una ricetta tua, nata al tuo bancone.",pl_cocktail:["cocktail","cocktail"],pl_classici:["classico","classici"],pl_provati:["cocktail diverso provato","cocktail diversi provati"],pl_passi:["passo","passi"],pl_possib:["possibilità","possibilità"],pl_secondi:["secondo","secondi"],pl_locali:["locale","locali"],pl_ricette:["ricetta classica, dose per dose.","ricette classiche, dose per dose."],pl_archivio:["ricetta nell\u0027archivio","ricette nell\u0027archivio"]
 },
@@ -1437,7 +1758,9 @@ en:{
  volume:"Volume",gradazione:"Strength",per_n:"for {n}",
  segn_ricetta:"Red Circle",segn_ingr:"London Dry gin",segn_ghiaccio:"Cubes / One large cube / No ice",segn_fin:"Orange slice",segn_nota:"Negroni, technique, kit",cond_ko:"Sharing failed",no_dose:"No measure to ask about",pdf_ok:"PDF saved",esci2:"Press again to exit",
  ricetta_pdf:"SHARED RECIPE",proporzioni_pdf:"THE PROPORTIONS",
- pregio_fuori:"Outdoor seating",pregio_wifi:"Wi-Fi",pregio_musica:"Live music",pregio_artigianale:"Craft beer",pregio_accesso:"Accessible",pregio_cucina:"Food served",pregio_fumo:"Smoking area",pregio_aperitivo:"Happy hour",pregio_prenota:"Booking needed",pregio_asporto:"Takeaway",mappa_nessunfiltro:"No places of this kind around here.",
+ pregio_fuori:"Outdoor seating",pregio_wifi:"Wi-Fi",pregio_musica:"Live music",pregio_artigianale:"Craft beer",pregio_accesso:"Accessible",pregio_cucina:"Food served",pregio_fumo:"Smoking area",pregio_aperitivo:"Happy hour",pregio_prenota:"Booking needed",pregio_asporto:"Takeaway",mappa_nessunfiltro:"No places of this kind around here.",nuovo_b:"NEW",esci:"Sign out",
+ andiamo_lungo:"Find the best places near you and enjoy drinking well.",
+ inizia:"Start here",inizia_d:"Everything you need to become the bartender you want to be.",cerca_qualcosa:"Search for anything…",
  a_piedi:"{n} min walk",oggi:"Today",apre:"opens at {h}",sempre_aperto:"Always open",chiama:"Call",cerca_web:"Search the web",cucina:"Food",gestore:"Run by",posti:"Seats",citta:"City",cerco_info:"Looking for details\u2026",leggi_di_piu:"Read more",
  no_trovata:"Recipe not found.",tua_ricetta:"Your recipe",agg_ingr:"add the ingredients",st_mia:"One of yours, born at your own bar.",pl_cocktail:["cocktail","cocktails"],pl_classici:["classic","classics"],pl_provati:["different cocktail tried","different cocktails tried"],pl_passi:["step","steps"],pl_possib:["option","options"],pl_secondi:["second","seconds"],pl_locali:["place","places"],pl_ricette:["classic recipe, measure by measure.","classic recipes, measure by measure."],pl_archivio:["recipe in the archive","recipes in the archive"]
 },
@@ -1536,7 +1859,9 @@ fr:{
  volume:"Volume",gradazione:"Degré",per_n:"pour {n}",
  segn_ricetta:"Cercle Rouge",segn_ingr:"Gin London Dry",segn_ghiaccio:"Glaçons / Un gros glaçon / Sans glace",segn_fin:"Tranche d'orange",segn_nota:"Negroni, technique, matériel",cond_ko:"Partage échoué",no_dose:"Aucune dose à demander",pdf_ok:"PDF enregistré",esci2:"Appuie encore pour sortir",
  ricetta_pdf:"RECETTE PARTAGÉE",proporzioni_pdf:"LES PROPORTIONS",
- pregio_fuori:"Terrasse",pregio_wifi:"Wi-Fi",pregio_musica:"Musique live",pregio_artigianale:"Bière artisanale",pregio_accesso:"Accessible",pregio_cucina:"On y mange",pregio_fumo:"Espace fumeurs",pregio_aperitivo:"Apéro",pregio_prenota:"Sur réservation",pregio_asporto:"À emporter",mappa_nessunfiltro:"Aucune adresse de ce type dans le coin.",
+ pregio_fuori:"Terrasse",pregio_wifi:"Wi-Fi",pregio_musica:"Musique live",pregio_artigianale:"Bière artisanale",pregio_accesso:"Accessible",pregio_cucina:"On y mange",pregio_fumo:"Espace fumeurs",pregio_aperitivo:"Apéro",pregio_prenota:"Sur réservation",pregio_asporto:"À emporter",mappa_nessunfiltro:"Aucune adresse de ce type dans le coin.",nuovo_b:"NOUVEAU",esci:"Quitter",
+ andiamo_lungo:"Découvre les meilleures adresses près de toi et savoure le bien boire.",
+ inizia:"Commence ici",inizia_d:"Tout ce qu'il te faut pour devenir le barman que tu veux être.",cerca_qualcosa:"Cherche quelque chose…",
  a_piedi:"{n} min \u00e0 pied",oggi:"Aujourd\u0027hui",apre:"ouvre \u00e0 {h}",sempre_aperto:"Toujours ouvert",chiama:"Appeler",cerca_web:"Chercher sur le web",cucina:"Cuisine",gestore:"Tenu par",posti:"Places",citta:"Ville",cerco_info:"Je cherche des infos\u2026",leggi_di_piu:"Lire la suite",
  no_trovata:"Recette introuvable.",tua_ricetta:"Ta recette",agg_ingr:"ajoute les ingrédients",st_mia:"Une des tiennes, née à ton comptoir.",pl_cocktail:["cocktail","cocktails"],pl_classici:["classique","classiques"],pl_provati:["cocktail différent essayé","cocktails différents essayés"],pl_passi:["étape","étapes"],pl_possib:["possibilité","possibilités"],pl_secondi:["seconde","secondes"],pl_locali:["adresse","adresses"],pl_ricette:["recette classique, dose par dose.","recettes classiques, dose par dose."],pl_archivio:["recette dans l\u0027archive","recettes dans l\u0027archive"]
 },
@@ -1635,7 +1960,9 @@ es:{
  volume:"Volumen",gradazione:"Graduación",per_n:"para {n}",
  segn_ricetta:"Círculo Rojo",segn_ingr:"Ginebra London Dry",segn_ghiaccio:"Cubitos / Un cubo grande / Sin hielo",segn_fin:"Rodaja de naranja",segn_nota:"Negroni, técnica, utensilios",cond_ko:"No se pudo compartir",no_dose:"Ninguna medida que preguntar",pdf_ok:"PDF guardado",esci2:"Pulsa otra vez para salir",
  ricetta_pdf:"RECETA COMPARTIDA",proporzioni_pdf:"LAS PROPORCIONES",
- pregio_fuori:"Terraza",pregio_wifi:"Wi-Fi",pregio_musica:"Música en vivo",pregio_artigianale:"Cerveza artesana",pregio_accesso:"Accesible",pregio_cucina:"Se come",pregio_fumo:"Zona de fumadores",pregio_aperitivo:"Aperitivo",pregio_prenota:"Con reserva",pregio_asporto:"Para llevar",mappa_nessunfiltro:"Ningún local de este tipo por aquí.",
+ pregio_fuori:"Terraza",pregio_wifi:"Wi-Fi",pregio_musica:"Música en vivo",pregio_artigianale:"Cerveza artesana",pregio_accesso:"Accesible",pregio_cucina:"Se come",pregio_fumo:"Zona de fumadores",pregio_aperitivo:"Aperitivo",pregio_prenota:"Con reserva",pregio_asporto:"Para llevar",mappa_nessunfiltro:"Ningún local de este tipo por aquí.",nuovo_b:"NUEVO",esci:"Salir",
+ andiamo_lungo:"Descubre los mejores locales cerca de ti y disfruta del buen beber.",
+ inizia:"Empieza aquí",inizia_d:"Todo lo que necesitas para ser el bartender que quieres ser.",cerca_qualcosa:"Busca algo…",
  a_piedi:"{n} min a pie",oggi:"Hoy",apre:"abre a las {h}",sempre_aperto:"Siempre abierto",chiama:"Llamar",cerca_web:"Buscar en la web",cucina:"Cocina",gestore:"Regentado por",posti:"Plazas",citta:"Ciudad",cerco_info:"Buscando informaci\u00f3n\u2026",leggi_di_piu:"Leer m\u00e1s",
  no_trovata:"Receta no encontrada.",tua_ricetta:"Tu receta",agg_ingr:"añade los ingredientes",st_mia:"Una tuya, nacida en tu barra.",pl_cocktail:["cóctel","cócteles"],pl_classici:["clásico","clásicos"],pl_provati:["cóctel distinto probado","cócteles distintos probados"],pl_passi:["paso","pasos"],pl_possib:["opción","opciones"],pl_secondi:["segundo","segundos"],pl_locali:["local","locales"],pl_ricette:["receta clásica, medida a medida.","recetas clásicas, medida a medida."],pl_archivio:["receta en el archivo","recetas en el archivo"]
 },
@@ -1734,7 +2061,9 @@ de:{
  volume:"Volumen",gradazione:"Stärke",per_n:"für {n}",
  segn_ricetta:"Roter Kreis",segn_ingr:"London Dry Gin",segn_ghiaccio:"Würfel / Ein großer Würfel / Ohne Eis",segn_fin:"Orangenscheibe",segn_nota:"Negroni, Technik, Zubehör",cond_ko:"Teilen fehlgeschlagen",no_dose:"Kein Maß zum Abfragen",pdf_ok:"PDF gespeichert",esci2:"Nochmal drücken zum Beenden",
  ricetta_pdf:"GETEILTES REZEPT",proporzioni_pdf:"DIE PROPORTIONEN",
- pregio_fuori:"Draußen sitzen",pregio_wifi:"WLAN",pregio_musica:"Livemusik",pregio_artigianale:"Craft-Bier",pregio_accesso:"Barrierefrei",pregio_cucina:"Es gibt Essen",pregio_fumo:"Raucherbereich",pregio_aperitivo:"Aperitif",pregio_prenota:"Mit Reservierung",pregio_asporto:"Zum Mitnehmen",mappa_nessunfiltro:"Kein Lokal dieser Art in der Nähe.",
+ pregio_fuori:"Draußen sitzen",pregio_wifi:"WLAN",pregio_musica:"Livemusik",pregio_artigianale:"Craft-Bier",pregio_accesso:"Barrierefrei",pregio_cucina:"Es gibt Essen",pregio_fumo:"Raucherbereich",pregio_aperitivo:"Aperitif",pregio_prenota:"Mit Reservierung",pregio_asporto:"Zum Mitnehmen",mappa_nessunfiltro:"Kein Lokal dieser Art in der Nähe.",nuovo_b:"NEU",esci:"Beenden",
+ andiamo_lungo:"Entdecke die besten Lokale in deiner Nähe und genieße gutes Trinken.",
+ inizia:"Hier starten",inizia_d:"Alles, was du brauchst, um der Barkeeper zu werden, der du sein willst.",cerca_qualcosa:"Etwas suchen…",
  a_piedi:"{n} Min zu Fu\u00df",oggi:"Heute",apre:"\u00f6ffnet um {h}",sempre_aperto:"Immer offen",chiama:"Anrufen",cerca_web:"Im Web suchen",cucina:"K\u00fcche",gestore:"Betrieben von",posti:"Pl\u00e4tze",citta:"Stadt",cerco_info:"Suche Informationen\u2026",leggi_di_piu:"Mehr lesen",
  no_trovata:"Rezept nicht gefunden.",tua_ricetta:"Dein Rezept",agg_ingr:"füge die Zutaten hinzu",st_mia:"Eines von dir, an deiner Bar entstanden.",pl_cocktail:["Cocktail","Cocktails"],pl_classici:["Klassiker","Klassiker"],pl_provati:["verschiedener Cocktail probiert","verschiedene Cocktails probiert"],pl_passi:["Schritt","Schritte"],pl_possib:["Möglichkeit","Möglichkeiten"],pl_secondi:["Sekunde","Sekunden"],pl_locali:["Lokal","Lokale"],pl_ricette:["klassisches Rezept, Maß für Maß.","klassische Rezepte, Maß für Maß."],pl_archivio:["Rezept im Archiv","Rezepte im Archiv"]
 },
@@ -1833,7 +2162,9 @@ ru:{
  volume:"Объём",gradazione:"Крепость",per_n:"на {n}",
  segn_ricetta:"Красный круг",segn_ingr:"Джин London Dry",segn_ghiaccio:"Кубики / Один большой кубик / Без льда",segn_fin:"Долька апельсина",segn_nota:"Негрони, техника, инвентарь",cond_ko:"Не удалось поделиться",no_dose:"Нет дозы для вопроса",pdf_ok:"PDF сохранён",esci2:"Нажми ещё раз для выхода",
  ricetta_pdf:"РЕЦЕПТ",proporzioni_pdf:"ПРОПОРЦИИ",
- pregio_fuori:"Столики на улице",pregio_wifi:"Wi-Fi",pregio_musica:"Живая музыка",pregio_artigianale:"Крафтовое пиво",pregio_accesso:"Доступно",pregio_cucina:"Есть кухня",pregio_fumo:"Зона для курения",pregio_aperitivo:"Аперитив",pregio_prenota:"По брони",pregio_asporto:"На вынос",mappa_nessunfiltro:"Поблизости нет заведений такого типа.",
+ pregio_fuori:"Столики на улице",pregio_wifi:"Wi-Fi",pregio_musica:"Живая музыка",pregio_artigianale:"Крафтовое пиво",pregio_accesso:"Доступно",pregio_cucina:"Есть кухня",pregio_fumo:"Зона для курения",pregio_aperitivo:"Аперитив",pregio_prenota:"По брони",pregio_asporto:"На вынос",mappa_nessunfiltro:"Поблизости нет заведений такого типа.",nuovo_b:"НОВОЕ",esci:"Выйти",
+ andiamo_lungo:"Найди лучшие заведения рядом и получи удовольствие от хорошего бара.",
+ inizia:"Начни отсюда",inizia_d:"Всё, что нужно, чтобы стать барменом, каким хочешь быть.",cerca_qualcosa:"Найти что-нибудь…",
  a_piedi:"{n} мин пешком",oggi:"Сегодня",apre:"откроется в {h}",sempre_aperto:"Всегда открыто",chiama:"Позвонить",cerca_web:"Искать в сети",cucina:"Кухня",gestore:"Управляет",posti:"Мест",citta:"Город",cerco_info:"Ищу информацию\u2026",leggi_di_piu:"Читать дальше",
  no_trovata:"Рецепт не найден.",tua_ricetta:"Твой рецепт",agg_ingr:"добавь ингредиенты",st_mia:"Твой собственный, рождённый за твоей стойкой.",pl_cocktail:["коктейль","коктейля","коктейлей"],pl_classici:["классический","классических","классических"],pl_provati:["разный коктейль попробован","разных коктейля попробовано","разных коктейлей попробовано"],pl_passi:["шаг","шага","шагов"],pl_possib:["вариант","варианта","вариантов"],pl_secondi:["секунда","секунды","секунд"],pl_locali:["заведение","заведения","заведений"],pl_ricette:["классический рецепт, доза за дозой.","классических рецепта, доза за дозой.","классических рецептов, доза за дозой."],pl_archivio:["рецепт в архиве","рецепта в архиве","рецептов в архиве"]
 },
@@ -1932,7 +2263,9 @@ lt:{
  volume:"Tūris",gradazione:"Stiprumas",per_n:"{n}",
  segn_ricetta:"Raudonas ratas",segn_ingr:"London Dry džinas",segn_ghiaccio:"Kubeliai / Vienas didelis kubelis / Be ledo",segn_fin:"Apelsino griežinėlis",segn_nota:"Negroni, technika, įranga",cond_ko:"Nepavyko pasidalinti",no_dose:"Nėra dozės klausimui",pdf_ok:"PDF išsaugotas",esci2:"Paspausk dar kartą, kad išeitum",
  ricetta_pdf:"RECEPTAS",proporzioni_pdf:"PROPORCIJOS",
- pregio_fuori:"Staliukai lauke",pregio_wifi:"Wi-Fi",pregio_musica:"Gyva muzika",pregio_artigianale:"Kraftinis alus",pregio_accesso:"Pritaikyta",pregio_cucina:"Yra maisto",pregio_fumo:"Rūkymo zona",pregio_aperitivo:"Aperityvas",pregio_prenota:"Su rezervacija",pregio_asporto:"Išsinešti",mappa_nessunfiltro:"Aplinkui tokio tipo vietų nėra.",
+ pregio_fuori:"Staliukai lauke",pregio_wifi:"Wi-Fi",pregio_musica:"Gyva muzika",pregio_artigianale:"Kraftinis alus",pregio_accesso:"Pritaikyta",pregio_cucina:"Yra maisto",pregio_fumo:"Rūkymo zona",pregio_aperitivo:"Aperityvas",pregio_prenota:"Su rezervacija",pregio_asporto:"Išsinešti",mappa_nessunfiltro:"Aplinkui tokio tipo vietų nėra.",nuovo_b:"NAUJA",esci:"Išeiti",
+ andiamo_lungo:"Atrask geriausias vietas netoliese ir mėgaukis geru gėrimu.",
+ inizia:"Pradėk čia",inizia_d:"Viskas, ko reikia, kad taptum tokiu barmenu, kokiu nori.",cerca_qualcosa:"Ieškoti ko nors…",
  a_piedi:"{n} min pėsčiomis",oggi:"Šiandien",apre:"atsidaro {h}",sempre_aperto:"Visada atidaryta",chiama:"Skambinti",cerca_web:"Ieškoti internete",cucina:"Virtuvė",gestore:"Valdo",posti:"Vietos",citta:"Miestas",cerco_info:"Ieškau informacijos\u2026",leggi_di_piu:"Skaityti daugiau",
  no_trovata:"Receptas nerastas.",tua_ricetta:"Tavo receptas",agg_ingr:"pridėk ingredientų",st_mia:"Tavo paties, gimęs prie tavo baro.",pl_cocktail:["kokteilis","kokteiliai","kokteilių"],pl_classici:["klasikinis","klasikiniai","klasikinių"],pl_provati:["skirtingas kokteilis išbandytas","skirtingi kokteiliai išbandyti","skirtingų kokteilių išbandyta"],pl_passi:["žingsnis","žingsniai","žingsnių"],pl_possib:["variantas","variantai","variantų"],pl_secondi:["sekundė","sekundės","sekundžių"],pl_locali:["vieta","vietos","vietų"],pl_ricette:["klasikinis receptas, dozė po dozės.","klasikiniai receptai, dozė po dozės.","klasikinių receptų, dozė po dozės."],pl_archivio:["receptas archyve","receptai archyve","receptų archyve"]
 }
@@ -2253,6 +2586,92 @@ const foglio=(h,tipo)=>{
 const chiudiF=()=>velo.classList.remove("on");
 velo.onclick=e=>{if(e.target===velo)chiudiF();};
 
+
+/* icone delle statistiche, usate nel quiz e nel profilo */
+const ISTAT={
+ punti:'<path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8z"/>',
+ coppa:'<path d="M7 4h10v6a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3"/><path d="M17 6h3v2a3 3 0 0 1-3 3"/><path d="M12 15v4"/><path d="M8 21h8"/>',
+ calice:'<path d="M4 4h16l-8 9z"/><path d="M12 13v7"/><path d="M8 20h8"/>',
+ cuore:'<path d="M12 20s-7.5-4.6-7.5-9.6A4.4 4.4 0 0 1 12 7.4a4.4 4.4 0 0 1 7.5 3c0 5-7.5 9.6-7.5 9.6z"/>'};
+const istat=(k,c)=>`<span class="ist" style="--c:${c}"><svg width="21" height="21" viewBox="0 0 24 24"
+  fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+  stroke-linejoin="round">${ISTAT[k]}</svg></span>`;
+
+/* il pannello delle novita, richiamabile da piu punti */
+function fogliNovita(){
+  foglio(`<h3 style="font-size:21px;margin-bottom:12px">${t("novita")}</h3>
+    <div class="riquadro"><p>${t("hai_ricette",{n:pl(CK.length,"pl_archivio").replace(CK.length+" ",""),
+        m:MIE.length?t("e_tue",{n:MIE.length}):""}).replace("{n} ",CK.length+" ")}
+      ${ST.record?t("record_quiz",{n:ST.record}):t("no_sfida")}</p></div>
+    <div style="height:14px"></div><button class="cta bianca" data-chiudi>${t("chiudi")}</button>`);
+}
+
+/* =====================================================================
+   BARRA LATERALE — compare solo su tablet e computer
+   Sta fuori da #app perche dis() ne riscrive il contenuto a ogni schermata.
+   ===================================================================== */
+const VOCI=[
+  ["casa","home",'<path d="M3 10.6 12 3l9 7.6"/><path d="M5.6 9.6V20h12.8V9.6"/>'],
+  ["lista","ricette",'<path d="M4 4h16l-8 9z"/><path d="M12 13v7"/><path d="M8 20h8"/>'],
+  ["quiz0","esercitati",'<path d="M6 3h12"/><path d="M6 21h12"/><path d="M7 3c0 5 10 5 10 0"/><path d="M7 21c0-5 10-5 10 0"/><path d="M12 8v8"/>'],
+  ["profilo","profilo",'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>'],
+  ["bere","andiamo",'<path d="M9 3 3 5.4v15L9 18l6 3 6-2.4v-15L15 6z"/><path d="M9 3v15"/><path d="M15 6v15"/>']
+];
+function disLato(){
+  const lato=$("lato"); if(!lato) return;
+  const qui=P.length?P[P.length-1].n:"casa";
+  const attiva=n=> n===qui || (n==="lista"&&qui==="drink") || (n==="quiz0"&&["regole","quiz","quizfine"].includes(qui))
+    || (n==="profilo"&&["preferiti","nuova"].includes(qui));
+  lato.innerHTML=`
+    <div class="lato-capo">
+      <div class="ciao">${t("ciao")} 👋</div>
+      <div class="ciao-sub">${t("scegli")}</div>
+      <button class="tondino" data-campana>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5F2EC"
+          stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bollo"></span></button>
+    </div>
+    <nav class="lato-voci">
+      ${VOCI.map(([n,k,ic])=>`<button class="voce" data-lato="${n}" aria-current="${attiva(n)}">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>
+        <span class="et">${t(k==="andiamo"?"andiamo":k==="profilo"?"profilo":k)}</span>
+        ${n==="bere"?`<span class="nuovo">${t("nuovo_b")}</span>
+          <span class="sub">${t("andiamo_d")}</span>`:""}</button>`).join("")}
+    </nav>
+    <div class="lato-fondo">
+      <button class="lato-bere" data-lato="bere">
+        <span class="ico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 3 3 5.4v15L9 18l6 3 6-2.4v-15L15 6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></span>
+        <span class="tt"><b>${t("andiamo")}</b><span>${t("andiamo_d")}</span></span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="voce piccola" data-lato="profilo">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.6a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg>
+        <span class="et">${t("impostazioni")}</span></button>
+      ${nativo?`<button class="voce piccola" data-esci>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/><path d="M16 16l4-4-4-4"/>
+          <path d="M20 12H10"/></svg><span class="et">${t("esci")}</span></button>`:""}
+    </div>`;
+  const ex=lato.querySelector("[data-esci]");
+  if(ex) ex.onclick=()=>{ try{Cap.Plugins.App.exitApp();}catch(e){} };
+  lato.querySelectorAll("[data-lato]").forEach(b=>b.onclick=()=>{
+    const n=b.dataset.lato;
+    if(n===qui) return;
+    tocco("lieve");
+    if(n==="casa"||n==="profilo") navigando(()=>{P=[{n}];dis();});
+    else conOnda(()=>{P=[{n:"casa"}];P.push({n});dis();});
+  });
+  const camp=lato.querySelector("[data-campana]");
+  if(camp) camp.onclick=()=>fogliNovita();
+}
+
 /* ===================== navigazione ===================== */
 let P=[]; const S={},D={};
 let inTransito=false, saltaFade=false;
@@ -2277,6 +2696,7 @@ const back=()=>{chiudiF();if(P.length>1) navigando(()=>{P.pop();dis();});};
 const swap=(n,d)=>{chiudiF();P[P.length-1]={n,d};dis();};
 function dis(){const s=P[P.length-1];
   app.innerHTML=`<div class="vista">${S[s.n](s.d||{})}</div>`;
+  disLato();
   app.querySelectorAll("[data-back]").forEach(b=>b.onclick=back);
   app.querySelectorAll("[data-bar]").forEach(b=>b.onclick=()=>{
     if(P[P.length-1].n===b.dataset.bar) return;
@@ -3031,7 +3451,19 @@ S.casa=()=>{
             <path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bollo"></span></button>
 </div>
     </div>
-    <div class="fermo" style="padding-top:4px">
+    <div class="fermo casa">
+      <div class="scrivania">
+        <div class="riga">
+          <div><h2>${t("inizia")}</h2><p>${t("inizia_d")}</p></div>
+          <div class="cercona">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgba(245,242,236,.45)"
+              stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/>
+              <path d="M20 20l-3.6-3.6"/></svg>
+            <input id="qglob" type="search" placeholder="${t("cerca_qualcosa")}" autocomplete="off">
+            <span class="tasto">⌘K</span>
+          </div>
+        </div>
+      </div>
       <div class="carte">
 
         <button class="hcard" data-go="lista" style="--c:${c1}">
@@ -3064,10 +3496,21 @@ S.casa=()=>{
       </div>
 
       <button class="striscia" data-go="bere" style="--c:${TE.striscia}">
-        <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 3 3 5.4v15L9 18l6 3 6-2.4v-15L15 6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></span>
-        <span class="tt"><b>${t("andiamo")}</b><span>${t("andiamo_d")}</span></span>
+        <span class="tt"><b>${t("andiamo")}<i class="nuovo">${t("nuovo_b")}</i></b>
+          <span>${t("andiamo_lungo")}</span></span>
+        <svg class="citta" viewBox="0 0 420 90" fill="none" aria-hidden="true">
+          <g stroke="rgb(${TE.striscia})" stroke-opacity=".5" stroke-width="1.4">
+            <path d="M8 74h34V44h10v30h16V54h12v20h14V34h11v40h20V50h13v24h18V28h12v46h22V48h14v26h17V38h11v36h20V56h13v18h26"/>
+            <path d="M0 82h420"/><path d="M64 82l-22 8M150 82l-14 8M276 82l16 8M356 82l26 8"/>
+            <path d="M20 90h380"/>
+          </g>
+          <g stroke="rgb(${TE.striscia})" stroke-opacity=".9" stroke-width="1.8">
+            <path d="M210 26a11 11 0 0 1 11 11c0 8-11 19-11 19s-11-11-11-19a11 11 0 0 1 11-11z"/>
+            <circle cx="210" cy="37" r="3.4"/></g>
+        </svg>
         <span class="fr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 5l7 7-7 7"/></svg></span></button>
@@ -3076,12 +3519,17 @@ S.casa=()=>{
 };
 D.casa=()=>{
   app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>conOnda(()=>vai(b.dataset.go)));
-  app.querySelector("[data-campana]").onclick=()=>foglio(
-    `<h3 style="font-size:21px;margin-bottom:12px">${t("novita")}</h3>
-     <div class="riquadro"><p>${t("hai_ricette",{n:pl(CK.length,"pl_archivio").replace(CK.length+" ",""),
-         m:MIE.length?t("e_tue",{n:MIE.length}):""}).replace("{n} ",CK.length+" ")}
-       ${ST.record?t("record_quiz",{n:ST.record}):t("no_sfida")}</p></div>
-     <div style="height:14px"></div><button class="cta bianca" data-chiudi>${t("chiudi")}</button>`);
+  const qg=$("qglob");
+  if(qg){
+    qg.onkeydown=e=>{ if(e.key==="Enter" && qg.value.trim())
+      conOnda(()=>vai("lista",{q:qg.value.trim()})); };
+    /* ⌘K o Ctrl+K portano il cursore nella ricerca */
+    document.onkeydown=e=>{
+      if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==="k"){ e.preventDefault(); qg.focus(); }
+    };
+  }
+  const cp=app.querySelector("[data-campana]");
+  if(cp) cp.onclick=fogliNovita;
 };
 
 /* =====================================================================
@@ -3116,7 +3564,9 @@ S.lista=({f="Tutti",q=""})=>{
       <div class="filtri">${FAM.map(x=>
         `<button class="filtro" data-f="${x}" aria-pressed="${x===f}">${famT(x)}</button>`).join("")}</div>
       <div style="height:12px"></div>
-      ${l.length?l.map(cartaDrink).join(""):`<div class="vuoto">${t("niente_con",{q:esc(q)})}</div>`}
+      <div class="griglia-drink">
+        ${l.length?l.map(cartaDrink).join(""):`<div class="vuoto">${t("niente_con",{q:esc(q)})}</div>`}
+      </div>
       <div style="height:8px"></div></div>`;
 };
 D.lista=d=>{
@@ -3634,9 +4084,12 @@ S.quiz0=()=>{
           ${fr}</button>
       </div>
       <div class="tris" style="flex:0 0 auto;margin-top:11px">
-        <div><div class="v">${ST.punti}</div><div class="k">${t("punti")}</div></div>
-        <div><div class="v">${ST.record}</div><div class="k">${t("record_sfida")}</div></div>
-        <div><div class="v">${preparati}</div><div class="k">${t("preparati")}</div></div>
+        <div>${istat("punti","239,95,60")}<div class="v">${ST.punti}</div>
+          <div class="k">${t("punti")}</div></div>
+        <div>${istat("coppa","154,130,240")}<div class="v">${ST.record}</div>
+          <div class="k">${t("record_sfida")}</div></div>
+        <div>${istat("calice","79,214,154")}<div class="v">${preparati}</div>
+          <div class="k">${t("preparati")}</div></div>
       </div>
     </div>`;
 };
@@ -3662,8 +4115,8 @@ S.regole=({s,pg=0})=>{
   if(pg===0) return capo+`<div class="fermo">
       <h1 class="titolone" style="margin:0 0 6px;flex:0 0 auto">${t("come_funziona")}</h1>
       <p class="paragrafo" style="flex:0 0 auto">${t("copro_dose")}</p>
-      <div style="flex:1 1 auto;min-height:0;display:flex;flex-direction:column;
-        justify-content:center;gap:12px">
+      <div class="due-colonne" style="flex:1 1 auto;min-height:0;display:flex;
+        flex-direction:column;justify-content:center;gap:12px">
         <div class="qdrink">${foto(e,"fot")}
           <span class="mid"><span class="n">${e.nm}</span>
             <span class="s">${e.bicc} · ${e.tec.toLowerCase()}</span>
@@ -3675,7 +4128,7 @@ S.regole=({s,pg=0})=>{
             <span class="q">${k===1?"?":nrm(x.q)}<i>${x.u}</i></span></div>`).join("")}</div>
         <div class="qdom" style="padding:2px 0">
           <div class="k">${t("domanda")}</div>
-          <div class="v">${t("quanto_ci_va",{i:v("Vermouth rosso")})}</div></div>
+          <div class="v d">${t("quanto_ci_va",{i:v("Vermouth rosso")})}</div></div>
       </div>
       ${punti}
       <button class="cta" data-avanti>${t("le_regole")}
@@ -3775,7 +4228,7 @@ S.quiz=()=>`<div class="testa">
           <path d="M21 5.5A2.5 2.5 0 0 0 18.5 3H13v17h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>
         <span><span class="t">${t("come_si_fa")}</span><small>${t("come_si_fa_d")}</small></span></button>
     </div>
-    <div class="qdom"><div class="k">${t("domanda")}</div><div class="v" id="qi"></div></div>
+    <div class="qdom"><div class="k">${t("domanda")}</div><div class="v d" id="qi"></div></div>
     <div class="risposte" id="qr"></div>
     <div style="height:10px;flex:0 0 auto"></div>
     <button class="cta verde" id="qok" disabled>${t("conferma")}</button>
@@ -3960,14 +4413,17 @@ S.profilo=()=>{
       <h2 style="flex:1;font-size:20px;${dentro?"":"text-align:center"}">${t("prof")}</h2>
       <span style="width:44px"></span></div>
     <div class="scorre">
-      <div style="display:flex;align-items:center;gap:16px;margin:6px 0 4px">
+      <div class="capo-profilo">
         <div class="avatarone">DM</div>
-        <div><div style="font-size:22px;font-weight:800;letter-spacing:-.035em">${t("mio_bar")}</div>
+        <div class="tt"><div class="nome">${t("mio_bar")}</div>
           <div class="occhio">${pl(provati,"pl_provati")}</div></div></div>
       <div class="tris" style="margin-top:20px">
-        <div><div class="v">${preparati}</div><div class="k">${t("preparati")}</div></div>
-        <div><div class="v">${ST.punti}</div><div class="k">${t("punti")}</div></div>
-        <div><div class="v">${ST.record}</div><div class="k">${t("record")}</div></div></div>
+        <div>${istat("calice","79,214,154")}<div class="v">${preparati}</div>
+          <div class="k">${t("preparati")}</div></div>
+        <div>${istat("punti","239,95,60")}<div class="v">${ST.punti}</div>
+          <div class="k">${t("punti")}</div></div>
+        <div>${istat("coppa","154,130,240")}<div class="v">${ST.record}</div>
+          <div class="k">${t("record")}</div></div></div>
       <div class="sezione"><h3>${t("impostazioni")}</h3></div>
       <div class="riquadro" style="padding:15px 17px">
         <div class="k" style="margin-bottom:10px">${t("lingua")}</div>
@@ -4293,6 +4749,92 @@ if("serviceWorker" in navigator && location.protocol!=="blob:" && !nativo){
     navigator.serviceWorker.register("sw.js").catch(()=>{});
   });
 }
+
+
+/* =====================================================================
+   RIGHELLO — misura la pagina come la disegna davvero il browser.
+   Si accende aggiungendo #misura all'indirizzo, oppure con Ctrl+Shift+M.
+   Serve a me: senza motore di rendering non posso vedere il risultato,
+   ma questi numeri me lo raccontano con precisione.
+   ===================================================================== */
+(function(){
+  const PEZZI=[
+    ["finestra",null],
+    ["barra laterale","#lato"],
+    ["saluto","#lato .ciao"],
+    ["campanella","#lato .tondino"],
+    ["voce attiva","#lato .voce[aria-current='true']"],
+    ["icona della voce","#lato .voce svg"],
+    ["riquadro in fondo","#lato .lato-bere"],
+    ["area contenuto","#app"],
+    ["contenitore","#app .fermo, #app .scorre"],
+    ["titolo scrivania",".scrivania h2"],
+    ["ricerca",".scrivania .cercona"],
+    ["griglia carte",".carte"],
+    ["prima carta",".hcard"],
+    ["icona carta",".hcard .ico"],
+    ["illustrazione",".hcard .art"],
+    ["titolo carta",".hcard h3"],
+    ["freccia carta",".hcard .go"],
+    ["striscia",".striscia"],
+    ["icona striscia",".striscia .ico"],
+    ["skyline",".striscia .citta"],
+    ["barra in fondo",".tabbar"],
+    ["eroe",".eroe"],
+    ["telo",".telo"],
+    ["griglia ricette",".griglia-drink"],
+    ["prima ricetta",".griglia-drink .drink"]
+  ];
+  function misura(){
+    const R=[];
+    R.push("SCHERMO "+screen.width+"x"+screen.height+
+           "  FINESTRA "+innerWidth+"x"+innerHeight+
+           "  densita "+devicePixelRatio);
+    R.push("schermata: "+(P.length?P[P.length-1].n:"?")+
+           "   lingua: "+LG+"   tema: "+(ST.tema||"nero"));
+    R.push("");
+    PEZZI.forEach(([nome,sel])=>{
+      if(!sel) return;
+      const e=document.querySelector(sel);
+      if(!e){ R.push(nome.padEnd(20)+" assente"); return; }
+      const r=e.getBoundingClientRect(), c=getComputedStyle(e);
+      R.push(nome.padEnd(20)+
+        " x"+Math.round(r.left)+" y"+Math.round(r.top)+
+        "  "+Math.round(r.width)+"x"+Math.round(r.height)+
+        "  testo "+parseFloat(c.fontSize).toFixed(0)+
+        "  raggio "+parseInt(c.borderTopLeftRadius||0)+
+        "  bordi "+[c.paddingTop,c.paddingRight,c.paddingBottom,c.paddingLeft]
+          .map(x=>parseInt(x)||0).join("/"));
+    });
+    return R.join("\n");
+  }
+  function apri(){
+    let v=document.getElementById("righello");
+    if(v){ v.remove(); return; }
+    const testo=misura();
+    v=document.createElement("div");
+    v.id="righello";
+    v.innerHTML=`<div class="rig-capo"><b>Righello</b>
+        <button id="rig-copia">Copia</button><button id="rig-chiudi">Chiudi</button></div>
+      <pre>${testo.replace(/[<>&]/g,x=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[x]))}</pre>`;
+    document.body.appendChild(v);
+    document.getElementById("rig-chiudi").onclick=()=>v.remove();
+    document.getElementById("rig-copia").onclick=async()=>{
+      try{ await navigator.clipboard.writeText(testo);
+        document.getElementById("rig-copia").textContent="Copiato"; }
+      catch(e){
+        const a=document.createElement("textarea");a.value=testo;document.body.appendChild(a);
+        a.select();document.execCommand("copy");a.remove();
+        document.getElementById("rig-copia").textContent="Copiato";
+      }
+    };
+  }
+  if(location.hash==="#misura") setTimeout(apri,5600);
+  addEventListener("hashchange",()=>{ if(location.hash==="#misura") apri(); });
+  addEventListener("keydown",e=>{
+    if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==="m"){ e.preventDefault(); apri(); }
+  });
+})();
 
 /* ---- avvio ---- */
 (async()=>{
