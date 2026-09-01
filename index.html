@@ -45,9 +45,18 @@
   --dolce:cubic-bezier(.33,0,.22,1);           /* per le dissolvenze: parte piano */
   --r-g:26px;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{height:100%;-webkit-text-size-adjust:100%;background:#0B0A0C}
-body{height:100%;position:fixed;inset:0;overflow:hidden;overscroll-behavior:none;
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;
+  /* niente selezione del testo ne menu al tocco lungo: e un'app, non una pagina */
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* i campi di scrittura restano selezionabili, altrimenti non si puo correggere */
+input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;
+  -webkit-touch-callout:default}
+html{height:100%;height:100dvh;-webkit-text-size-adjust:100%;background:#0B0A0C;
+  overflow-x:hidden;overscroll-behavior-x:none}
+body{position:fixed;top:0;left:0;width:100%;
+  height:100vh;height:100dvh;height:var(--vh,100dvh);
+  overflow:hidden;overscroll-behavior:none;overscroll-behavior-x:none;
+  touch-action:pan-y;
   background:var(--sfondo);color:var(--ink);
   font-family:'Plus Jakarta Sans',-apple-system,'SF Pro Text','Segoe UI',Roboto,
     'Helvetica Neue',system-ui,sans-serif;font-size:15px;line-height:1.45;
@@ -111,7 +120,7 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 
 
 /* ================= schermata d'apertura ================= */
-#apertura{position:fixed;inset:0;z-index:300;display:flex;background:
+#apertura{position:fixed;top:0;left:0;width:100%;height:100dvh;z-index:300;display:flex;background:
   radial-gradient(122% 100% at 106% 108%, rgba(255,173,1,.30), transparent 58%),
   radial-gradient(90% 64% at 88% 86%, rgba(201,141,39,.2), transparent 60%),
   radial-gradient(88% 58% at -8% -6%, rgba(239,95,60,.12), transparent 58%),
@@ -131,25 +140,25 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 @keyframes carico{to{width:100%}}
 
 /* ---- transizione liquida verso la home ---- */
-#onda{position:fixed;left:0;top:0;width:100%;height:220vh;z-index:400;pointer-events:none;
+#onda{position:fixed;left:0;top:0;width:100%;height:220dvh;z-index:400;pointer-events:none;
   visibility:hidden}
 #onda.va{visibility:visible}
 #onda .strato{position:absolute;left:-1%;top:0;width:102%;height:100%;
-  transform:translateY(100vh)}
+  transform:translateY(100dvh)}
 #onda .strato svg{width:100%;height:100%;display:block}
 #onda.va .s2{animation:risacca 1s cubic-bezier(.5,.02,.48,1) forwards}
 #onda.va .s1{animation:risacca 1s .11s cubic-bezier(.5,.02,.48,1) forwards}
-@keyframes risacca{from{transform:translateY(100vh)}to{transform:translateY(-228vh)}}
+@keyframes risacca{from{transform:translateY(100dvh)}to{transform:translateY(-228dvh)}}
 
 
 /* ---- l'onda nera che scende e copre il cocktail ---- */
-#calo{position:absolute;left:0;top:0;width:100%;height:210vh;z-index:6;pointer-events:none;
-  transform:translateY(-212vh)}
+#calo{position:absolute;left:0;top:0;width:100%;height:210dvh;z-index:6;pointer-events:none;
+  transform:translateY(-212dvh)}
 #calo .lama{position:absolute;left:-1%;top:0;width:102%;height:100%}
 #calo svg{width:100%;height:100%;display:block}
 #apertura.cala .l2{animation:cala 1s cubic-bezier(.55,.02,.4,1) forwards}
 #apertura.cala .l1{animation:cala 1s .1s cubic-bezier(.55,.02,.4,1) forwards}
-@keyframes cala{from{transform:translateY(-212vh)}to{transform:translateY(0)}}
+@keyframes cala{from{transform:translateY(-212dvh)}to{transform:translateY(0)}}
 
 /* ---- il marchio, che emerge dal nero ---- */
 #marchio{position:absolute;inset:0;z-index:7;opacity:0;pointer-events:none;overflow:hidden}
@@ -196,7 +205,8 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .testa::after{content:"";position:absolute;left:0;right:0;top:100%;height:22px;
   pointer-events:none;background:linear-gradient(180deg,rgba(11,10,12,.85),transparent)}
 .scorre{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding:0 17px 12px;scrollbar-width:none;background:transparent}
+  padding:0 17px 12px;scrollbar-width:none;background:transparent;
+  overflow-x:hidden;touch-action:pan-y;overscroll-behavior:contain}
 .scorre::-webkit-scrollbar{display:none}
 .fermo{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;
   padding:0 17px 8px;background:transparent}
@@ -275,7 +285,7 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .ciao-sub{color:rgba(245,242,236,.5);font-size:13.5px;margin-top:4px;font-weight:500;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hcard{position:relative;overflow:hidden;border-radius:26px;padding:14px 17px;width:100%;
-  flex:1 1 0;min-height:0;max-height:186px;display:flex;flex-direction:column;
+  flex:1 1 0;min-height:0;max-height:27dvh;display:flex;flex-direction:column;
   justify-content:space-between;transition:transform .18s var(--molla);
   background:
     radial-gradient(122% 104% at 80% 48%, rgba(var(--c),.19), transparent 62%),
@@ -287,13 +297,13 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
     0 22px 50px -16px rgba(var(--c),.42),
     0 10px 30px rgba(0,0,0,.6)}
 .hcard:active{transform:scale(.978)}
-.hcard .ico{width:clamp(40px,10.5vw,50px);height:clamp(40px,10.5vw,50px);border-radius:999px;
+.hcard .ico{width:clamp(44px,11.5vw,54px);height:clamp(44px,11.5vw,54px);border-radius:999px;
   display:flex;align-items:center;justify-content:center;position:relative;z-index:3;
   flex:0 0 auto;align-self:flex-start;color:rgb(var(--c));
   background:radial-gradient(circle at 50% 46%, rgba(var(--c),.2), rgba(var(--c),.04) 72%);
   box-shadow:inset 0 0 0 1.5px rgba(var(--c),.5), 0 0 26px -8px rgba(var(--c),.75)}
 .hcard .tt{position:relative;z-index:2;max-width:58%}
-.hcard h3{font-size:clamp(18px,5.2vw,23px);font-weight:800;line-height:1.05;
+.hcard h3{font-size:clamp(19px,5.6vw,25px);font-weight:800;line-height:1.05;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   text-shadow:0 2px 18px rgba(0,0,0,.6)}
 .hcard p{font-size:12.5px;color:rgba(255,255,255,.68);line-height:1.28;margin-top:3px;
@@ -306,7 +316,7 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
   box-shadow:inset 0 0 0 1.5px rgba(var(--c),.44), 0 0 24px -9px rgba(var(--c),.7)}
 .hcard .art{position:absolute;right:-2%;top:50%;transform:translateY(-50%);height:116%;
   aspect-ratio:200/210;z-index:1;pointer-events:none}
-.carte{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.carte{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:12px;overflow:hidden}
 .pillastat{display:flex;align-items:center;border-radius:22px;padding:11px 16px;
   flex:0 0 auto;margin-top:9px;position:relative;isolation:isolate;
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));
@@ -374,27 +384,28 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .vuoto{text-align:center;color:var(--grigio);font-size:14.5px;padding:56px 24px;line-height:1.6}
 
 /* ============ scheda drink ============ */
-.eroe{flex:0 0 auto;height:clamp(168px,23vh,224px);position:relative;overflow:hidden}
+.eroe{flex:0 0 auto;height:clamp(196px,27dvh,258px);position:relative;overflow:hidden}
 .eroe .vel{position:absolute;inset:0;z-index:1;
-  background:linear-gradient(to top,rgba(10,6,4,.72),rgba(10,6,4,.16) 52%,rgba(10,6,4,.3))}
+  background:linear-gradient(to top,rgba(10,6,4,.88) 6%,rgba(10,6,4,.5) 34%,
+    rgba(10,6,4,.1) 62%,rgba(10,6,4,.32))}
 .eroe .alto{position:absolute;top:calc(12px + env(safe-area-inset-top));left:20px;right:20px;
   display:flex;justify-content:space-between;z-index:3}
-.eroe .art{position:absolute;left:50%;transform:translateX(-50%);bottom:14%;
-  width:auto;height:78%;aspect-ratio:200/210;z-index:1;opacity:.92}
-.eroe .basso{position:absolute;left:17px;right:17px;bottom:20px;z-index:2;color:#fff;
+.eroe .art{position:absolute;left:50%;transform:translateX(-50%);bottom:32%;
+  width:auto;height:60%;aspect-ratio:200/210;z-index:1;opacity:.9}
+.eroe .basso{position:absolute;left:17px;right:17px;bottom:34px;z-index:2;color:#fff;
   text-align:center}
 .eroe h1{font-weight:800;font-size:clamp(26px,7.2vw,34px);line-height:1.04;letter-spacing:-.04em;
   text-shadow:0 3px 22px rgba(0,0,0,.45)}
-.eroe .meta{font-size:13px;font-weight:500;opacity:.94;margin-top:6px;line-height:1.35}
+.eroe .meta{font-size:13px;font-weight:500;opacity:.9;margin-top:7px;line-height:1.35}
 .telo{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;
-  border-radius:30px 30px 0 0;margin-top:-24px;position:relative;z-index:4;
-  padding:6px 17px calc(8px + env(safe-area-inset-bottom));
+  border-radius:30px 30px 0 0;margin-top:-22px;position:relative;z-index:4;
+  padding:8px 17px calc(10px + env(safe-area-inset-bottom));
   background:linear-gradient(180deg,rgba(28,26,32,.72),rgba(11,10,12,.96) 26%);
   backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%);
   box-shadow:0 -12px 44px rgba(0,0,0,.6),inset 0 1px 1px rgba(255,255,255,.22)}
 .presa{width:38px;height:4px;border-radius:999px;background:rgba(255,255,255,.24);margin:0 auto 11px;flex:0 0 auto}
 
-.segm{display:flex;border-radius:999px;padding:4px;gap:2px;flex:0 0 auto;
+.segm{display:flex;border-radius:999px;padding:4px;gap:2px;flex:0 0 auto;margin-top:4px;
   background:rgba(255,255,255,.42);backdrop-filter:var(--sfoca-lieve);
   -webkit-backdrop-filter:var(--sfoca-lieve);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),var(--bordo)}
@@ -413,9 +424,9 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dose .q{font-size:17px;font-weight:800;flex:0 0 auto;letter-spacing:-.03em}
 .dose .q i{font-style:normal;font-size:12px;color:var(--grigio);font-weight:600;margin-left:3px}
-.servizio{display:flex;background:var(--carta);border-radius:18px;padding:10px 4px;
+.servizio{display:flex;background:var(--carta);border-radius:18px;padding:13px 4px;
   box-shadow:var(--o1),var(--carta-tratto);
-  flex:0 0 auto;margin:9px 0}
+  flex:0 0 auto;margin:13px 0 0}
 .servizio div{flex:1;min-width:0;text-align:center;padding:0 8px;position:relative}
 .servizio div+div::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:1px;
   background:var(--lieve)}
@@ -429,10 +440,16 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .riquadro p.sr{font-size:15px;line-height:1.55;color:var(--ink2);font-weight:500}
 
 /* ---- ingredienti che non entrano nel riquadro ---- */
-.dosibox{position:relative;flex:0 1 auto;min-height:0;display:flex;flex-direction:column}
-/* il tasto resta incollato in fondo, senza vuoti dentro il riquadro */
-.telo>.cta{margin-top:auto}
-.telo.espansa .dosibox{flex:1 1 auto}
+/* il corpo scorre quando il contenuto non ci sta; i tasti restano in fondo */
+.telo .corpo{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;
+  touch-action:pan-y;scrollbar-width:none;
+  display:flex;flex-direction:column;padding-bottom:14px;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.telo .corpo::-webkit-scrollbar{display:none}
+.dosibox{position:relative;flex:0 0 auto;display:flex;flex-direction:column}
+.telo>.cta{flex:0 0 auto;margin-top:0}
+.telo.espansa .corpo{overflow:hidden}
+.telo.espansa .dosibox{flex:1 1 auto;min-height:0}
 .dosibox .dosi{flex:1 1 auto;min-height:0;overflow-y:auto;scrollbar-width:none;padding-right:26px}
 .dosibox .dosi::-webkit-scrollbar{display:none}
 .sfuma{position:absolute;left:3px;right:3px;bottom:3px;height:46px;pointer-events:none;
@@ -455,7 +472,7 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .telo.espansa .servizio,.telo.espansa .link,.telo.espansa .segm,
 .telo.espansa .cta,.telo.espansa .sezione{display:none}
 .telo.espansa .dosibox{margin-top:4px}
-.telo.espansa .dosibox .dosi{overflow:hidden;padding-right:18px;
+.telo.espansa .dosibox .dosi{overflow:auto;padding-right:18px;
   display:flex;flex-direction:column;justify-content:space-evenly}
 .telo.espansa .dose{flex:0 1 auto;min-height:0}
 .telo.espansa .sfuma,.telo.espansa .scia{display:none!important}
@@ -630,57 +647,201 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 
 /* ================= andiamo a bere ================= */
 .mappa-testa{flex:0 0 auto;display:flex;align-items:center;gap:12px;
-  padding:calc(10px + env(safe-area-inset-top)) 16px 10px;z-index:12;position:relative}
+  padding:calc(8px + env(safe-area-inset-top)) 16px 8px;z-index:12;position:relative}
 .mappa-tit{flex:1;min-width:0;line-height:1.2}
-.mappa-tit b{display:block;font-size:17.5px;font-weight:800;letter-spacing:-.03em}
-.mappa-tit span{display:block;font-size:12.5px;color:var(--grigio);font-weight:500;margin-top:2px}
-.mappa-guscio{position:relative;flex:1 1 auto;min-height:0;margin:0 14px;border-radius:24px;
-  overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.09)}
-#mappa{position:absolute;inset:0;background:#0E0F12}
+.mappa-tit b{display:block;font-size:18px;font-weight:800;letter-spacing:-.032em}
+.mappa-tit span{display:block;font-size:12.5px;color:var(--grigio);font-weight:600;margin-top:2px}
+
+/* ---- filtri per categoria ---- */
+.catfiltri{flex:0 0 auto;display:flex;gap:7px;overflow-x:auto;touch-action:pan-x;
+  overscroll-behavior-x:contain;scrollbar-width:none;
+  padding:2px 14px 10px;margin:0}
+.catfiltri::-webkit-scrollbar{display:none}
+.catf{flex:0 0 auto;display:flex;align-items:center;gap:7px;border-radius:999px;
+  padding:8px 13px;font-size:13px;font-weight:700;white-space:nowrap;
+  color:rgba(245,242,236,.6);background:rgba(255,255,255,.05);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:all .24s var(--molla)}
+.catf .pal{max-width:11ch;overflow:hidden;text-overflow:ellipsis}
+.catf i{font-style:normal;font-size:11px;font-weight:800;opacity:.55;
+  background:rgba(255,255,255,.1);border-radius:999px;padding:1px 6px}
+.catf[aria-pressed="true"]{color:rgb(var(--c,245,242,236));
+  background:radial-gradient(120% 160% at 50% 0%, rgba(var(--c,255,255,255),.24), rgba(var(--c,255,255,255),.09));
+  box-shadow:inset 0 0 0 1px rgba(var(--c,255,255,255),.42),
+    inset 0 1px 0 rgba(255,255,255,.24), 0 6px 18px -8px rgba(var(--c,255,255,255),.6)}
+.catf[aria-pressed="true"] i{background:rgba(var(--c,255,255,255),.22);opacity:.9}
+.catf:active{transform:scale(.95)}
+
+/* ---- la mappa ---- */
+.mappa-guscio{position:relative;flex:0 0 auto;height:34dvh;min-height:190px;margin:0 14px;
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 16px 44px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.1)}
+#mappa{position:absolute;inset:0;background:#10120F;touch-action:none}
+.leaflet-container{touch-action:none!important}
+/* la base Esri e gia scura: le do solo un tocco caldo e piu contrasto */
+#mappa .leaflet-tile-pane{filter:saturate(.85) contrast(1.16) brightness(1.14)
+  sepia(.14) hue-rotate(-8deg)}
+/* col ripiego su OpenStreetMap serve il negativo */
+#mappa.ripiego .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.82)
+  contrast(1.05) saturate(.55) sepia(.2)}
+#mappa .leaflet-shadow-pane{filter:none}
+.mappa-vel{position:absolute;inset:0;pointer-events:none;z-index:410;border-radius:24px;
+  box-shadow:inset 0 0 42px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.09)}
 .mappa-stato{position:absolute;inset:0;z-index:500;display:none;flex-direction:column;
   align-items:center;justify-content:center;gap:14px;padding:0 30px;text-align:center;
-  background:rgba(8,8,10,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  background:rgba(8,10,8,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .mappa-stato.visibile{display:flex}
 .mappa-stato p{font-size:14.5px;color:var(--ink2);line-height:1.5;font-weight:500}
 .giro{width:30px;height:30px;border-radius:999px;border:3px solid rgba(255,255,255,.14);
   border-top-color:var(--arancio);animation:gira .9s linear infinite}
 @keyframes gira{to{transform:rotate(360deg)}}
-.spillo{width:34px;height:42px;position:relative;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6))}
-.spillo::before{content:"";position:absolute;left:2px;top:0;width:30px;height:30px;
-  border-radius:999px 999px 999px 2px;transform:rotate(45deg);
-  background:linear-gradient(150deg,var(--a),rgba(0,0,0,.65));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.18)}
-.spillo span{position:absolute;left:0;top:5px;width:34px;text-align:center;color:#fff;
-  font-size:13px;font-weight:800;z-index:2}
-.elenco-locali{flex:0 0 auto;max-height:38%;overflow-y:auto;scrollbar-width:none;
-  padding:12px 14px calc(12px + env(safe-area-inset-bottom))}
+
+/* ---- dove sei tu ---- */
+.qui{position:relative;width:26px;height:26px}
+.qui b{position:absolute;left:7px;top:7px;width:12px;height:12px;border-radius:999px;
+  background:#4FB3F6;box-shadow:0 0 0 3px rgba(255,255,255,.9),0 0 16px rgba(79,179,246,.9)}
+.qui i{position:absolute;inset:0;border-radius:999px;background:rgba(79,179,246,.4);
+  animation:respira 2.4s ease-out infinite}
+@keyframes respira{0%{transform:scale(.45);opacity:.85}70%{transform:scale(1.7);opacity:0}
+  100%{transform:scale(1.7);opacity:0}}
+
+/* ---- lo spillo ---- */
+.spillo{width:38px;height:46px;position:relative;color:#fff;
+  filter:drop-shadow(0 7px 12px rgba(0,0,0,.7))}
+.spillo::before{content:"";position:absolute;left:2px;top:0;width:34px;height:34px;
+  border-radius:999px 999px 999px 3px;transform:rotate(45deg);
+  background:linear-gradient(150deg,rgb(var(--a)),rgba(0,0,0,.72));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 0 0 1px rgba(255,255,255,.24),
+    0 0 20px -4px rgba(var(--a),.8)}
+.spillo .sg{position:absolute;left:0;top:6px;width:38px;display:flex;justify-content:center;z-index:2}
+.spillo b{position:absolute;right:-1px;bottom:8px;min-width:16px;height:16px;border-radius:999px;
+  background:#0B0A0C;color:rgb(var(--a));font-size:10px;font-weight:800;z-index:3;
+  display:flex;align-items:center;justify-content:center;padding:0 3px;
+  box-shadow:inset 0 0 0 1.5px rgba(var(--a),.7)}
+
+/* ---- elenco dei locali ---- */
+.elenco-locali{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;
+  touch-action:pan-y;scrollbar-width:none;
+  padding:12px 14px calc(14px + env(safe-area-inset-bottom))}
 .elenco-locali::-webkit-scrollbar{display:none}
-.locale{display:flex;align-items:center;gap:13px;width:100%;background:var(--carta);
-  border-radius:18px;padding:11px 13px;margin-bottom:9px;
-  box-shadow:var(--o1),var(--carta-tratto);transition:transform .16s var(--molla)}
-.locale:active{transform:scale(.985)}
-.locale .num{width:28px;height:28px;border-radius:999px;flex:0 0 auto;display:flex;
-  align-items:center;justify-content:center;font-size:12.5px;font-weight:800;color:#fff;
-  background:linear-gradient(150deg,var(--arancio),rgba(0,0,0,.5));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
-.locale .mid{flex:1;min-width:0}
-.locale .n{display:block;font-size:15.5px;font-weight:700;letter-spacing:-.02em;
+.elenco-locali .locale{display:flex;align-items:center;gap:13px;width:100%;border-radius:20px;
+  padding:12px 14px;margin-bottom:9px;text-align:left;
+  background:radial-gradient(130% 180% at 6% 50%, rgba(var(--c),.12), transparent 58%),
+    linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.03));
+  box-shadow:inset 0 0 0 1px rgba(var(--c),.2),inset 0 1px 0 rgba(255,255,255,.13),
+    0 8px 22px -10px rgba(var(--c),.36),0 4px 14px rgba(0,0,0,.4);
+  transition:transform .16s var(--molla)}
+.elenco-locali .locale:active{transform:scale(.982)}
+.elenco-locali .locale .num{width:38px;height:38px;border-radius:14px;flex:0 0 auto;position:relative;
+  display:flex;align-items:center;justify-content:center;color:rgb(var(--c));
+  background:radial-gradient(circle at 50% 30%, rgba(var(--c),.26), rgba(var(--c),.07));
+  box-shadow:inset 0 0 0 1.4px rgba(var(--c),.46),0 0 18px -6px rgba(var(--c),.7)}
+.elenco-locali .locale .num b{position:absolute;right:-4px;top:-4px;min-width:16px;height:16px;border-radius:999px;
+  background:#0B0A0C;color:rgb(var(--c));font-size:9.5px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;padding:0 3px;
+  box-shadow:inset 0 0 0 1.2px rgba(var(--c),.6)}
+.elenco-locali .locale .mid{flex:1;min-width:0}
+.elenco-locali .locale .n{display:block;font-size:16px;font-weight:700;letter-spacing:-.024em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.locale .s{display:block;font-size:12.5px;color:var(--grigio);font-weight:500;margin-top:2px;
+.elenco-locali .locale .s{display:block;font-size:12.5px;color:var(--grigio);font-weight:500;margin-top:2px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.locale .dx{flex:0 0 auto;text-align:right}
-.locale .km{display:block;font-size:13px;font-weight:800;letter-spacing:-.02em}
-.locale .ap{display:block;font-size:10.5px;font-weight:700;margin-top:3px}
-.locale .ap.si{color:var(--verde)}.locale .ap.no{color:var(--grigio)}
-.leaflet-control-attribution{background:rgba(8,8,10,.72)!important;
-  color:rgba(255,255,255,.6)!important;font-size:9.5px!important}
-.leaflet-control-attribution a{color:rgba(255,255,255,.8)!important}
-.leaflet-bar a{background:rgba(20,20,24,.9)!important;color:#fff!important;
-  border-color:rgba(255,255,255,.12)!important}
+.elenco-locali .locale .s em{font-style:normal;color:rgb(var(--c));font-weight:700}
+.elenco-locali .locale .tag{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.elenco-locali .locale .tag i{font-style:normal;font-size:10.5px;font-weight:600;padding:3px 8px;
+  border-radius:999px;color:rgba(245,242,236,.66);background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.elenco-locali .locale .dx{flex:0 0 auto;text-align:right;align-self:flex-start;padding-top:2px}
+.elenco-locali .locale .km{display:block;font-size:13.5px;font-weight:800;letter-spacing:-.02em}
+.elenco-locali .locale .ap{display:block;font-size:10.5px;font-weight:700;margin-top:4px}
+.elenco-locali .locale .ap.si{color:var(--verde)}.elenco-locali .locale .ap.no{color:rgba(245,242,236,.4)}
+
+/* ---- scheda del locale ---- */
+.sfondobar{position:absolute;inset:-60px;z-index:0;pointer-events:none;
+  background-size:cover;background-position:center 38%;
+  filter:blur(19px) brightness(.55) saturate(1.15);transform:scale(1.08)}
+.velo.scheda-luogo>.foglio{position:relative;z-index:2}
+.velo.scheda-luogo{background:rgba(6,5,7,.42);
+  backdrop-filter:blur(22px) saturate(140%) brightness(.66);
+  -webkit-backdrop-filter:blur(22px) saturate(140%) brightness(.66);
+  align-items:stretch;padding:calc(10px + env(safe-area-inset-top)) 9px
+    calc(9px + env(safe-area-inset-bottom))}
+.foglio.scheda-luogo{max-width:520px;margin:auto;border-radius:32px;max-height:100%;
+  padding:12px 19px 20px;
+  background:linear-gradient(178deg,rgba(46,38,34,.5),rgba(20,17,16,.72) 42%,rgba(14,12,12,.86));
+  backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);
+  box-shadow:0 30px 80px rgba(0,0,0,.7),inset 0 1px 1px rgba(255,255,255,.26),
+    inset 0 0 0 1px rgba(255,255,255,.11);
+  animation:salep .48s var(--molla)}
+
+.scheda-capo{display:flex;align-items:flex-start;gap:15px;margin:4px 0 16px}
+.scheda-capo .ico{width:60px;height:60px;border-radius:20px;flex:0 0 auto;display:flex;
+  align-items:center;justify-content:center;color:rgb(var(--c));
+  background:radial-gradient(circle at 50% 26%, rgba(var(--c),.24), rgba(var(--c),.06));
+  box-shadow:inset 0 0 0 1.6px rgba(var(--c),.62),0 0 30px -8px rgba(var(--c),.85),
+    inset 0 1px 0 rgba(255,255,255,.2)}
+.scheda-capo .tt{flex:1;min-width:0;padding-top:2px}
+.scheda-capo h3{font-size:25px;letter-spacing:-.04em;line-height:1.08}
+.scheda-capo .s{display:block;font-size:13.5px;color:rgba(245,242,236,.6);font-weight:500;
+  margin-top:6px;line-height:1.35}
+.scheda-capo .stato{display:block;font-size:14px;font-weight:700;margin-top:4px}
+.scheda-capo .stato.ap{color:#4FD69A}
+.scheda-capo .stato.ch{color:var(--oro)}
+
+.sr-box{margin-bottom:13px;position:relative;padding:17px 19px;border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.03));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 0 0 1px rgba(255,255,255,.08)}
+.sr{font-size:15px;line-height:1.62;color:rgba(245,242,236,.86)}
+.sr.attesa{opacity:.45}
+.sr-box .fonte{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(245,242,236,.45);margin-bottom:10px}
+.sr-box .piu{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.sr-box .piu .link{width:auto;text-align:left;padding:0;font-size:15px;font-weight:600}
+.tondello{width:38px;height:38px;border-radius:999px;flex:0 0 auto;display:flex;
+  align-items:center;justify-content:center;color:#fff;
+  background:rgba(255,255,255,.13);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.tondello.piccolo{width:34px;height:34px;color:var(--ink2)}
+
+.pregi{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pregi span{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;
+  padding:10px 15px;border-radius:999px;color:rgba(245,242,236,.9);
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.03));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(255,255,255,.09)}
+.pregi span svg{color:var(--oro);flex:0 0 auto}
+
+.righe-info{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));
+  border-radius:22px;padding:2px 18px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 0 0 1px rgba(255,255,255,.075)}
+.righe-info .dose{padding:14px 0}
+.righe-info .n{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:500;
+  color:rgba(245,242,236,.9)}
+.righe-info .n svg{color:rgba(245,242,236,.5);flex:0 0 auto}
+.righe-info .q{font-size:14.5px;font-weight:500;color:rgba(245,242,236,.62);
+  text-align:right;max-width:56%}
+
+.azioni{display:flex;gap:9px;margin:16px 0 17px}
+.azione{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:15px 6px;border-radius:20px;color:var(--ink);
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.032));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 0 0 1px rgba(255,255,255,.085),
+    0 8px 20px rgba(0,0,0,.34);transition:transform .16s var(--molla)}
+.azione:active{transform:scale(.94)}
+.azione span{font-size:11.5px;font-weight:600;color:rgba(245,242,236,.7);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+.cta.grande{height:62px;font-size:17.5px;position:relative;justify-content:center}
+.cta.grande .tondello{position:absolute;left:8px;top:50%;transform:translateY(-50%);
+  width:46px;height:46px;background:rgba(255,255,255,.16);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.26)}
+
+.leaflet-control-attribution{background:rgba(8,10,8,.78)!important;
+  color:rgba(255,255,255,.55)!important;font-size:9px!important;padding:1px 5px!important}
+.leaflet-control-attribution a{color:rgba(255,255,255,.78)!important}
+.leaflet-bar a{background:rgba(16,18,15,.92)!important;color:#fff!important;
+  border-color:rgba(255,255,255,.14)!important}
+.leaflet-container{background:#10120F!important}
 
 /* ================= striscia in fondo alla home ================= */
 .striscia{position:relative;overflow:hidden;border-radius:22px;padding:0 16px;width:100%;
-  flex:0 0 auto;height:56px;display:flex;align-items:center;gap:12px;margin-top:9px;
+  flex:0 0 auto;height:60px;display:flex;align-items:center;gap:12px;margin-top:12px;
   transition:transform .18s var(--molla);
   background:radial-gradient(120% 200% at 86% 50%, rgba(var(--c),.2), transparent 62%),
     linear-gradient(120deg, rgba(var(--c),.09), rgba(0,0,0,.4) 70%),#0C0B0E;
@@ -698,7 +859,8 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .striscia .fr{color:rgb(var(--c));flex:0 0 auto;display:flex;opacity:.8}
 
 /* ================= impostazioni ================= */
-.scelte{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 17px 2px;
+.scelte{display:flex;gap:8px;overflow-x:auto;touch-action:pan-x;
+  overscroll-behavior-x:contain;scrollbar-width:none;padding:2px 17px 2px;
   margin:0 -17px}
 .scelte::-webkit-scrollbar{display:none}
 .scelta{flex:0 0 auto;display:flex;align-items:center;gap:8px;border-radius:999px;
@@ -753,8 +915,9 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
   backdrop-filter:blur(10px) saturate(120%);-webkit-backdrop-filter:blur(10px) saturate(120%);
   display:none;align-items:flex-end;justify-content:center}
 .velo.on{display:flex}
-.foglio{width:100%;max-width:520px;border-radius:32px 32px 0 0;
-  padding:12px 20px calc(20px + env(safe-area-inset-bottom));max-height:88dvh;overflow-y:auto;
+.foglio{display:block;width:100%;max-width:520px;border-radius:32px 32px 0 0;
+  padding:12px 20px calc(20px + env(safe-area-inset-bottom));max-height:88dvh;
+  overflow-y:auto;overflow-x:hidden;touch-action:pan-y;overscroll-behavior:contain;
   background:linear-gradient(180deg,rgba(30,28,34,.9),rgba(16,15,19,.94));
   backdrop-filter:blur(34px) saturate(150%);-webkit-backdrop-filter:blur(34px) saturate(150%);
   box-shadow:0 -16px 56px rgba(0,0,0,.6),
@@ -1175,6 +1338,8 @@ it:{
  volume:"Volume",gradazione:"Gradazione",per_n:"per {n}",
  segn_ricetta:"Cerchio Rosso",segn_ingr:"Gin London Dry",segn_ghiaccio:"Cubetti / Un cubo grande / Senza ghiaccio",segn_fin:"Fetta d'arancia",segn_nota:"Negroni, tecnica, attrezzatura",cond_ko:"Condivisione non riuscita",no_dose:"Nessuna dose da chiedere",pdf_ok:"PDF salvato",esci2:"Premi di nuovo per uscire",
  ricetta_pdf:"RICETTA CONDIVISA",proporzioni_pdf:"LE PROPORZIONI",
+ pregio_fuori:"Tavoli fuori",pregio_wifi:"Wi-Fi",pregio_musica:"Musica dal vivo",pregio_artigianale:"Birra artigianale",pregio_accesso:"Accessibile",pregio_cucina:"Si mangia",pregio_fumo:"Area fumatori",pregio_aperitivo:"Aperitivo",pregio_prenota:"Su prenotazione",pregio_asporto:"Asporto",mappa_nessunfiltro:"Nessun locale di questo tipo qui intorno.",
+ a_piedi:"{n} min a piedi",oggi:"Oggi",apre:"apre alle {h}",sempre_aperto:"Sempre aperto",chiama:"Chiama",cerca_web:"Cerca sul web",cucina:"Cucina",gestore:"Gestore",posti:"Posti",citta:"Citt\u00e0",cerco_info:"Cerco informazioni\u2026",leggi_di_piu:"Leggi di pi\u00f9",
  no_trovata:"Ricetta non trovata.",tua_ricetta:"La tua ricetta",agg_ingr:"aggiungi gli ingredienti",st_mia:"Una ricetta tua, nata al tuo bancone.",pl_cocktail:["cocktail","cocktail"],pl_classici:["classico","classici"],pl_provati:["cocktail diverso provato","cocktail diversi provati"],pl_passi:["passo","passi"],pl_possib:["possibilità","possibilità"],pl_secondi:["secondo","secondi"],pl_locali:["locale","locali"],pl_ricette:["ricetta classica, dose per dose.","ricette classiche, dose per dose."],pl_archivio:["ricetta nell\u0027archivio","ricette nell\u0027archivio"]
 },
 en:{
@@ -1257,7 +1422,7 @@ en:{
  mappa_locali:"{n} places",mappa_apri:"Take me there",mappa_ampia:"Widen the search",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Cocktail bar",tipo_wine:"Wine bar",
- tipo_night:"Nightclub",tipo_birra:"Beer garden",tipo_caffe:"Café",
+ tipo_night:"Nightclub",tipo_birra:"Beer bar",tipo_caffe:"Café",
  aperto:"Open now",chiuso:"Closed now",orari:"Hours",telefono:"Phone",
  sito:"Website",indirizzo:"Address",nessun_dato:"No details",
  versa1:"Top it up slowly along the side, don't kill the bubbles.",
@@ -1272,6 +1437,8 @@ en:{
  volume:"Volume",gradazione:"Strength",per_n:"for {n}",
  segn_ricetta:"Red Circle",segn_ingr:"London Dry gin",segn_ghiaccio:"Cubes / One large cube / No ice",segn_fin:"Orange slice",segn_nota:"Negroni, technique, kit",cond_ko:"Sharing failed",no_dose:"No measure to ask about",pdf_ok:"PDF saved",esci2:"Press again to exit",
  ricetta_pdf:"SHARED RECIPE",proporzioni_pdf:"THE PROPORTIONS",
+ pregio_fuori:"Outdoor seating",pregio_wifi:"Wi-Fi",pregio_musica:"Live music",pregio_artigianale:"Craft beer",pregio_accesso:"Accessible",pregio_cucina:"Food served",pregio_fumo:"Smoking area",pregio_aperitivo:"Happy hour",pregio_prenota:"Booking needed",pregio_asporto:"Takeaway",mappa_nessunfiltro:"No places of this kind around here.",
+ a_piedi:"{n} min walk",oggi:"Today",apre:"opens at {h}",sempre_aperto:"Always open",chiama:"Call",cerca_web:"Search the web",cucina:"Food",gestore:"Run by",posti:"Seats",citta:"City",cerco_info:"Looking for details\u2026",leggi_di_piu:"Read more",
  no_trovata:"Recipe not found.",tua_ricetta:"Your recipe",agg_ingr:"add the ingredients",st_mia:"One of yours, born at your own bar.",pl_cocktail:["cocktail","cocktails"],pl_classici:["classic","classics"],pl_provati:["different cocktail tried","different cocktails tried"],pl_passi:["step","steps"],pl_possib:["option","options"],pl_secondi:["second","seconds"],pl_locali:["place","places"],pl_ricette:["classic recipe, measure by measure.","classic recipes, measure by measure."],pl_archivio:["recipe in the archive","recipes in the archive"]
 },
 fr:{
@@ -1354,7 +1521,7 @@ fr:{
  mappa_locali:"{n} adresses",mappa_apri:"M'y emmener",mappa_ampia:"Élargir la recherche",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Bar à cocktails",tipo_wine:"Bar à vin",
- tipo_night:"Boîte de nuit",tipo_birra:"Brasserie",tipo_caffe:"Café",
+ tipo_night:"Boîte de nuit",tipo_birra:"Bar à bières",tipo_caffe:"Café",
  aperto:"Ouvert",chiuso:"Fermé",orari:"Horaires",telefono:"Téléphone",
  sito:"Site",indirizzo:"Adresse",nessun_dato:"Aucune information",
  versa1:"Complète doucement le long du bord, sans casser les bulles.",
@@ -1369,6 +1536,8 @@ fr:{
  volume:"Volume",gradazione:"Degré",per_n:"pour {n}",
  segn_ricetta:"Cercle Rouge",segn_ingr:"Gin London Dry",segn_ghiaccio:"Glaçons / Un gros glaçon / Sans glace",segn_fin:"Tranche d'orange",segn_nota:"Negroni, technique, matériel",cond_ko:"Partage échoué",no_dose:"Aucune dose à demander",pdf_ok:"PDF enregistré",esci2:"Appuie encore pour sortir",
  ricetta_pdf:"RECETTE PARTAGÉE",proporzioni_pdf:"LES PROPORTIONS",
+ pregio_fuori:"Terrasse",pregio_wifi:"Wi-Fi",pregio_musica:"Musique live",pregio_artigianale:"Bière artisanale",pregio_accesso:"Accessible",pregio_cucina:"On y mange",pregio_fumo:"Espace fumeurs",pregio_aperitivo:"Apéro",pregio_prenota:"Sur réservation",pregio_asporto:"À emporter",mappa_nessunfiltro:"Aucune adresse de ce type dans le coin.",
+ a_piedi:"{n} min \u00e0 pied",oggi:"Aujourd\u0027hui",apre:"ouvre \u00e0 {h}",sempre_aperto:"Toujours ouvert",chiama:"Appeler",cerca_web:"Chercher sur le web",cucina:"Cuisine",gestore:"Tenu par",posti:"Places",citta:"Ville",cerco_info:"Je cherche des infos\u2026",leggi_di_piu:"Lire la suite",
  no_trovata:"Recette introuvable.",tua_ricetta:"Ta recette",agg_ingr:"ajoute les ingrédients",st_mia:"Une des tiennes, née à ton comptoir.",pl_cocktail:["cocktail","cocktails"],pl_classici:["classique","classiques"],pl_provati:["cocktail différent essayé","cocktails différents essayés"],pl_passi:["étape","étapes"],pl_possib:["possibilité","possibilités"],pl_secondi:["seconde","secondes"],pl_locali:["adresse","adresses"],pl_ricette:["recette classique, dose par dose.","recettes classiques, dose par dose."],pl_archivio:["recette dans l\u0027archive","recettes dans l\u0027archive"]
 },
 es:{
@@ -1466,6 +1635,8 @@ es:{
  volume:"Volumen",gradazione:"Graduación",per_n:"para {n}",
  segn_ricetta:"Círculo Rojo",segn_ingr:"Ginebra London Dry",segn_ghiaccio:"Cubitos / Un cubo grande / Sin hielo",segn_fin:"Rodaja de naranja",segn_nota:"Negroni, técnica, utensilios",cond_ko:"No se pudo compartir",no_dose:"Ninguna medida que preguntar",pdf_ok:"PDF guardado",esci2:"Pulsa otra vez para salir",
  ricetta_pdf:"RECETA COMPARTIDA",proporzioni_pdf:"LAS PROPORCIONES",
+ pregio_fuori:"Terraza",pregio_wifi:"Wi-Fi",pregio_musica:"Música en vivo",pregio_artigianale:"Cerveza artesana",pregio_accesso:"Accesible",pregio_cucina:"Se come",pregio_fumo:"Zona de fumadores",pregio_aperitivo:"Aperitivo",pregio_prenota:"Con reserva",pregio_asporto:"Para llevar",mappa_nessunfiltro:"Ningún local de este tipo por aquí.",
+ a_piedi:"{n} min a pie",oggi:"Hoy",apre:"abre a las {h}",sempre_aperto:"Siempre abierto",chiama:"Llamar",cerca_web:"Buscar en la web",cucina:"Cocina",gestore:"Regentado por",posti:"Plazas",citta:"Ciudad",cerco_info:"Buscando informaci\u00f3n\u2026",leggi_di_piu:"Leer m\u00e1s",
  no_trovata:"Receta no encontrada.",tua_ricetta:"Tu receta",agg_ingr:"añade los ingredientes",st_mia:"Una tuya, nacida en tu barra.",pl_cocktail:["cóctel","cócteles"],pl_classici:["clásico","clásicos"],pl_provati:["cóctel distinto probado","cócteles distintos probados"],pl_passi:["paso","pasos"],pl_possib:["opción","opciones"],pl_secondi:["segundo","segundos"],pl_locali:["local","locales"],pl_ricette:["receta clásica, medida a medida.","recetas clásicas, medida a medida."],pl_archivio:["receta en el archivo","recetas en el archivo"]
 },
 de:{
@@ -1548,7 +1719,7 @@ de:{
  mappa_locali:"{n} Lokale",mappa_apri:"Bring mich hin",mappa_ampia:"Suche erweitern",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Cocktailbar",tipo_wine:"Weinbar",
- tipo_night:"Nachtclub",tipo_birra:"Biergarten",tipo_caffe:"Café",
+ tipo_night:"Nachtclub",tipo_birra:"Bierlokal",tipo_caffe:"Café",
  aperto:"Jetzt offen",chiuso:"Jetzt geschlossen",orari:"Öffnungszeiten",telefono:"Telefon",
  sito:"Website",indirizzo:"Adresse",nessun_dato:"Keine Angaben",
  versa1:"Langsam am Rand auffüllen, ohne die Perlage zu zerstören.",
@@ -1563,6 +1734,8 @@ de:{
  volume:"Volumen",gradazione:"Stärke",per_n:"für {n}",
  segn_ricetta:"Roter Kreis",segn_ingr:"London Dry Gin",segn_ghiaccio:"Würfel / Ein großer Würfel / Ohne Eis",segn_fin:"Orangenscheibe",segn_nota:"Negroni, Technik, Zubehör",cond_ko:"Teilen fehlgeschlagen",no_dose:"Kein Maß zum Abfragen",pdf_ok:"PDF gespeichert",esci2:"Nochmal drücken zum Beenden",
  ricetta_pdf:"GETEILTES REZEPT",proporzioni_pdf:"DIE PROPORTIONEN",
+ pregio_fuori:"Draußen sitzen",pregio_wifi:"WLAN",pregio_musica:"Livemusik",pregio_artigianale:"Craft-Bier",pregio_accesso:"Barrierefrei",pregio_cucina:"Es gibt Essen",pregio_fumo:"Raucherbereich",pregio_aperitivo:"Aperitif",pregio_prenota:"Mit Reservierung",pregio_asporto:"Zum Mitnehmen",mappa_nessunfiltro:"Kein Lokal dieser Art in der Nähe.",
+ a_piedi:"{n} Min zu Fu\u00df",oggi:"Heute",apre:"\u00f6ffnet um {h}",sempre_aperto:"Immer offen",chiama:"Anrufen",cerca_web:"Im Web suchen",cucina:"K\u00fcche",gestore:"Betrieben von",posti:"Pl\u00e4tze",citta:"Stadt",cerco_info:"Suche Informationen\u2026",leggi_di_piu:"Mehr lesen",
  no_trovata:"Rezept nicht gefunden.",tua_ricetta:"Dein Rezept",agg_ingr:"füge die Zutaten hinzu",st_mia:"Eines von dir, an deiner Bar entstanden.",pl_cocktail:["Cocktail","Cocktails"],pl_classici:["Klassiker","Klassiker"],pl_provati:["verschiedener Cocktail probiert","verschiedene Cocktails probiert"],pl_passi:["Schritt","Schritte"],pl_possib:["Möglichkeit","Möglichkeiten"],pl_secondi:["Sekunde","Sekunden"],pl_locali:["Lokal","Lokale"],pl_ricette:["klassisches Rezept, Maß für Maß.","klassische Rezepte, Maß für Maß."],pl_archivio:["Rezept im Archiv","Rezepte im Archiv"]
 },
 ru:{
@@ -1645,7 +1818,7 @@ ru:{
  mappa_locali:"{n} заведений",mappa_apri:"Проложить маршрут",mappa_ampia:"Расширить поиск",
  dist_m:"{n} м",dist_km:"{n} км",
  tipo_bar:"Бар",tipo_pub:"Паб",tipo_cocktail:"Коктейль-бар",tipo_wine:"Винный бар",
- tipo_night:"Ночной клуб",tipo_birra:"Пивная",tipo_caffe:"Кафе",
+ tipo_night:"Ночной клуб",tipo_birra:"Пивной бар",tipo_caffe:"Кафе",
  aperto:"Сейчас открыто",chiuso:"Сейчас закрыто",orari:"Часы работы",telefono:"Телефон",
  sito:"Сайт",indirizzo:"Адрес",nessun_dato:"Нет данных",
  versa1:"Доливай медленно по краю, не сбивая пузырьки.",
@@ -1660,6 +1833,8 @@ ru:{
  volume:"Объём",gradazione:"Крепость",per_n:"на {n}",
  segn_ricetta:"Красный круг",segn_ingr:"Джин London Dry",segn_ghiaccio:"Кубики / Один большой кубик / Без льда",segn_fin:"Долька апельсина",segn_nota:"Негрони, техника, инвентарь",cond_ko:"Не удалось поделиться",no_dose:"Нет дозы для вопроса",pdf_ok:"PDF сохранён",esci2:"Нажми ещё раз для выхода",
  ricetta_pdf:"РЕЦЕПТ",proporzioni_pdf:"ПРОПОРЦИИ",
+ pregio_fuori:"Столики на улице",pregio_wifi:"Wi-Fi",pregio_musica:"Живая музыка",pregio_artigianale:"Крафтовое пиво",pregio_accesso:"Доступно",pregio_cucina:"Есть кухня",pregio_fumo:"Зона для курения",pregio_aperitivo:"Аперитив",pregio_prenota:"По брони",pregio_asporto:"На вынос",mappa_nessunfiltro:"Поблизости нет заведений такого типа.",
+ a_piedi:"{n} мин пешком",oggi:"Сегодня",apre:"откроется в {h}",sempre_aperto:"Всегда открыто",chiama:"Позвонить",cerca_web:"Искать в сети",cucina:"Кухня",gestore:"Управляет",posti:"Мест",citta:"Город",cerco_info:"Ищу информацию\u2026",leggi_di_piu:"Читать дальше",
  no_trovata:"Рецепт не найден.",tua_ricetta:"Твой рецепт",agg_ingr:"добавь ингредиенты",st_mia:"Твой собственный, рождённый за твоей стойкой.",pl_cocktail:["коктейль","коктейля","коктейлей"],pl_classici:["классический","классических","классических"],pl_provati:["разный коктейль попробован","разных коктейля попробовано","разных коктейлей попробовано"],pl_passi:["шаг","шага","шагов"],pl_possib:["вариант","варианта","вариантов"],pl_secondi:["секунда","секунды","секунд"],pl_locali:["заведение","заведения","заведений"],pl_ricette:["классический рецепт, доза за дозой.","классических рецепта, доза за дозой.","классических рецептов, доза за дозой."],pl_archivio:["рецепт в архиве","рецепта в архиве","рецептов в архиве"]
 },
 lt:{
@@ -1742,7 +1917,7 @@ lt:{
  mappa_locali:"{n} vietos",mappa_apri:"Nuvesk mane",mappa_ampia:"Praplėsti paiešką",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Baras",tipo_pub:"Pubas",tipo_cocktail:"Kokteilių baras",tipo_wine:"Vyno baras",
- tipo_night:"Naktinis klubas",tipo_birra:"Alaus sodas",tipo_caffe:"Kavinė",
+ tipo_night:"Naktinis klubas",tipo_birra:"Alaus baras",tipo_caffe:"Kavinė",
  aperto:"Dabar atidaryta",chiuso:"Dabar uždaryta",orari:"Darbo laikas",telefono:"Telefonas",
  sito:"Svetainė",indirizzo:"Adresas",nessun_dato:"Nėra informacijos",
  versa1:"Pilk lėtai palei kraštą, nesugadindamas burbuliukų.",
@@ -1757,6 +1932,8 @@ lt:{
  volume:"Tūris",gradazione:"Stiprumas",per_n:"{n}",
  segn_ricetta:"Raudonas ratas",segn_ingr:"London Dry džinas",segn_ghiaccio:"Kubeliai / Vienas didelis kubelis / Be ledo",segn_fin:"Apelsino griežinėlis",segn_nota:"Negroni, technika, įranga",cond_ko:"Nepavyko pasidalinti",no_dose:"Nėra dozės klausimui",pdf_ok:"PDF išsaugotas",esci2:"Paspausk dar kartą, kad išeitum",
  ricetta_pdf:"RECEPTAS",proporzioni_pdf:"PROPORCIJOS",
+ pregio_fuori:"Staliukai lauke",pregio_wifi:"Wi-Fi",pregio_musica:"Gyva muzika",pregio_artigianale:"Kraftinis alus",pregio_accesso:"Pritaikyta",pregio_cucina:"Yra maisto",pregio_fumo:"Rūkymo zona",pregio_aperitivo:"Aperityvas",pregio_prenota:"Su rezervacija",pregio_asporto:"Išsinešti",mappa_nessunfiltro:"Aplinkui tokio tipo vietų nėra.",
+ a_piedi:"{n} min pėsčiomis",oggi:"Šiandien",apre:"atsidaro {h}",sempre_aperto:"Visada atidaryta",chiama:"Skambinti",cerca_web:"Ieškoti internete",cucina:"Virtuvė",gestore:"Valdo",posti:"Vietos",citta:"Miestas",cerco_info:"Ieškau informacijos\u2026",leggi_di_piu:"Skaityti daugiau",
  no_trovata:"Receptas nerastas.",tua_ricetta:"Tavo receptas",agg_ingr:"pridėk ingredientų",st_mia:"Tavo paties, gimęs prie tavo baro.",pl_cocktail:["kokteilis","kokteiliai","kokteilių"],pl_classici:["klasikinis","klasikiniai","klasikinių"],pl_provati:["skirtingas kokteilis išbandytas","skirtingi kokteiliai išbandyti","skirtingų kokteilių išbandyta"],pl_passi:["žingsnis","žingsniai","žingsnių"],pl_possib:["variantas","variantai","variantų"],pl_secondi:["sekundė","sekundės","sekundžių"],pl_locali:["vieta","vietos","vietų"],pl_ricette:["klasikinis receptas, dozė po dozės.","klasikiniai receptai, dozė po dozės.","klasikinių receptų, dozė po dozės."],pl_archivio:["receptas archyve","receptai archyve","receptų archyve"]
 }
 };
@@ -1939,7 +2116,7 @@ const CK=[
 {nm:"Gimlet",p:"Regno Unito",an:1880,fama:72,f:"Gin",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Ruota di lime",tec:"Mescolato",abv:28,ing:[{q:50,u:"ml",i:"Gin"},{q:20,u:"ml",i:"Lime cordial"}],st:"La Marina imponeva lime contro lo scorbuto. I marinai lo mescolarono al gin di bordo."},
 {nm:"Bramble",p:"Regno Unito",an:1984,fama:68,f:"Gin",bicc:"Old Fashioned",gh:"Ghiaccio tritato",gar:"Fetta di limone",tec:"Costruito su tritato",abv:21,ing:[{q:40,u:"ml",i:"Gin"},{q:15,u:"ml",i:"Succo di limone"},{q:10,u:"ml",i:"Sciroppo di zucchero"},{q:15,u:"ml",i:"Crème de mûre"}],st:"Bradsell voleva un drink che sapesse di raccogliere more nella campagna inglese."},
 {nm:"Last Word",p:"Stati Uniti",an:1922,fama:66,f:"Gin",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Amarena",tec:"Shakerato",abv:27,ing:[{q:22.5,u:"ml",i:"Gin"},{q:22.5,u:"ml",i:"Chartreuse verde"},{q:22.5,u:"ml",i:"Maraschino"},{q:22.5,u:"ml",i:"Succo di lime"}],st:"Dimenticato per ottant'anni, riesumato da un barman di Seattle nel 2004."},
-{nm:"Vesper",p:"Regno Unito",an:1953,fama:66,f:"Gin",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Scorza di limone",tec:"Shakerato",abv:33,ing:[{q:60,u:"ml",i:"Gin"},{q:15,u:"ml",i:"Vodka"},{q:7.5,u:"ml",i:"Lillet Blanc"}],st:"Fleming scrisse «shakerato, non mescolato». I baristi non l'hanno mai perdonato."},
+{nm:"Vesper",p:"Regno Unito",an:1953,fama:66,f:"Gin",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Scorza di limone",tec:"Shakerato",abv:32,ing:[{q:60,u:"ml",i:"Gin"},{q:20,u:"ml",i:"Vodka"},{q:10,u:"ml",i:"Lillet Blanc"}],st:"Fleming scrisse «shakerato, non mescolato». I baristi non l'hanno mai perdonato."},
 {nm:"Aviation",p:"Stati Uniti",an:1916,fama:69,f:"Gin",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Amarena",tec:"Shakerato",abv:23,ing:[{q:45,u:"ml",i:"Gin"},{q:15,u:"ml",i:"Maraschino"},{q:15,u:"ml",i:"Succo di limone"},{q:5,u:"ml",i:"Crème de violette"}],st:"La violetta gli dà il colore del cielo. Sparì quando sparì il liquore dal mercato."},
 {nm:"Bee's Knees",p:"Stati Uniti",an:1929,fama:61,f:"Gin",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Scorza di limone",tec:"Shakerato",abv:23,ing:[{q:50,u:"ml",i:"Gin"},{q:20,u:"ml",i:"Succo di limone"},{q:20,u:"ml",i:"Sciroppo al miele"}],st:"Il miele serviva a coprire il gin pessimo del proibizionismo. Oggi si usa per il motivo opposto."},
 {nm:"Clover Club",p:"Stati Uniti",an:1900,fama:62,f:"Gin",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Amarena",tec:"Shakerato con albume",abv:20,ing:[{q:45,u:"ml",i:"Gin"},{q:15,u:"ml",i:"Succo di limone"},{q:15,u:"ml",i:"Sciroppo di lampone"},{q:1,u:"pz",i:"Albume"}],st:"Da un circolo di avvocati e giornalisti di Filadelfia che si riuniva in un hotel."},
@@ -1953,24 +2130,26 @@ const CK=[
 {nm:"Mint Julep",p:"Stati Uniti",an:1803,fama:76,f:"Whiskey",bicc:"Tazza di peltro",gh:"Tritato a cupola",gar:"Ciuffo di menta",tec:"Pestato",abv:28,ing:[{q:60,u:"ml",i:"Bourbon"},{q:8,u:"foglie",i:"Menta"},{q:10,u:"ml",i:"Sciroppo di zucchero"}],st:"Il drink ufficiale del Kentucky Derby: oltre centomila serviti in due giorni."},
 {nm:"Penicillin",p:"Stati Uniti",an:2005,fama:69,f:"Whiskey",bicc:"Old Fashioned",gh:"Un cubo grande",gar:"Zenzero candito",tec:"Shakerato con float",abv:24,ing:[{q:60,u:"ml",i:"Blended scotch"},{q:22.5,u:"ml",i:"Succo di limone"},{q:22.5,u:"ml",i:"Sciroppo miele e zenzero"},{q:7.5,u:"ml",i:"Islay single malt"}],st:"Il primo cocktail moderno entrato stabilmente nel canone dei classici."},
 {nm:"Paper Plane",p:"Stati Uniti",an:2008,fama:67,f:"Whiskey",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Nessuna",tec:"Shakerato",abv:20,ing:[{q:22.5,u:"ml",i:"Bourbon"},{q:22.5,u:"ml",i:"Aperol"},{q:22.5,u:"ml",i:"Amaro Nonino"},{q:22.5,u:"ml",i:"Succo di limone"}],st:"Quattro parti uguali. Il nome viene da una canzone del 2007."},
-{nm:"Vieux Carré",p:"Stati Uniti",an:1938,fama:60,f:"Whiskey",bicc:"Old Fashioned",gh:"Un cubo grande",gar:"Amarena",tec:"Mescolato",abv:27,ing:[{q:30,u:"ml",i:"Rye whiskey"},{q:30,u:"ml",i:"Cognac"},{q:30,u:"ml",i:"Vermouth rosso"},{q:5,u:"ml",i:"Bénédictine"},{q:2,u:"dash",i:"Peychaud's"}],st:"Creato nel bar girevole dell'Hotel Monteleone, nel quartiere francese di New Orleans."},
+{nm:"Vieux Carré",p:"Stati Uniti",an:1938,fama:60,f:"Whiskey",bicc:"Old Fashioned",gh:"Un cubo grande",gar:"Amarena",tec:"Mescolato",abv:27,ing:[{q:30,u:"ml",i:"Rye whiskey"},{q:30,u:"ml",i:"Cognac"},{q:30,u:"ml",i:"Vermouth rosso"},{q:5,u:"ml",i:"Bénédictine"},{q:1,u:"dash",i:"Peychaud's"},
+    {q:1,u:"dash",i:"Angostura"}],st:"Creato nel bar girevole dell'Hotel Monteleone, nel quartiere francese di New Orleans."},
 {nm:"Irish Coffee",p:"Irlanda",an:1943,fama:78,f:"Whiskey",bicc:"Coppa da irish",gh:"Senza ghiaccio",gar:"Panna semimontata",tec:"Panna a galla",abv:10,ing:[{q:40,u:"ml",i:"Whiskey irlandese"},{q:80,u:"ml",i:"Caffè caldo"},{q:30,u:"ml",i:"Panna liquida"},{q:1,u:"cucchiaini",i:"Zucchero di canna"}],st:"Inventato per scaldare passeggeri bloccati all'aeroporto di Foynes in una notte d'inverno."},
 {nm:"Highball giapponese",p:"Giappone",an:1950,fama:70,f:"Whiskey",bicc:"Highball",gh:"Barra di ghiaccio",gar:"Scorza di limone",tec:"Ghiaccio scolpito",abv:10,ing:[{q:45,u:"ml",i:"Whisky giapponese"},{q:135,u:"ml",i:"Soda ghiacciata"}],st:"Il rapporto è legge: 1 a 3, mescolato esattamente tre volte e mai una di più."},
-{nm:"Godfather",p:"Italia",an:1972,fama:48,f:"Whiskey",bicc:"Old Fashioned",gh:"Un cubo grande",gar:"Nessuna",tec:"Costruito nel bicchiere",abv:30,ing:[{q:35,u:"ml",i:"Scotch whisky"},{q:35,u:"ml",i:"Amaretto"}],st:"Due ingredienti in parti uguali, battezzato dopo l'uscita del film."},
+{nm:"Godfather",p:"Stati Uniti",an:1972,fama:48,f:"Whiskey",bicc:"Old Fashioned",gh:"Un cubo grande",gar:"Nessuna",tec:"Costruito nel bicchiere",abv:30,ing:[{q:35,u:"ml",i:"Scotch whisky"},{q:35,u:"ml",i:"Amaretto"}],st:"Due ingredienti in parti uguali, battezzato dopo l'uscita del film."},
 {nm:"Mojito",p:"Cuba",an:1910,fama:96,f:"Rum",bicc:"Collins",gh:"Ghiaccio tritato",gar:"Ciuffo di menta",tec:"Pestato e allungato",abv:10,ing:[{q:45,u:"ml",i:"Rum bianco"},{q:20,u:"ml",i:"Succo di lime"},{q:6,u:"foglie",i:"Menta"},{q:2,u:"cucchiaini",i:"Zucchero"},{q:100,u:"ml",i:"Soda"}],st:"Discendente del Draque dei pirati, reso famoso alla Bodeguita del Medio dell'Avana."},
 {nm:"Daiquiri",p:"Cuba",an:1898,fama:94,f:"Rum",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Ruota di lime",tec:"Shakerato",abv:21,ing:[{q:45,u:"ml",i:"Rum bianco"},{q:25,u:"ml",i:"Succo di lime"},{q:15,u:"ml",i:"Sciroppo di zucchero"}],st:"Nato in una miniera cubana chiamata Daiquirí, dove il rum era l'unica cosa abbondante."},
 {nm:"Piña Colada",p:"Porto Rico",an:1954,fama:91,f:"Rum",bicc:"Hurricane",gh:"Ghiaccio tritato",gar:"Fetta d'ananas",tec:"Shakerato",abv:13,ing:[{q:50,u:"ml",i:"Rum bianco"},{q:30,u:"ml",i:"Crema di cocco"},{q:50,u:"ml",i:"Succo d'ananas"}],st:"Bevanda nazionale di Porto Rico dal 1978, nata al Caribe Hilton di San Juan."},
 {nm:"Cuba Libre",p:"Cuba",an:1900,fama:84,f:"Rum",bicc:"Collins",gh:"Cubetti",gar:"Spicchio di lime",tec:"Costruito nel bicchiere",abv:12,ing:[{q:50,u:"ml",i:"Rum bianco"},{q:120,u:"ml",i:"Cola"},{q:10,u:"ml",i:"Succo di lime"}],st:"Il brindisi dei soldati americani a Cuba nel 1900. Senza il lime resta solo un rum e cola."},
-{nm:"Mai Tai",p:"Stati Uniti",an:1944,fama:86,f:"Rum",bicc:"Old Fashioned doppio",gh:"Ghiaccio tritato",gar:"Ciuffo di menta",tec:"Shakerato",abv:22,ing:[{q:30,u:"ml",i:"Rum giamaicano"},{q:30,u:"ml",i:"Rum agricole"},{q:15,u:"ml",i:"Curaçao"},{q:15,u:"ml",i:"Orzata"},{q:30,u:"ml",i:"Succo di lime"}],st:"Trader Vic lo servì a due amici di Tahiti: dissero «maita'i roa», fuori dal mondo."},
+{nm:"Mai Tai",p:"Stati Uniti",an:1944,fama:86,f:"Rum",bicc:"Old Fashioned doppio",gh:"Ghiaccio tritato",gar:"Ciuffo di menta",tec:"Shakerato",abv:20,ing:[{q:30,u:"ml",i:"Rum giamaicano"},{q:30,u:"ml",i:"Rum agricole"},{q:15,u:"ml",i:"Curaçao"},{q:15,u:"ml",i:"Orzata"},{q:30,u:"ml",i:"Succo di lime"},
+    {q:7.5,u:"ml",i:"Sciroppo di zucchero"}],st:"Trader Vic lo servì a due amici di Tahiti: dissero «maita'i roa», fuori dal mondo."},
 {nm:"Dark 'n' Stormy",p:"Bermuda",an:1920,fama:75,f:"Rum",bicc:"Highball",gh:"Cubetti",gar:"Spicchio di lime",tec:"Costruito nel bicchiere",abv:14,ing:[{q:60,u:"ml",i:"Rum scuro"},{q:100,u:"ml",i:"Ginger beer"},{q:10,u:"ml",i:"Succo di lime"}],st:"L'unico cocktail con la ricetta protetta da marchio registrato."},
 {nm:"Hemingway Special",p:"Cuba",an:1930,fama:62,f:"Rum",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Ruota di lime",tec:"Shakerato",abv:22,ing:[{q:60,u:"ml",i:"Rum bianco"},{q:15,u:"ml",i:"Maraschino"},{q:40,u:"ml",i:"Succo di pompelmo"},{q:15,u:"ml",i:"Succo di lime"}],st:"Lo scrittore al Floridita ne ordinava il doppio senza zucchero: da lì Papa Doble."},
 {nm:"El Presidente",p:"Cuba",an:1920,fama:57,f:"Rum",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Scorza d'arancia",tec:"Mescolato",abv:24,ing:[{q:45,u:"ml",i:"Rum bianco"},{q:22.5,u:"ml",i:"Vermouth dry"},{q:7.5,u:"ml",i:"Curaçao"},{q:5,u:"ml",i:"Granatina"}],st:"Il drink dell'alta società cubana degli anni '20, dedicato al presidente Menocal."},
-{nm:"Painkiller",p:"Bermuda",an:1971,fama:51,f:"Rum",bicc:"Hurricane",gh:"Ghiaccio tritato",gar:"Noce moscata",tec:"Shakerato",abv:14,ing:[{q:60,u:"ml",i:"Rum scuro"},{q:120,u:"ml",i:"Succo d'ananas"},{q:30,u:"ml",i:"Succo d'arancia"},{q:30,u:"ml",i:"Crema di cocco"}],st:"Nato in un bar delle Isole Vergini raggiungibile solo in barca, e ancora oggi è così."},
+{nm:"Painkiller",p:"Isole Vergini Britanniche",an:1970,fama:51,f:"Rum",bicc:"Hurricane",gh:"Ghiaccio tritato",gar:"Noce moscata",tec:"Shakerato",abv:14,ing:[{q:60,u:"ml",i:"Rum scuro"},{q:120,u:"ml",i:"Succo d'ananas"},{q:30,u:"ml",i:"Succo d'arancia"},{q:30,u:"ml",i:"Crema di cocco"}],st:"Nato in un bar delle Isole Vergini raggiungibile solo in barca, e ancora oggi è così."},
 {nm:"Espresso Martini",p:"Regno Unito",an:1983,fama:92,f:"Vodka",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Tre chicchi di caffè",tec:"Shakerato",abv:20,ing:[{q:50,u:"ml",i:"Vodka"},{q:30,u:"ml",i:"Espresso caldo"},{q:10,u:"ml",i:"Liquore al caffè"},{q:10,u:"ml",i:"Sciroppo di zucchero"}],st:"Una modella chiese a Bradsell qualcosa che la svegliasse e la stendesse insieme."},
 {nm:"Cosmopolitan",p:"Stati Uniti",an:1987,fama:90,f:"Vodka",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Scorza d'arancia",tec:"Shakerato",abv:21,ing:[{q:40,u:"ml",i:"Vodka al limone"},{q:15,u:"ml",i:"Triple sec"},{q:15,u:"ml",i:"Succo di lime"},{q:30,u:"ml",i:"Succo di mirtillo"}],st:"Un cocktail anni '90 che una serie televisiva ha trasformato in fenomeno mondiale."},
 {nm:"Moscow Mule",p:"Stati Uniti",an:1941,fama:88,f:"Vodka",bicc:"Tazza di rame",gh:"Cubetti",gar:"Spicchio di lime",tec:"Costruito nel bicchiere",abv:11,ing:[{q:45,u:"ml",i:"Vodka"},{q:120,u:"ml",i:"Ginger beer"},{q:10,u:"ml",i:"Succo di lime"}],st:"Nato per smaltire scorte invendute di vodka e ginger beer."},
 {nm:"Bloody Mary",p:"Francia",an:1921,fama:84,f:"Vodka",bicc:"Highball",gh:"Cubetti",gar:"Sedano",tec:"Travasato",abv:12,ing:[{q:45,u:"ml",i:"Vodka"},{q:90,u:"ml",i:"Succo di pomodoro"},{q:15,u:"ml",i:"Succo di limone"},{q:3,u:"dash",i:"Worcestershire"},{q:2,u:"dash",i:"Tabasco"}],st:"Nato all'Harry's New York Bar di Parigi, poi colazione ufficiale del giorno dopo."},
-{nm:"White Russian",p:"Belgio",an:1949,fama:75,f:"Vodka",bicc:"Old Fashioned",gh:"Cubetti",gar:"Nessuna",tec:"Costruito nel bicchiere",abv:20,ing:[{q:50,u:"ml",i:"Vodka"},{q:20,u:"ml",i:"Liquore al caffè"},{q:30,u:"ml",i:"Panna liquida"}],st:"Un film dei fratelli Coen lo ha riportato in vita quarant'anni dopo."},
+{nm:"White Russian",p:"Stati Uniti",an:1965,fama:75,f:"Vodka",bicc:"Old Fashioned",gh:"Cubetti",gar:"Nessuna",tec:"Costruito nel bicchiere",abv:20,ing:[{q:50,u:"ml",i:"Vodka"},{q:20,u:"ml",i:"Liquore al caffè"},{q:30,u:"ml",i:"Panna liquida"}],st:"Un film dei fratelli Coen lo ha riportato in vita quarant'anni dopo."},
 {nm:"Sex on the Beach",p:"Stati Uniti",an:1987,fama:61,f:"Vodka",bicc:"Highball",gh:"Cubetti",gar:"Fetta d'arancia",tec:"Costruito nel bicchiere",abv:11,ing:[{q:40,u:"ml",i:"Vodka"},{q:20,u:"ml",i:"Liquore alla pesca"},{q:40,u:"ml",i:"Succo d'arancia"},{q:40,u:"ml",i:"Succo di mirtillo"}],st:"Nato in Florida per vendere più liquore alla pesca durante lo spring break."},
 {nm:"Margarita",p:"Messico",an:1938,fama:97,f:"Tequila",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Bordo di sale",tec:"Shakerato",abv:22,ing:[{q:50,u:"ml",i:"Tequila blanco"},{q:20,u:"ml",i:"Triple sec"},{q:15,u:"ml",i:"Succo di lime"}],st:"Cinque baristi ne rivendicano la paternità fra Tijuana e Acapulco. Nessuno ha mai vinto."},
 {nm:"Paloma",p:"Messico",an:1950,fama:77,f:"Tequila",bicc:"Collins",gh:"Cubetti",gar:"Spicchio di lime",tec:"Costruito nel bicchiere",abv:12,ing:[{q:50,u:"ml",i:"Tequila blanco"},{q:15,u:"ml",i:"Succo di lime"},{q:100,u:"ml",i:"Soda al pompelmo"}],st:"In Messico si beve molto più della Margarita: è il vero drink quotidiano."},
@@ -1987,7 +2166,7 @@ const CK=[
 {nm:"Rossini",p:"Italia",an:1948,fama:50,f:"Bollicine",bicc:"Flûte",gh:"Senza ghiaccio",gar:"Nessuna",tec:"Costruito nel bicchiere",abv:8,ing:[{q:50,u:"ml",i:"Purea di fragole"},{q:100,u:"ml",i:"Prosecco"}],st:"La variante rossa del Bellini: ogni compositore ha avuto il suo colore."},
 {nm:"Sgroppino",p:"Italia",an:1600,fama:53,f:"Bollicine",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Ciuffo di menta",tec:"Montato a frusta",abv:11,ing:[{q:100,u:"ml",i:"Sorbetto al limone"},{q:100,u:"ml",i:"Prosecco"},{q:25,u:"ml",i:"Vodka"}],st:"Nato nella Venezia dei dogi come pausa fra le portate."},
 {nm:"Caipirinha",p:"Brasile",an:1918,fama:88,f:"Altro",bicc:"Old Fashioned",gh:"Ghiaccio tritato",gar:"Spicchio di lime",tec:"Pestato",abv:26,ing:[{q:60,u:"ml",i:"Cachaça"},{q:1,u:"pz",i:"Lime a spicchi"},{q:2,u:"cucchiaini",i:"Zucchero di canna"}],st:"Nata come rimedio contro l'influenza spagnola, con aglio e miele."},
-{nm:"Pisco Sour",p:"Perù",an:1920,fama:82,f:"Altro",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Tre gocce di Angostura",tec:"Shakerato con albume",abv:19,ing:[{q:45,u:"ml",i:"Pisco"},{q:30,u:"ml",i:"Succo di lime"},{q:20,u:"ml",i:"Sciroppo di zucchero"},{q:1,u:"pz",i:"Albume"},{q:1,u:"dash",i:"Angostura"}],st:"Creato da un barman americano a Lima. Perù e Cile se lo contendono ancora."},
+{nm:"Pisco Sour",p:"Perù",an:1920,fama:82,f:"Altro",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Tre gocce di Angostura",tec:"Shakerato con albume",abv:22,ing:[{q:60,u:"ml",i:"Pisco"},{q:30,u:"ml",i:"Succo di lime"},{q:20,u:"ml",i:"Sciroppo di zucchero"},{q:1,u:"pz",i:"Albume"},{q:1,u:"dash",i:"Angostura"}],st:"Creato da un barman americano a Lima. Perù e Cile se lo contendono ancora."},
 {nm:"Sidecar",p:"Francia",an:1922,fama:80,f:"Altro",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Bordo di zucchero",tec:"Shakerato",abv:26,ing:[{q:50,u:"ml",i:"Cognac"},{q:20,u:"ml",i:"Triple sec"},{q:20,u:"ml",i:"Succo di limone"}],st:"Dal sidecar di un capitano che si faceva accompagnare al bar a Parigi."},
 {nm:"Brandy Alexander",p:"Regno Unito",an:1922,fama:64,f:"Altro",bicc:"Coppetta",gh:"Senza ghiaccio",gar:"Noce moscata",tec:"Shakerato",abv:18,ing:[{q:30,u:"ml",i:"Cognac"},{q:30,u:"ml",i:"Crema di cacao"},{q:30,u:"ml",i:"Panna liquida"}],st:"Servito al matrimonio reale di Londra del 1922. Lennon lo chiamava «milkshake»."},
 {nm:"Long Island Iced Tea",p:"Stati Uniti",an:1972,fama:79,f:"Altro",bicc:"Collins",gh:"Cubetti",gar:"Fetta di limone",tec:"Costruito nel bicchiere",abv:22,ing:[{q:15,u:"ml",i:"Vodka"},{q:15,u:"ml",i:"Gin"},{q:15,u:"ml",i:"Rum bianco"},{q:15,u:"ml",i:"Tequila"},{q:15,u:"ml",i:"Triple sec"},{q:25,u:"ml",i:"Succo di limone"},{q:30,u:"ml",i:"Cola"}],st:"Cinque distillati e nessun tè. Nato per far sembrare analcolico ciò che non lo è."},
@@ -2058,7 +2237,18 @@ const foto=(c,cls="")=>`<span class="${cls}" style="background:${ambiente(c)}">
 
 /* ===================== foglio ===================== */
 const velo=$("velo");
-const foglio=h=>{$("foglio").innerHTML=`<div class="presa"></div>${h}`;velo.classList.add("on");
+const foglio=(h,tipo)=>{
+  const f=$("foglio");
+  f.className="foglio"+(tipo?" "+tipo:"");
+  f.innerHTML=`<div class="presa"></div>${h}`;
+  velo.className="velo on"+(tipo?" "+tipo:"");
+  /* dietro le schede dei locali va la fotografia sfocata del bancone */
+  let sf=velo.querySelector(".sfondobar");
+  if(tipo==="scheda-luogo" && SFONDO_BAR){
+    if(!sf){ sf=document.createElement("div"); sf.className="sfondobar";
+      velo.insertBefore(sf,velo.firstChild); }
+    sf.style.backgroundImage=`url("${SFONDO_BAR}")`;
+  } else if(sf) sf.remove();
   velo.querySelectorAll("[data-chiudi]").forEach(b=>b.onclick=chiudiF);};
 const chiudiF=()=>velo.classList.remove("on");
 velo.onclick=e=>{if(e.target===velo)chiudiF();};
@@ -2203,15 +2393,30 @@ function applicaTema(k){
 }
 
 /* =====================================================================
-   ANDIAMO A BERE — mappa dei locali attorno a te
-   Dati: OpenStreetMap via Overpass. Mappa: Leaflet con tasselli scuri.
+   ANDIAMO A BERE — le categorie
+   Ogni tipo di locale ha colore, icona e chiave di traduzione propri.
    ===================================================================== */
-const TIPI={
-  bar:"tipo_bar", pub:"tipo_pub", biergarten:"tipo_birra",
-  nightclub:"tipo_night", wine_bar:"tipo_wine", cocktail_bar:"tipo_cocktail",
-  cafe:"tipo_caffe"
+const CAT={
+  cocktail:{k:"tipo_cocktail", c:"239,95,60",
+    i:'<path d="M4 4h16l-8 9z"/><path d="M12 13v7"/><path d="M8 20h8"/><path d="M18 3l-3 3"/>'},
+  bar:{k:"tipo_bar", c:"255,173,1",
+    i:'<path d="M5 3h14l-2 6H7z"/><path d="M7 9v9a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3V9"/><path d="M9 13h6"/>'},
+  pub:{k:"tipo_pub", c:"197,140,58",
+    i:'<path d="M5 8h11v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M16 10h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"/><path d="M5 8c0-2 1-3 3-3s2 1 4 1 2-1 4-1"/>'},
+  birra:{k:"tipo_birra", c:"146,186,74",
+    i:'<path d="M7 9h10v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/><path d="M10 13v4"/><path d="M14 13v4"/>'},
+  wine:{k:"tipo_wine", c:"196,76,110",
+    i:'<path d="M7 3h10l-1 7a4 4 0 0 1-8 0z"/><path d="M12 14v6"/><path d="M8 20h8"/>'},
+  night:{k:"tipo_night", c:"154,130,240",
+    i:'<circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M4 12h16"/><path d="M6.3 6.3l11.4 11.4"/><path d="M17.7 6.3L6.3 17.7"/>'},
+  caffe:{k:"tipo_caffe", c:"181,124,74",
+    i:'<path d="M4 8h13v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h2a2 2 0 0 1 0 5h-2"/><path d="M7 3v2"/><path d="M11 3v2"/>'}
 };
-let MAPPA=null, MARCATORI=[], LOCALI=[], DOVE=null, RAGGIO=1200, CARICANDO=false;
+const catIco=(k,dim)=>`<svg width="${dim||18}" height="${dim||18}" viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${CAT[k].i}</svg>`;
+
+let MAPPA=null, MARCATORI=[], LOCALI=[], DOVE=null, RAGGIO=1400, CARICANDO=false;
+let FILTRI=new Set();   /* vuoto = mostra tutto */
 
 function carica(url,tipo){
   return new Promise((ok,ko)=>{
@@ -2232,17 +2437,22 @@ const distanza=(a,b,c,d)=>{
 const scriviDist=m => m<1000 ? t("dist_m",{n:Math.round(m/10)*10})
                              : t("dist_km",{n:(m/1000).toFixed(1).replace(".",",")});
 
-function tipoDi(tag){
-  if(!tag) return "tipo_bar";
-  if(tag.amenity==="pub") return "tipo_pub";
-  if(tag.amenity==="nightclub") return "tipo_night";
-  if(tag.amenity==="biergarten") return "tipo_birra";
-  if(tag.amenity==="cafe") return "tipo_caffe";
-  const c=(tag.cuisine||"")+" "+(tag["bar:type"]||"")+" "+(tag.drink||"");
-  if(/cocktail/i.test(c)) return "tipo_cocktail";
-  if(/wine|vino|enote/i.test(c+(tag.name||""))) return "tipo_wine";
-  return "tipo_bar";
+/* a quale categoria appartiene, leggendo i tag di OpenStreetMap */
+function categoria(g){
+  if(!g) return "bar";
+  const testo=[g.name,g.cuisine,g["bar:type"],g.drink,g.amenity,g.craft,g.shop]
+    .filter(Boolean).join(" ").toLowerCase();
+  if(g.amenity==="nightclub") return "night";
+  if(g.amenity==="biergarten"||/microbrewery|brewpub|birrific|birreria/.test(testo)) return "birra";
+  if(g.amenity==="cafe") return "caffe";
+  if(/cocktail|mixolog|speakeasy|american bar/.test(testo)) return "cocktail";
+  if(/wine|vino|enote|vineria|winery/.test(testo)) return "wine";
+  if(g.amenity==="pub") return "pub";
+  if(/beer|birra|pils|craft/.test(testo)) return "birra";
+  return "bar";
 }
+
+/* apre adesso? interpreta gli orari di OpenStreetMap */
 function apertoOra(orari){
   if(!orari) return null;
   if(/24\/7/.test(orari)) return true;
@@ -2267,12 +2477,50 @@ function apertoOra(orari){
   return visto?false:null;
 }
 
+/* ---------- il piccolo repertorio di icone della scheda ---------- */
+const SIC={
+ pin:'<path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+ ora:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>',
+ tizio:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.4 19a6 6 0 0 1 11.2 0"/>',
+ posate:'<path d="M6 3v8a2 2 0 0 0 4 0V3"/><path d="M8 11v10"/><path d="M17 3c-1.6 1-2.4 3-2.4 5.5S15.4 13 17 14v7"/>',
+ gente:'<circle cx="9" cy="9" r="3.2"/><path d="M3 19a6 6 0 0 1 12 0"/><path d="M16 6.2a3.2 3.2 0 0 1 0 5.6"/><path d="M18 19a5.6 5.6 0 0 0-2-4.2"/>',
+ casa:'<path d="M3 10.6 12 3l9 7.6"/><path d="M5.6 9.6V20h12.8V9.6"/>',
+ sedia:'<path d="M6 4v7h12V4"/><path d="M4 11h16"/><path d="M7 11v9"/><path d="M17 11v9"/><path d="M7 16h10"/>',
+ wifi:'<path d="M2.5 8.5a16 16 0 0 1 19 0"/><path d="M5.5 12a11 11 0 0 1 13 0"/><path d="M8.5 15.4a6 6 0 0 1 7 0"/><circle cx="12" cy="19" r="1.2"/>',
+ nota:'<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
+ luppolo:'<path d="M7 9h10v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/><path d="M10 13v4"/><path d="M14 13v4"/>',
+ accesso:'<circle cx="12" cy="4.5" r="2"/><path d="M9 9h6l1 5"/><path d="M9 9v6h5l2.5 5"/><circle cx="9" cy="17" r="4"/>',
+ fumo:'<path d="M3 17h14v3H3z"/><path d="M19 17h2v3h-2z"/><path d="M15 13c2-1 2-3 0-4s-2-3 0-4"/>',
+ calice:'<path d="M4 4h16l-8 9z"/><path d="M12 13v7"/><path d="M8 20h8"/>',
+ biglietto:'<rect x="3" y="6" width="18" height="12" rx="3"/><path d="M8 6v12"/>',
+ sacco:'<path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>'
+};
+const sic=(k,dim)=>`<svg width="${dim||17}" height="${dim||17}" viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${SIC[k]}</svg>`;
+
+/* ---------- che cosa sappiamo del posto, dai tag di OpenStreetMap ---------- */
+const PREGI=[
+  [g=>g.outdoor_seating==="yes","pregio_fuori","sedia"],
+  [g=>/wlan|yes/.test(g.internet_access||""),"pregio_wifi","wifi"],
+  [g=>g.live_music==="yes"||g.music==="live","pregio_musica","nota"],
+  [g=>g.craft_beer==="yes"||g.microbrewery==="yes"||g.brewery,"pregio_artigianale","luppolo"],
+  [g=>g.wheelchair==="yes","pregio_accesso","accesso"],
+  [g=>g.food==="yes"||g.cuisine,"pregio_cucina","posate"],
+  [g=>g.smoking==="outside"||g.smoking==="separated","pregio_fumo","fumo"],
+  [g=>g.happy_hour==="yes"||/aperitivo/i.test(g.name||""),"pregio_aperitivo","calice"],
+  [g=>g.reservation==="required","pregio_prenota","biglietto"],
+  [g=>g.takeaway==="yes","pregio_asporto","sacco"]
+];
+const pregiDi=g=>PREGI.filter(([f])=>{try{return f(g||{})}catch(e){return false}})
+  .map(([,k,i])=>({testo:t(k),ico:i}));
+
+
 async function cercaLocali(){
-  const q=`[out:json][timeout:22];
-    ( node["amenity"~"^(bar|pub|nightclub|biergarten)$"](around:${RAGGIO},${DOVE.lat},${DOVE.lon});
+  const q=`[out:json][timeout:24];
+    ( node["amenity"~"^(bar|pub|nightclub|biergarten|cafe)$"](around:${RAGGIO},${DOVE.lat},${DOVE.lon});
       way["amenity"~"^(bar|pub|nightclub|biergarten)$"](around:${RAGGIO},${DOVE.lat},${DOVE.lon});
-      node["amenity"="cafe"]["cuisine"~"cocktail",i](around:${RAGGIO},${DOVE.lat},${DOVE.lon});
-    ); out center tags 90;`;
+    ); out center tags 140;`;
   const server=["https://overpass-api.de/api/interpreter",
                 "https://overpass.kumi.systems/api/interpreter"];
   let dati=null;
@@ -2287,13 +2535,16 @@ async function cercaLocali(){
   return (dati.elements||[]).map(e=>{
     const lat=e.lat??e.center?.lat, lon=e.lon??e.center?.lon, g=e.tags||{};
     if(!lat||!lon||!g.name) return null;
+    const cat=categoria(g);
+    /* i caffè entrano solo se sanno di cocktail o di sera */
+    if(g.amenity==="cafe" && cat==="caffe" && !/cocktail|bar/i.test(g.name)) return null;
     return {
-      id:e.id, nome:g.name, lat, lon,
-      tipo:tipoDi(g),
-      via:[g["addr:street"],g["addr:housenumber"]].filter(Boolean).join(" ")
-          || g["addr:city"] || "",
+      id:e.id, nome:g.name, lat, lon, cat, tag:g,
+      via:[g["addr:street"],g["addr:housenumber"]].filter(Boolean).join(" ")||g["addr:city"]||"",
       orari:g.opening_hours||"", tel:g.phone||g["contact:phone"]||"",
       sito:g.website||g["contact:website"]||"",
+      testo:g["description:it"]||g.description||"",
+      pregi:pregiDi(g),
       d:distanza(DOVE.lat,DOVE.lon,lat,lon)
     };
   }).filter(Boolean).sort((a,b)=>a.d-b.d);
@@ -2310,18 +2561,20 @@ S.bere=()=>`<div class="mappa-testa">
         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
   </div>
+  <div class="catfiltri" id="mfiltri"></div>
   <div class="mappa-guscio">
     <div id="mappa"></div>
-    <div class="mappa-stato" id="mstato">
+    <div class="mappa-vel"></div>
+    <div class="mappa-stato visibile" id="mstato">
       <div class="giro"></div><p>${t("mappa_cerco")}</p></div>
   </div>
   <div class="elenco-locali" id="mlista"></div>`;
 
 D.bere=async()=>{
-  /* il contenitore e nuovo a ogni ingresso: la vecchia mappa non e piu valida */
   if(MAPPA){ try{MAPPA.remove();}catch(e){} MAPPA=null; MARCATORI=[]; }
-  const stato=$("mstato"), lista=$("mlista"), conta=$("mconta");
-  if(!stato||!lista||!conta) return;
+  const stato=$("mstato"), lista=$("mlista"), conta=$("mconta"), barra=$("mfiltri");
+  if(!stato||!lista||!conta||!barra) return;
+
   const errore=(testo,riprova)=>{
     stato.innerHTML=`<p>${testo}</p>`+
       (riprova?`<button class="cta bianca" id="mriprova" style="width:auto;padding:0 26px;
@@ -2349,100 +2602,267 @@ D.bere=async()=>{
       });
       stato.innerHTML=`<div class="giro"></div><p>${t("mappa_carico")}</p>`;
       LOCALI=await cercaLocali();
-      disegna();
+      disegnaFiltri(); disegna();
       stato.classList.remove("visibile");
     }catch(e){
       if(e&&e.tipo==="pos") errore(t("mappa_noperm"),true);
-      else if(!navigator.onLine) errore(t("mappa_offline"),true);
       else errore(t("mappa_offline"),true);
     }finally{ CARICANDO=false; }
   }
 
+  /* ---- la fila dei filtri, solo con le categorie davvero presenti ---- */
+  function disegnaFiltri(){
+    const presenti=[...new Set(LOCALI.map(p=>p.cat))]
+      .sort((a,b)=>Object.keys(CAT).indexOf(a)-Object.keys(CAT).indexOf(b));
+    const quanti=k=>LOCALI.filter(p=>p.cat===k).length;
+    barra.innerHTML=
+      `<button class="catf" data-cat="" aria-pressed="${FILTRI.size===0}">
+         <span class="pal">${t("tutti")}</span><i>${LOCALI.length}</i></button>`+
+      presenti.map(k=>`<button class="catf" data-cat="${k}" style="--c:${CAT[k].c}"
+         aria-pressed="${FILTRI.has(k)}">${catIco(k,16)}<span class="pal">${t(CAT[k].k)}</span>
+         <i>${quanti(k)}</i></button>`).join("");
+    barra.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{
+      const k=b.dataset.cat;
+      if(!k) FILTRI.clear();
+      else { FILTRI.has(k)?FILTRI.delete(k):FILTRI.add(k); }
+      tocco("lieve"); disegnaFiltri(); disegna();
+    });
+  }
+  const visibili=()=>FILTRI.size? LOCALI.filter(p=>FILTRI.has(p.cat)) : LOCALI;
+
   function disegna(){
-    const acc=getComputedStyle(document.documentElement).getPropertyValue("--arancio").trim()||"#EF5F3C";
+    const elenco=visibili();
     if(!MAPPA){
       MAPPA=L.map("mappa",{zoomControl:false,attributionControl:true})
         .setView([DOVE.lat,DOVE.lon],15);
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{
-        maxZoom:19, subdomains:"abcd",
-        attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &middot; &copy; CARTO'
-      }).addTo(MAPPA);
+      /* Base scura vera di Esri: libera, senza chiave. I tasselli di OSM
+         rovesciati in negativo davano un nero piatto senza strade leggibili. */
+      const base=L.tileLayer(
+        "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        {maxZoom:16,maxNativeZoom:16,
+         attribution:'Esri &middot; &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+      base.addTo(MAPPA);
+      /* strato separato per i nomi delle vie, cosi restano nitidi */
+      L.tileLayer(
+        "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+        {maxZoom:16,maxNativeZoom:16,opacity:.9,pane:"shadowPane"}).addTo(MAPPA);
+      /* se Esri non risponde, si ripiega su OpenStreetMap scurito via CSS */
+      let caduti=0;
+      base.on("tileerror",()=>{ if(++caduti===4){
+        document.getElementById("mappa").classList.add("ripiego");
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,
+          attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(MAPPA); }});
       L.control.zoom({position:"bottomright"}).addTo(MAPPA);
-    } else { MAPPA.setView([DOVE.lat,DOVE.lon],15); }
-
+    }
     MARCATORI.forEach(m=>MAPPA.removeLayer(m)); MARCATORI=[];
-    /* dove sei tu */
-    const io=L.circleMarker([DOVE.lat,DOVE.lon],{radius:8,color:"#fff",weight:2.5,
-      fillColor:acc,fillOpacity:1}).addTo(MAPPA);
+    const io=L.marker([DOVE.lat,DOVE.lon],{icon:L.divIcon({className:"",
+      iconSize:[26,26],iconAnchor:[13,13],html:'<div class="qui"><i></i><b></b></div>'}),
+      interactive:false,zIndexOffset:-500}).addTo(MAPPA);
     MARCATORI.push(io);
-    io.bindTooltip("•",{permanent:false});
 
-    LOCALI.forEach((p,i)=>{
-      const ic=L.divIcon({className:"",iconSize:[34,42],iconAnchor:[17,40],
-        html:`<div class="spillo" style="--a:${acc}"><span>${i+1}</span></div>`});
+    elenco.forEach((p,i)=>{
+      const C=CAT[p.cat];
+      const ic=L.divIcon({className:"",iconSize:[38,46],iconAnchor:[19,44],
+        html:`<div class="spillo" style="--a:${C.c}">
+                <span class="sg">${catIco(p.cat,15)}</span>
+                <b>${i+1}</b></div>`});
       const m=L.marker([p.lat,p.lon],{icon:ic}).addTo(MAPPA);
       m.on("click",()=>scheda(p));
       MARCATORI.push(m);
     });
-    if(LOCALI.length){
-      const g=L.featureGroup(MARCATORI);
-      MAPPA.fitBounds(g.getBounds().pad(0.18),{maxZoom:16});
+    if(elenco.length){
+      try{ MAPPA.fitBounds(L.featureGroup(MARCATORI).getBounds().pad(0.2),{maxZoom:16}); }catch(e){}
     }
-    conta.textContent=pl(LOCALI.length,"pl_locali");
-    lista.innerHTML = LOCALI.length
-      ? LOCALI.map((p,i)=>{
-          const ap=apertoOra(p.orari);
-          return `<button class="locale" data-i="${i}">
-            <span class="num">${i+1}</span>
+    conta.textContent=pl(elenco.length,"pl_locali");
+
+    lista.innerHTML = elenco.length
+      ? elenco.map((p,i)=>{
+          const ap=apertoOra(p.orari), C=CAT[p.cat];
+          return `<button class="locale" data-i="${i}" style="--c:${C.c}">
+            <span class="num">${catIco(p.cat,17)}<b>${i+1}</b></span>
             <span class="mid"><span class="n">${esc(p.nome)}</span>
-              <span class="s">${t(p.tipo)}${p.via?" · "+esc(p.via):""}</span></span>
+              <span class="s"><em>${t(C.k)}</em>${p.via?" · "+esc(p.via):""}</span>
+              ${p.pregi.length?`<span class="tag">${p.pregi.slice(0,3).map(x=>`<i>${x.testo}</i>`).join("")}</span>`:""}
+            </span>
             <span class="dx"><span class="km">${scriviDist(p.d)}</span>
               ${ap===null?"":`<span class="ap ${ap?"si":"no"}">${ap?t("aperto"):t("chiuso")}</span>`}
             </span></button>`;}).join("")
-      : `<div class="vuoto">${t("mappa_nessuno",{n:(RAGGIO/1000).toFixed(1).replace(".",",")})}
-         <br><br><button class="cta bianca" id="mampia" style="width:auto;padding:0 24px;
-           height:46px;display:inline-flex">${t("mappa_ampia")}</button></div>`;
+      : `<div class="vuoto">${FILTRI.size?t("mappa_nessunfiltro"):t("mappa_nessuno",{n:(RAGGIO/1000).toFixed(1).replace(".",",")})}
+         ${FILTRI.size?"":`<br><br><button class="cta bianca" id="mampia" style="width:auto;padding:0 24px;
+           height:46px;display:inline-flex">${t("mappa_ampia")}</button>`}</div>`;
     lista.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{
-      const p=LOCALI[+b.dataset.i];
+      const p=elenco[+b.dataset.i];
       MAPPA.flyTo([p.lat,p.lon],17,{duration:.7});
-      scheda(p);
+      tocco("lieve"); scheda(p);
     });
     const amp=$("mampia");
-    if(amp) amp.onclick=()=>{RAGGIO=Math.min(RAGGIO*2.5,8000);avvia();};
+    if(amp) amp.onclick=()=>{RAGGIO=Math.min(RAGGIO*2,8000);DOVE&&avvia();};
+  }
+
+  /* ---------- che ore fa oggi: estrae la fascia del giorno corrente ---------- */
+  const GIORNI=["Su","Mo","Tu","We","Th","Fr","Sa"];
+  function orariOggi(orari){
+    if(!orari) return null;
+    if(/24\/7/.test(orari)) return "24/7";
+    const g=GIORNI[new Date().getDay()];
+    for(const pezzo of orari.split(";")){
+      const m=pezzo.trim().match(/^([A-Za-z,\-]+)?\s*([0-9:,\-\s]+)$/);
+      if(!m) continue;
+      const gg=m[1]||"Mo-Su";
+      let vale=gg.indexOf(g)>=0;
+      if(!vale && gg.includes("-")){            /* intervalli tipo Mo-Fr */
+        const [a,b]=gg.split("-").map(x=>GIORNI.indexOf(x.trim().slice(0,2)));
+        const oggi=new Date().getDay();
+        if(a>=0&&b>=0) vale = a<=b ? (oggi>=a&&oggi<=b) : (oggi>=a||oggi<=b);
+      }
+      if(vale) return m[2].trim();
+    }
+    return null;
+  }
+  /* a che ora apre, se adesso è chiuso */
+  function apreAlle(orari){
+    const oggi=orariOggi(orari);
+    if(!oggi||oggi==="24/7") return null;
+    const ora=new Date().getHours()*60+new Date().getMinutes();
+    for(const f of oggi.split(",")){
+      const o=f.trim().match(/(\d{1,2}):(\d{2})/);
+      if(!o) continue;
+      if(+o[1]*60 + +o[2] > ora) return o[1].padStart(2,"0")+":"+o[2];
+    }
+    return null;
+  }
+  const aPiedi=m=>Math.max(1,Math.round(m/80));   /* ~4,8 km orari */
+
+  /* ---------- una descrizione vera, presa da Wikipedia quando esiste ---------- */
+  const CACHE_WIKI={};
+  async function daWikipedia(g){
+    if(!g) return null;
+    let lingua=null, titolo=null;
+    if(g.wikipedia && g.wikipedia.includes(":")){
+      [lingua,titolo]=g.wikipedia.split(/:(.+)/);
+    } else if(g.wikidata){
+      try{
+        const r=await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities`+
+          `&ids=${g.wikidata}&props=sitelinks|descriptions&format=json&origin=*`);
+        const d=await r.json();
+        const e=d.entities&&d.entities[g.wikidata];
+        if(!e) return null;
+        const sl=e.sitelinks||{};
+        for(const L of [LG,"it","en"]){
+          if(sl[L+"wiki"]){ lingua=L; titolo=sl[L+"wiki"].title; break; }
+        }
+        if(!titolo){
+          const d2=(e.descriptions||{})[LG]||(e.descriptions||{}).it||(e.descriptions||{}).en;
+          return d2? {testo:d2.value, fonte:"Wikidata", url:"https://www.wikidata.org/wiki/"+g.wikidata} : null;
+        }
+      }catch(e){ return null; }
+    }
+    if(!lingua||!titolo) return null;
+    const chiave=lingua+":"+titolo;
+    if(CACHE_WIKI[chiave]!==undefined) return CACHE_WIKI[chiave];
+    try{
+      const r=await fetch(`https://${lingua}.wikipedia.org/api/rest_v1/page/summary/`+
+        encodeURIComponent(titolo));
+      if(!r.ok) throw 0;
+      const d=await r.json();
+      const out=d.extract? {testo:d.extract, fonte:"Wikipedia",
+        url:(d.content_urls&&d.content_urls.mobile&&d.content_urls.mobile.page)||""} : null;
+      CACHE_WIKI[chiave]=out; return out;
+    }catch(e){ CACHE_WIKI[chiave]=null; return null; }
   }
 
   function scheda(p){
-    const ap=apertoOra(p.orari);
+    const ap=apertoOra(p.orari), C=CAT[p.cat], g=p.tag||{};
+    const oggi=orariOggi(p.orari), apre=ap===false?apreAlle(p.orari):null;
+    const righe=[];
+    if(p.via) righe.push(["pin",t("indirizzo"),esc(p.via)]);
+    if(oggi) righe.push(["ora",t("oggi"),esc(oggi==="24/7"?t("sempre_aperto"):oggi)]);
+    if(p.orari && p.orari.includes(";") && !/24\/7/.test(p.orari))
+      righe.push(["cal",t("orari"),esc(p.orari)]);
+    if(g.cuisine) righe.push(["posate",t("cucina"),esc(g.cuisine.replace(/[_;]/g," "))]);
+    if(g.brand||g.operator) righe.push(["tizio",t("gestore"),esc(g.brand||g.operator)]);
+    if(g.capacity) righe.push(["gente",t("posti"),esc(g.capacity)]);
+    if(g["addr:city"] && !(p.via||"").includes(g["addr:city"]))
+      righe.push(["casa",t("citta"),esc(g["addr:city"])]);
+
+    const ig=g["contact:instagram"]||g.instagram||"";
+    const link=u=>/^https?:/.test(u)?u:"https://instagram.com/"+String(u).replace(/^@/,"");
+    const az=(id,ico,testo)=>`<button class="azione" id="${id}">${sic(ico,21)}<span>${testo}</span></button>`;
+    const frecc=`<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>`;
+
     foglio(`
-      <h3 style="font-size:22px;margin-bottom:4px">${esc(p.nome)}</h3>
-      <p class="occhio" style="margin-bottom:14px">${t(p.tipo)} · ${scriviDist(p.d)}
-        ${ap===null?"":` · <b style="color:${ap?"var(--verde)":"var(--arancio)"}">
-          ${ap?t("aperto"):t("chiuso")}</b>`}</p>
-      <div class="dosi">
-        ${p.via?`<div class="dose"><span class="n">${t("indirizzo")}</span>
-          <span class="q" style="font-size:14px;font-weight:600">${esc(p.via)}</span></div>`:""}
-        ${p.orari?`<div class="dose"><span class="n">${t("orari")}</span>
-          <span class="q" style="font-size:13px;font-weight:600;text-align:right;max-width:56%">
-          ${esc(p.orari)}</span></div>`:""}
-        ${p.tel?`<div class="dose"><span class="n">${t("telefono")}</span>
-          <span class="q" style="font-size:14px;font-weight:600">${esc(p.tel)}</span></div>`:""}
-        ${(!p.via&&!p.orari&&!p.tel)?`<div class="dose"><span class="n">${t("nessun_dato")}</span></div>`:""}
+      <div class="scheda-capo" style="--c:${C.c}">
+        <span class="ico">${catIco(p.cat,27)}</span>
+        <span class="tt"><h3>${esc(p.nome)}</h3>
+          <span class="s">${t(C.k)} · ${scriviDist(p.d)} · ${t("a_piedi",{n:aPiedi(p.d)})}</span>
+          ${ap===null?"":`<span class="stato ${ap?"ap":"ch"}">${ap?t("aperto"):t("chiuso")}${
+            apre?` · ${t("apre",{h:apre})}`:""}</span>`}</span>
       </div>
-      <div style="height:14px"></div>
-      <button class="cta" id="mvai">${t("mappa_apri")}</button>
-      ${p.sito?`<button class="link" id="msito">${t("sito")}</button>`:""}
-      <div style="height:6px"></div>
-      <button class="cta bianca" data-chiudi>${t("chiudi")}</button>`);
-    $("mvai").onclick=()=>{
-      const u=`https://www.openstreetmap.org/directions?to=${p.lat},${p.lon}`;
-      window.open(u,"_blank","noopener");
-    };
-    const st=$("msito"); if(st) st.onclick=()=>window.open(p.sito,"_blank","noopener");
+
+      <div id="wsegna"></div>
+      ${p.testo?`<div class="riquadro sr-box"><p class="sr">${esc(p.testo)}</p></div>`:""}
+
+      ${p.pregi.length?`<div class="pregi">${p.pregi.map(x=>
+        `<span>${sic(x.ico,16)}${x.testo}</span>`).join("")}</div>`:""}
+
+      ${righe.length?`<div class="dosi righe-info">${righe.map(([ic,k,v])=>
+        `<div class="dose"><span class="n">${sic(ic)}${k}</span>
+         <span class="q">${v}</span></div>`).join("")}</div>`:""}
+
+      <div class="azioni">
+        ${p.tel?az("mtel","ora",t("chiama")).replace(SIC.ora,
+          '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/>'):""}
+        ${p.sito?`<button class="azione" id="msito"><svg width="21" height="21" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"/></svg>
+          <span>${t("sito")}</span></button>`:""}
+        ${ig?`<button class="azione" id="mig"><svg width="21" height="21" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3"
+          width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          <span>Instagram</span></button>`:""}
+        <button class="azione" id="mweb"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/>
+          <path d="M20 20l-3.5-3.5"/></svg><span>${t("cerca_web")}</span></button>
+      </div>
+
+      <button class="cta grande" id="mvai"><span class="tondello">${frecc}</span>
+        ${t("mappa_apri")}</button>
+      <div style="height:9px"></div>
+      <button class="cta bianca" data-chiudi>${t("chiudi")}</button>`, "scheda-luogo");
+
+    $("mvai").onclick=()=>window.open(
+      `https://www.openstreetmap.org/directions?to=${p.lat},${p.lon}`,"_blank","noopener");
+    const bs=$("msito"); if(bs) bs.onclick=()=>window.open(p.sito,"_blank","noopener");
+    const bt=$("mtel"); if(bt) bt.onclick=()=>{location.href="tel:"+p.tel.replace(/\s/g,"");};
+    const bi=$("mig"); if(bi) bi.onclick=()=>window.open(link(ig),"_blank","noopener");
+    $("mweb").onclick=()=>window.open(
+      "https://duckduckgo.com/?q="+encodeURIComponent(p.nome+" "+(g["addr:city"]||p.via||"")),
+      "_blank","noopener");
+
+    const segna=$("wsegna");
+    if(segna && (g.wikipedia||g.wikidata)){
+      segna.innerHTML=`<div class="riquadro sr-box"><p class="sr attesa">${t("cerco_info")}</p></div>`;
+      daWikipedia(g).then(w=>{
+        const el=$("wsegna"); if(!el) return;
+        if(!w){ el.innerHTML=""; return; }
+        el.innerHTML=`<div class="riquadro sr-box">
+          <div class="fonte">${w.fonte}</div>
+          <p class="sr">${esc(w.testo)}</p>
+          ${w.url?`<div class="piu"><button class="link" id="wleggi">${t("leggi_di_piu")}</button>
+            <span class="tondello piccolo" id="wfre">${frecc}</span></div>`:""}</div>`;
+        const b=$("wleggi"), f2=$("wfre");
+        const apri=()=>window.open(w.url,"_blank","noopener");
+        if(b) b.onclick=apri; if(f2) f2.onclick=apri;
+      });
+    }
   }
 
-  $("mricarica").onclick=()=>{DOVE=null;avvia();};
+  $("mricarica").onclick=()=>{DOVE=null;FILTRI.clear();avvia();};
   requestAnimationFrame(()=>setTimeout(avvia,140));
 };
+
 
 /* ===================== transizioni fra schermate ===================== */
 
@@ -2609,7 +3029,7 @@ S.casa=()=>{
             stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
             <path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bollo"></span></button>
-        <button class="tondino dm" data-go="profilo">DM<span class="bollo"></span></button></div>
+</div>
     </div>
     <div class="fermo" style="padding-top:4px">
       <div class="carte">
@@ -2652,20 +3072,6 @@ S.casa=()=>{
           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 5l7 7-7 7"/></svg></span></button>
 
-      <div class="pillastat">
-        <span class="s">
-          <svg width="21" height="21" viewBox="0 0 24 24">
-            <rect x="3" y="12" width="4" height="8" rx="1.6" fill="rgb(${c2})"/>
-            <rect x="10" y="7" width="4" height="13" rx="1.6" fill="rgb(${c2})" opacity=".7"/>
-            <rect x="17" y="14" width="4" height="6" rx="1.6" fill="rgb(${c2})" opacity=".45"/></svg>
-          <span><span class="v">${preparati}</span><span class="k">${t("preparati")}</span></span></span>
-        <span class="sep"></span>
-        <span class="s" style="padding-left:15px">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="rgb(${c2})"
-            stroke-width="1.8" stroke-linejoin="round">
-            <path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8z"/></svg>
-          <span><span class="v">${ST.punti}</span><span class="k">${t("punti")}</span></span></span>
-      </div>
     </div>${barra("casa")}`;
 };
 D.casa=()=>{
@@ -2756,9 +3162,10 @@ S.drink=({id})=>{
     </div>
     <div class="telo">
       <div class="presa"></div>
+      <div class="corpo">
       <div class="segm">${[1,2,4,6].map(n=>
         `<button data-p="${n}" aria-pressed="${n===ST.porz}">${bicchieri(n)}</button>`).join("")}</div>
-      <div class="sezione" style="margin:12px 0 8px;flex:0 0 auto"><h3>${t("ingredienti")}</h3>
+      <div class="sezione" style="margin:16px 0 10px;flex:0 0 auto"><h3>${t("ingredienti")}</h3>
         <span class="occhio">${c.ing.length} · ${nrm(vol(c)*ST.porz)} ml${c.abv?" · "+c.abv+"%":""}</span></div>
       <div class="tuttotitolo"><h3>${t("tutti_ingr")}</h3>
         <span class="occhio">${c.ing.length} · ${nrm(vol(c)*ST.porz)} ml</span></div>
@@ -2780,7 +3187,7 @@ S.drink=({id})=>{
         <div><span>${t("bicchiere")}</span><b>${esc(v(c.bicc))}</b></div>
         <div><span>${t("ghiaccio")}</span><b>${esc(v(c.gh))}</b></div>
         <div><span>${t("finitura")}</span><b>${esc(v(c.gar))}</b></div></div>
-      <div style="height:14px;flex:0 0 auto"></div>
+      </div>
       <button class="cta" data-prep>
         <svg width="20" height="22" viewBox="0 0 34 44" fill="none" stroke="currentColor"
           stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
@@ -3772,6 +4179,30 @@ function modNota(su){
    Funziona in tre ambienti: anteprima, browser/PWA, app Android.
    Ogni pezzo si attiva solo se l'ambiente lo consente.
    ===================================================================== */
+/* L'altezza reale della finestra: su iOS le unita CSS mentono quando le barre
+   compaiono o spariscono, e resta una fascia vuota in fondo. Qui la misuro. */
+/* la fotografia dell'apertura resta in memoria: fa da sfondo alle schede */
+let SFONDO_BAR="";
+(function(){const i=document.querySelector("#marchio .scena"); if(i) SFONDO_BAR=i.src;})();
+
+/* niente menu contestuale: ne col tasto destro ne tenendo premuto */
+document.addEventListener("contextmenu",e=>{
+  if(e.target.closest("input,textarea,[contenteditable]")) return;
+  e.preventDefault();
+},{capture:true});
+/* niente trascinamento di immagini */
+document.addEventListener("dragstart",e=>e.preventDefault());
+
+function altezzaVera(){
+  const h=window.visualViewport?Math.round(window.visualViewport.height):window.innerHeight;
+  if(h>200) document.documentElement.style.setProperty("--vh",h+"px");
+}
+altezzaVera();
+window.addEventListener("resize",altezzaVera);
+window.addEventListener("orientationchange",()=>setTimeout(altezzaVera,320));
+if(window.visualViewport) window.visualViewport.addEventListener("resize",altezzaVera);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden) setTimeout(altezzaVera,60);});
+
 const Cap = window.Capacitor || null;
 const nativo = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform());
 
