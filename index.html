@@ -58,7 +58,7 @@ body{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;
      spariscono le barre: qualunque misura presa in JavaScript la
      scavalcherebbe con un valore vecchio, ed e li che nasceva la
      fascia nera in fondo. */
-  height:100vh;height:100dvh;
+  height:100%;height:100dvh;
   overflow:hidden;overscroll-behavior:none;
   touch-action:pan-y;
   background:var(--sfondo);color:var(--ink);
@@ -1092,10 +1092,14 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
   .hp-card-ico{position:static;grid-row:1}
   .hp-card-art{grid-row:2}
   .hp{display:flex;flex-direction:column}
-  .hp-dentro{flex:1;min-height:0;padding-top:4px}
-  .hp-griglia{flex:1 1 auto;min-height:0;grid-template-rows:repeat(3,minmax(0,1fr))}
+  .hp-dentro{flex:1;min-height:0;padding-top:4px;padding-bottom:10px}
+  .hp-griglia{flex:1 1 auto;min-height:0;
+    grid-template-rows:repeat(3,minmax(clamp(150px,25vh,240px),1fr))}
   .hp-card{aspect-ratio:auto;min-height:0}
-  .hp-card-art{width:auto;height:100%;aspect-ratio:200/210}
+  /* niente aspect-ratio sul contenitore: l'SVG si adatta da solo senza
+     deformarsi, e una misura minima garantisce che si veda sempre */
+  .hp-card-art{width:72%;height:100%;aspect-ratio:auto;
+    min-height:clamp(84px,20vw,190px)}
   .hp-card-desc{-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;
     overflow:hidden}
   .hp-banner{grid-template-columns:auto 1fr auto;min-height:60px;flex:0 0 auto}
@@ -5030,7 +5034,7 @@ function modNota(su){
 /* L'altezza reale della finestra: su iOS le unita CSS mentono quando le barre
    compaiono o spariscono, e resta una fascia vuota in fondo. Qui la misuro. */
 /* marchio della versione: serve a capire se stai vedendo il file nuovo */
-const VERSIONE="05/09 21:04";
+const VERSIONE="05/09 22:19";
 
 /* la fotografia dell'apertura resta in memoria: fa da sfondo alle schede */
 let SFONDO_BAR="";
