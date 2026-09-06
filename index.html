@@ -51,11 +51,15 @@
 /* i campi di scrittura restano selezionabili, altrimenti non si puo correggere */
 input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;
   -webkit-touch-callout:default}
-html{height:100%;height:100dvh;-webkit-text-size-adjust:100%;background:#0B0A0C;
-  overflow-x:hidden;overscroll-behavior-x:none}
-body{position:fixed;top:0;left:0;width:100%;
-  height:100vh;height:100dvh;height:var(--vh,100dvh);
-  overflow:hidden;overscroll-behavior:none;overscroll-behavior-x:none;
+html{height:100%;-webkit-text-size-adjust:100%;background:#0B0A0C;
+  overflow:hidden;overscroll-behavior:none}
+body{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;
+  /* dvh e l'unita che il browser aggiorna da solo quando compaiono o
+     spariscono le barre: qualunque misura presa in JavaScript la
+     scavalcherebbe con un valore vecchio, ed e li che nasceva la
+     fascia nera in fondo. */
+  height:100vh;height:100dvh;
+  overflow:hidden;overscroll-behavior:none;
   touch-action:pan-y;
   background:var(--sfondo);color:var(--ink);
   font-family:'Plus Jakarta Sans',-apple-system,'SF Pro Text','Segoe UI',Roboto,
@@ -208,7 +212,6 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
   padding:0 17px 12px;scrollbar-width:none;background:transparent;
   overflow-x:hidden;touch-action:pan-y;overscroll-behavior:contain}
 .scorre::-webkit-scrollbar{display:none}
-.fermo.casa{padding-top:4px}
 .fermo{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;
   padding:0 17px 8px;background:transparent}
 /* il margine di sicurezza lo mette SOLO chi tocca davvero il fondo dello schermo */
@@ -268,56 +271,6 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .sezione .piu{font-size:13.5px;font-weight:700;color:var(--arancio)}
 
 /* ============ home ============ */
-.cima{display:flex;align-items:center;justify-content:space-between;gap:14px;flex:0 0 auto;
-  padding:calc(12px + env(safe-area-inset-top)) 19px 10px}
-.tondino{width:43px;height:43px;border-radius:999px;display:flex;align-items:center;
-  justify-content:center;position:relative;flex:0 0 auto;
-  background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.035));
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 0 0 1px rgba(255,255,255,.09),
-    0 6px 18px rgba(0,0,0,.5);transition:transform .16s var(--molla)}
-.tondino:active{transform:scale(.9)}
-.tondino .bollo{position:absolute;top:0;right:0;width:9px;height:9px;border-radius:999px;
-  background:linear-gradient(150deg,#FF8A5E,#D8412A);border:2px solid #0B0A0C;
-  box-shadow:0 0 8px rgba(239,95,60,.6)}
-.tondino.dm{color:#fff;font-size:13.5px;font-weight:800}
-.ciao{font-size:clamp(23px,6.6vw,30px);font-weight:800;letter-spacing:-.038em;line-height:1.05;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ciao-sub{color:rgba(245,242,236,.5);font-size:13.5px;margin-top:4px;font-weight:500;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hcard{position:relative;overflow:hidden;border-radius:26px;padding:14px 17px;width:100%;
-  flex:1 1 0;min-height:0;max-height:27dvh;display:flex;flex-direction:column;
-  justify-content:space-between;transition:transform .18s var(--molla);
-  background:
-    radial-gradient(122% 104% at 80% 48%, rgba(var(--c),.19), transparent 62%),
-    linear-gradient(142deg, rgba(var(--c),.085), rgba(0,0,0,.42) 66%),
-    #0C0B0E;
-  box-shadow:
-    inset 0 0 0 1px rgba(var(--c),.26),
-    inset 0 1px 0 rgba(255,255,255,.10),
-    0 22px 50px -16px rgba(var(--c),.42),
-    0 10px 30px rgba(0,0,0,.6)}
-.hcard:active{transform:scale(.978)}
-.hcard .ico{width:clamp(44px,11.5vw,54px);height:clamp(44px,11.5vw,54px);border-radius:999px;
-  display:flex;align-items:center;justify-content:center;position:relative;z-index:3;
-  flex:0 0 auto;align-self:flex-start;color:rgb(var(--c));
-  background:radial-gradient(circle at 50% 46%, rgba(var(--c),.2), rgba(var(--c),.04) 72%);
-  box-shadow:inset 0 0 0 1.5px rgba(var(--c),.5), 0 0 26px -8px rgba(var(--c),.75)}
-.hcard .tt{position:relative;z-index:2;max-width:58%}
-.hcard h3{font-size:clamp(19px,5.6vw,25px);font-weight:800;line-height:1.05;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  text-shadow:0 2px 18px rgba(0,0,0,.6)}
-.hcard p{font-size:12.5px;color:rgba(255,255,255,.68);line-height:1.28;margin-top:3px;
-  font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
-  overflow:hidden}
-.hcard .go{position:absolute;right:15px;bottom:14px;width:clamp(40px,11vw,48px);
-  height:clamp(40px,11vw,48px);border-radius:999px;display:flex;align-items:center;
-  justify-content:center;z-index:4;color:rgb(var(--c));
-  background:rgba(255,255,255,.045);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  box-shadow:inset 0 0 0 1.5px rgba(var(--c),.44), 0 0 24px -9px rgba(var(--c),.7)}
-.hcard .art{position:absolute;right:-2%;top:50%;transform:translateY(-50%);height:116%;
-  aspect-ratio:200/210;z-index:1;pointer-events:none}
-.carte{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:12px;overflow:hidden}
 .pillastat{display:flex;align-items:center;border-radius:22px;padding:11px 16px;
   flex:0 0 auto;margin-top:9px;position:relative;isolation:isolate;
   background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));
@@ -841,25 +794,6 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .leaflet-container{background:#10120F!important}
 
 /* ================= striscia in fondo alla home ================= */
-.striscia{position:relative;overflow:hidden;border-radius:22px;padding:0 16px;width:100%;
-  flex:0 0 auto;height:60px;display:flex;align-items:center;gap:12px;margin-top:12px;
-  transition:transform .18s var(--molla);
-  background:radial-gradient(120% 200% at 86% 50%, rgba(var(--c),.2), transparent 62%),
-    linear-gradient(120deg, rgba(var(--c),.09), rgba(0,0,0,.4) 70%),#0C0B0E;
-  box-shadow:inset 0 0 0 1px rgba(var(--c),.24),inset 0 1px 0 rgba(255,255,255,.09),
-    0 14px 34px -14px rgba(var(--c),.4),0 6px 20px rgba(0,0,0,.5)}
-.striscia:active{transform:scale(.985)}
-.striscia .ico{width:34px;height:34px;border-radius:999px;flex:0 0 auto;display:flex;
-  align-items:center;justify-content:center;color:rgb(var(--c));
-  background:radial-gradient(circle,rgba(var(--c),.2),rgba(var(--c),.04) 72%);
-  box-shadow:inset 0 0 0 1.4px rgba(var(--c),.48),0 0 20px -8px rgba(var(--c),.7)}
-.striscia .tt{flex:1;min-width:0}
-.striscia .tt b{display:block;font-size:15px;font-weight:800;letter-spacing:-.028em}
-.striscia .tt span{display:block;font-size:12px;color:rgba(255,255,255,.6);font-weight:500;
-  margin-top:1px}
-.striscia .fr{color:rgb(var(--c));flex:0 0 auto;display:flex;opacity:.8}
-.striscia .citta{display:none}
-.striscia .tt b .nuovo{display:none}
 
 /* ================= impostazioni ================= */
 .scelte{display:flex;gap:8px;overflow-x:auto;touch-action:pan-x;
@@ -971,18 +905,10 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 
 
 
-/* ---- la scrivania: intestazione e ricerca, solo su schermi larghi ---- */
 
 
-.capo-profilo{display:flex;align-items:center;gap:16px;margin:6px 0 4px}
-.capo-profilo .tt{flex:1;min-width:0}
-.capo-profilo .nome{font-size:22px;font-weight:800;letter-spacing:-.035em}
 
 /* ---- icona nelle statistiche ---- */
-.ist{width:44px;height:44px;border-radius:14px;display:none;align-items:center;
-  justify-content:center;margin:0 auto 10px;color:rgb(var(--c));
-  background:radial-gradient(circle at 50% 28%, rgba(var(--c),.2), rgba(var(--c),.05));
-  box-shadow:inset 0 0 0 1.4px rgba(var(--c),.45),0 0 22px -8px rgba(var(--c),.7)}
 
 
 
@@ -1003,271 +929,454 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-
 /* =====================================================================
-   SCHERMO LARGO — tablet e computer
-   Scritto in un blocco solo, in coda al foglio di stile, cosi nessuna
-   regola del telefono lo puo scavalcare.
-   Riferimento: 1672x941 con barra 300, area 1276, tre carte 409x520.
+   HOME — foglio di stile dedicato
+   1 variabili · 2 superfici · 3 impianto · 4 barra laterale · 5 saluto
+   6 intestazione · 7 ricerca · 8 carte · 9 banner · 10 tablet · 11 telefono
+   Scritto in ordine crescente: telefono prima, poi tablet, poi computer.
    ===================================================================== */
+
+/* ============ 1 · VARIABILI ============ */
+:root{
+  /* colori tematici */
+  --arancione:255,80,25;
+  --viola:120,90,255;
+  --verde:0,190,110;
+  --oro:255,190,0;
+
+  /* superfici di vetro: scure, mai bianche traslucide */
+  --vetro-fondo:rgba(255,255,255,.03);
+  --vetro-fondo-su:rgba(255,255,255,.055);
+  --vetro-bordo:rgba(255,255,255,.10);
+  --vetro-bordo-su:rgba(255,255,255,.16);
+  --vetro-sfoca:blur(20px);
+
+  /* testo */
+  --hp-testo:rgba(255,255,255,.95);
+  --hp-testo-2:rgba(255,255,255,.58);
+  --hp-testo-3:rgba(255,255,255,.40);
+
+  /* misure fluide: crescono con la finestra ma non oltre */
+  --barra-l:clamp(280px, calc(11vw + 114px), 340px);
+  --bordo:clamp(20px, 3vw, 56px);
+  --respiro:clamp(55px, 7vh, 90px);   /* intestazione -> carte */
+  --stacco:clamp(20px, 2.9vh, 30px);  /* carte -> banner */
+  --gap:clamp(16px, 1.6vw, 28px);
+  --raggio:clamp(18px, 1.4vw, 24px);
+  --raggio-p:clamp(14px, 1vw, 18px);
+  --contenuto:1900px;
+  --colonne:1;
+
+  /* andatura */
+  --tempo:200ms;
+  --curva:cubic-bezier(.22,.61,.36,1);
+}
+
+/* ============ 2 · SUPERFICI RIUSABILI ============ */
+.vetro{background:var(--vetro-fondo);
+  box-shadow:inset 0 0 0 1px var(--vetro-bordo);
+  backdrop-filter:var(--vetro-sfoca);-webkit-backdrop-filter:var(--vetro-sfoca)}
+.badge-nuovo{display:inline-flex;align-items:center;
+  font-size:clamp(9px,.6vw,10px);font-weight:800;letter-spacing:.1em;
+  padding:3px 7px;border-radius:999px;margin-left:9px;vertical-align:middle;
+  color:#ffc400;background:rgba(255,190,0,.15);
+  box-shadow:inset 0 0 0 1px rgba(255,190,0,.4)}
+
+/* ============ 3 · IMPIANTO ============ */
 #lato{display:none}
-.scrivania{display:none}
-.scrivania .riga{display:flex;align-items:flex-start;justify-content:space-between;
-  gap:24px;flex-wrap:wrap}
-.scrivania .cercona{display:flex;align-items:center;gap:11px}
-.scrivania .cercona input{flex:1;min-width:0;background:none;border:none;outline:none;
-  font-family:inherit;font-weight:500;color:var(--ink)}
-.scrivania .cercona input::placeholder{color:rgba(255,255,255,.4)}
+.hp{display:block;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;
+  touch-action:pan-y;overscroll-behavior:contain;scrollbar-width:none}
+.hp::-webkit-scrollbar{display:none}
+.hp-dentro{width:100%;max-width:var(--contenuto);margin-inline:auto;
+  padding:0 var(--bordo) calc(var(--bordo) + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column}
 
+/* ============ 5 · SALUTO (telefono) ============ */
+.hp-saluto{flex:0 0 auto;
+  padding:calc(14px + env(safe-area-inset-top)) var(--bordo) 12px}
+.hp-saluto-testo{min-width:0}
+.hp-saluto h1{font-size:clamp(23px,6.6vw,30px);font-weight:800;letter-spacing:-.035em;
+  line-height:1.08}
+.hp-saluto p{font-size:13.5px;color:var(--hp-testo-2);margin-top:5px;line-height:1.4}
+
+/* ============ 6 · INTESTAZIONE (solo schermo largo) ============ */
+.hp-testa{display:none}
+
+/* ============ 7 · RICERCA ============ */
+.hp-cerca{display:flex;align-items:center;gap:11px;height:48px;border-radius:16px;
+  padding:0 16px;background:rgba(255,255,255,.035);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  color:var(--hp-testo-3);
+  transition:box-shadow var(--tempo) var(--curva)}
+.hp-cerca:focus-within{box-shadow:inset 0 0 0 1px rgba(255,255,255,.24)}
+.hp-cerca input{flex:1;min-width:0;background:none;border:0;outline:0;
+  font-family:inherit;font-size:14px;font-weight:500;color:var(--hp-testo)}
+.hp-cerca input::placeholder{color:var(--hp-testo-3)}
+.hp-cerca kbd{font-family:inherit;font-size:11px;font-weight:600;color:var(--hp-testo-3);
+  padding:3px 7px;border-radius:6px;flex:0 0 auto;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+
+/* ============ 8 · LE TRE CARTE ============ */
+.hp-griglia{display:grid;grid-template-columns:repeat(var(--colonne),minmax(0,1fr));
+  gap:var(--gap);width:100%}
+.hp-card{position:relative;display:grid;grid-template-rows:auto 1fr auto;
+  border-radius:var(--raggio);overflow:hidden;text-align:left;
+  padding:clamp(16px,1.35vw,26px);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(var(--tema),.14), transparent 60%),
+    radial-gradient(120% 90% at 50% 55%, rgba(var(--tema),.04), transparent 76%),
+    #0A0A0C;
+  box-shadow:inset 0 0 0 1px rgba(var(--tema),.22),
+    0 20px 50px -26px rgba(var(--tema),.3), 0 6px 22px rgba(0,0,0,.45);
+  transition:transform var(--tempo) var(--curva),
+             box-shadow var(--tempo) var(--curva)}
+.hp-card:focus-visible{outline:2px solid rgb(var(--tema));outline-offset:3px}
+
+.hp-card-ico{grid-row:1;justify-self:start;
+  width:clamp(42px,3.1vw,52px);height:clamp(42px,3.1vw,52px);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:rgb(var(--tema));
+  box-shadow:inset 0 0 0 1.5px rgba(var(--tema),.5),
+    0 0 26px -10px rgba(var(--tema),.9)}
+
+/* l'illustrazione: riempie il contenitore mantenendo il proprio viewBox */
+.hp-card-art{grid-row:2;place-self:center;width:72%;height:100%;min-height:0;
+  display:flex;align-items:center;justify-content:center;pointer-events:none;
+  filter:drop-shadow(0 18px 46px rgba(var(--tema),.42))}
+.hp-card-art>svg{width:100%;height:100%;max-width:100%;max-height:100%}
+
+.hp-card-piede{grid-row:3;display:flex;align-items:flex-end;gap:14px;
+  justify-content:space-between}
+.hp-card-testo{min-width:0}
+.hp-card-titolo{display:block;font-size:clamp(19px,1.5vw,26px);font-weight:700;
+  letter-spacing:-.03em;line-height:1.1}
+.hp-card-desc{display:block;font-size:clamp(13px,.95vw,14px);line-height:1.4;
+  margin-top:8px;color:var(--hp-testo-2);max-width:30ch}
+.hp-card-freccia{flex:0 0 auto;width:clamp(40px,3vw,48px);height:clamp(40px,3vw,48px);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:rgb(var(--tema));background:rgba(var(--tema),.08);
+  box-shadow:inset 0 0 0 1px rgba(var(--tema),.5);
+  transition:transform var(--tempo) var(--curva),background var(--tempo) var(--curva)}
+.hp-card:active{transform:scale(.99)}
+
+/* ============ 9 · BANNER ============ */
+.hp-banner{position:relative;display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;gap:clamp(14px,1.4vw,26px);width:100%;text-align:left;
+  margin-top:var(--gap);padding:clamp(14px,1.2vw,22px) clamp(16px,1.4vw,26px);
+  min-height:clamp(76px,8vw,140px);border-radius:var(--raggio);
+  background:radial-gradient(circle at 50% 50%, rgba(var(--tema),.08), transparent 65%),#0A0A0C;
+  box-shadow:inset 0 0 0 1px rgba(var(--tema),.35),
+    0 16px 40px -26px rgba(var(--tema),.3), 0 5px 20px rgba(0,0,0,.45);
+  transition:transform var(--tempo) var(--curva),box-shadow var(--tempo) var(--curva)}
+.hp-banner:active{transform:scale(.995)}
+.hp-banner:focus-visible{outline:2px solid rgb(var(--tema));outline-offset:3px}
+.hp-banner-ico{width:clamp(44px,4.4vw,76px);height:clamp(44px,4.4vw,76px);
+  border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  color:rgb(var(--tema));
+  box-shadow:inset 0 0 0 1.5px rgba(var(--tema),.5),0 0 26px -10px rgba(var(--tema),.8)}
+.hp-banner-testo{min-width:0}
+.hp-banner-titolo{display:block;font-size:clamp(16px,1.3vw,22px);font-weight:700;
+  letter-spacing:-.03em;line-height:1.15}
+.hp-banner-desc{display:block;font-size:clamp(12px,.95vw,14px);line-height:1.4;
+  margin-top:5px;color:var(--hp-testo-2)}
+.hp-banner-citta{display:none}
+.hp-banner-freccia{flex:0 0 auto;width:clamp(40px,3vw,48px);height:clamp(40px,3vw,48px);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:rgb(var(--tema));background:rgba(var(--tema),.08);
+  box-shadow:inset 0 0 0 1px rgba(var(--tema),.5)}
+
+/* ============ 11 · TELEFONO: le carte riempiono lo schermo ============ */
+@media (max-width:767px){
+  .hp-card{grid-template-rows:auto 1fr auto}
+  .hp-card-ico{position:static;grid-row:1}
+  .hp-card-art{grid-row:2}
+  .hp{display:flex;flex-direction:column}
+  .hp-dentro{flex:1;min-height:0;padding-top:4px}
+  .hp-griglia{flex:1 1 auto;min-height:0;grid-template-rows:repeat(3,minmax(0,1fr))}
+  .hp-card{aspect-ratio:auto;min-height:0}
+  .hp-card-art{width:auto;height:100%;aspect-ratio:200/210}
+  .hp-card-desc{-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;
+    overflow:hidden}
+  .hp-banner{grid-template-columns:auto 1fr auto;min-height:60px;flex:0 0 auto}
+  .hp-banner-desc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+
+/* ============ 10 · TABLET E COMPUTER ============ */
 @media (min-width:768px){
-  :root{
-    --barra:220px;        /* larghezza barra laterale */
-    --bordo:24px;         /* margine interno del contenuto */
-    --spazio:18px;        /* spazio fra le carte */
-    --colonne:2;
-    --altezza-carta:400px;
-    --raggio:18px;
-    --cta:124px;
-  }
+  :root{--colonne:2}
 
-  /* --- il tetto da telefono va tolto, altrimenti strozza tutto --- */
+  /* --- il tetto da telefono va tolto --- */
   .vista{max-width:none;margin:0;padding:0}
+  .tabbar{display:none!important}
+  .hp-saluto{display:none}
 
-  /* ================= BARRA LATERALE ================= */
-  #lato{display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:20;
-    width:var(--barra);min-width:var(--barra);flex-shrink:0;
-    height:100dvh;height:var(--vh,100dvh);
-    padding:32px 26px calc(28px + env(safe-area-inset-bottom));
-    background:rgba(8,8,10,.88);
+  /* --- 4 · BARRA LATERALE --- */
+  #lato{display:flex;flex-direction:column;position:fixed;inset-block:0;left:0;z-index:20;
+    width:var(--barra-l);
+    padding:clamp(24px,2vw,36px);
+    padding-bottom:calc(clamp(24px,2vw,36px) + env(safe-area-inset-bottom));
+    background:rgba(7,7,9,.75);
     backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
     box-shadow:inset -1px 0 0 rgba(255,255,255,.1)}
-  #app{left:var(--barra);width:auto}
+  #app{left:var(--barra-l);width:auto}
 
-  .lato-capo{display:block;padding:0 0 28px}
-  .lato-capo .ciao{font-size:22px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
-  .lato-capo .ciao-sub{font-size:14px;color:rgba(255,255,255,.55);margin-top:8px;line-height:1.4}
-  .lato-capo .tondino{width:44px;height:44px;margin-top:20px}
+  .lato-capo{flex:0 0 auto;padding-bottom:clamp(24px,2.4vw,40px)}
+  .lato-titolo{font-size:clamp(22px,1.5vw,28px);font-weight:750;letter-spacing:-.03em;
+    line-height:1.1}
+  .lato-sub{font-size:clamp(13px,.9vw,14px);color:var(--hp-testo-2);margin-top:8px;
+    line-height:1.4}
 
-  .lato-voci{display:flex;flex-direction:column;gap:8px;flex:1 1 auto;min-height:0;
-    overflow-y:auto;scrollbar-width:none}
-  .lato-voci::-webkit-scrollbar{display:none}
-  .voce{display:flex;align-items:center;gap:14px;width:100%;height:52px;padding:0 18px;
-    border-radius:28px;color:rgba(255,255,255,.62);font-size:15px;font-weight:600;
-    text-align:left;position:relative;transition:all .22s var(--molla)}
-  .voce svg{flex:0 0 auto}
-  .voce .et{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .voce .sub{position:absolute;left:52px;top:36px;font-size:12px;font-weight:500;
-    color:rgba(255,255,255,.4);white-space:nowrap}
-  .voce:has(.sub){height:auto;padding:12px 18px 30px}
-  .voce:hover{color:#fff;background:rgba(255,255,255,.045)}
-  .voce[aria-current="true"]{color:var(--arancio);
-    background:linear-gradient(90deg,rgba(255,91,35,.2),rgba(255,91,35,.07));
-    box-shadow:inset 0 0 0 1px rgba(255,91,35,.25),0 0 30px rgba(255,91,35,.08)}
-  .voce.piccola{height:46px;font-size:14.5px;color:rgba(255,255,255,.58)}
-  .nuovo{font-size:9px;font-weight:800;letter-spacing:.1em;padding:3px 7px;border-radius:999px;
-    color:#FFB800;background:rgba(255,184,0,.14);flex:0 0 auto;
-    box-shadow:inset 0 0 0 1px rgba(255,184,0,.42)}
+  .lato-nav{display:flex;flex-direction:column;gap:6px;
+    flex:0 1 auto;min-height:0;overflow-y:auto;scrollbar-width:none}
+  .lato-nav::-webkit-scrollbar{display:none}
+  .nav-voce{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;
+    padding:12px 16px;border-radius:28px;text-align:left;color:var(--hp-testo-2);
+    transition:background var(--tempo) var(--curva),color var(--tempo) var(--curva)}
+  .nav-voce svg{flex:0 0 auto}
+  .nav-testo{flex:1;min-width:0}
+  .nav-nome{display:block;font-size:clamp(14px,.95vw,15px);font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav-sub{display:block;font-size:12px;color:var(--hp-testo-3);margin-top:3px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav-voce:hover{color:var(--hp-testo);background:rgba(255,255,255,.05)}
+  .nav-voce[aria-current="page"]{color:#ff6335;
+    background:linear-gradient(90deg, rgba(255,80,25,.22), rgba(255,80,25,.1));
+    box-shadow:inset 0 0 0 1px rgba(255,80,25,.35), 0 0 26px rgba(255,80,25,.09)}
+  .nav-oro{color:#ffc400}
+  .nav-oro:hover{color:#ffd050}
+  .nav-min{min-height:44px;padding:10px 16px}
+  .nav-min .nav-nome{font-size:14px;font-weight:500}
 
-  .lato-fondo{flex:0 0 auto;padding-top:16px;display:flex;flex-direction:column;gap:2px}
-  .lato-bere{display:flex;align-items:center;gap:13px;width:100%;min-height:72px;
-    margin:24px 0 12px;padding:14px 16px;border-radius:16px;text-align:left;color:#FFB800;
-    background:linear-gradient(135deg,rgba(110,75,0,.28),rgba(40,28,0,.18));
-    box-shadow:inset 0 0 0 1px rgba(255,184,0,.35);transition:transform .18s var(--molla)}
-  .lato-bere:active{transform:scale(.98)}
-  .lato-bere .ico{width:36px;height:36px;border-radius:999px;flex:0 0 auto;display:flex;
-    align-items:center;justify-content:center;background:none;
-    box-shadow:inset 0 0 0 1.4px rgba(255,184,0,.5)}
-  .lato-bere .tt{flex:1;min-width:0;line-height:1.35}
-  .lato-bere .tt b{display:block;font-size:14px;font-weight:700;color:#fff}
-  .lato-bere .tt span{display:block;font-size:11.5px;color:rgba(255,255,255,.5);font-weight:500}
+  .lato-piede{margin-top:auto;flex:0 0 auto;padding-top:clamp(16px,1.6vw,28px)}
+  .lato-cta{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;
+    margin-bottom:10px;padding:12px 14px;border-radius:16px;text-align:left;
+    color:#ffc400;
+    background:linear-gradient(135deg, rgba(110,75,0,.28), rgba(40,28,0,.18));
+    box-shadow:inset 0 0 0 1px rgba(255,190,0,.35);
+    transition:transform var(--tempo) var(--curva),box-shadow var(--tempo) var(--curva)}
+  .lato-cta:hover{box-shadow:inset 0 0 0 1px rgba(255,190,0,.55)}
+  .lato-cta-ico{width:36px;height:36px;border-radius:50%;flex:0 0 auto;display:flex;
+    align-items:center;justify-content:center;
+    box-shadow:inset 0 0 0 1.4px rgba(255,190,0,.5)}
+  .lato-cta-testo{flex:1;min-width:0}
+  .lato-cta-testo b{display:block;font-size:14px;font-weight:700;color:var(--hp-testo)}
+  .lato-cta-testo span{display:block;font-size:11.5px;color:var(--hp-testo-3);
+    margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lato-versione{font-size:10.5px;letter-spacing:.05em;color:rgba(255,255,255,.22);
+    padding:12px 16px 0}
 
-  /* la barra in fondo e il saluto della home non servono piu */
-  .tabbar{display:none!important}
-  .cima{display:none}
-  .scrivania{display:block}
+  /* --- impianto principale --- */
+  .hp{min-height:100dvh}
+  .hp-dentro{padding-top:clamp(70px, 7vh, 105px);
+    padding-inline:clamp(28px, 3.2vw, 56px);
+    padding-bottom:calc(clamp(40px,5vh,80px) + env(safe-area-inset-bottom))}
 
-  /* ================= AREA CONTENUTI ================= */
-  .fermo,.scorre,.testa,.mappa-testa,.catfiltri,.elenco-locali{
-    width:100%;max-width:none;margin:0;
-    padding-left:var(--bordo);padding-right:var(--bordo)}
-  .fermo,.scorre{display:block;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;
-    padding-top:var(--bordo);
-    padding-bottom:calc(var(--bordo) + env(safe-area-inset-bottom))}
-  .fermo.casa{padding-top:var(--bordo)}
-  .fermo::-webkit-scrollbar,.scorre::-webkit-scrollbar{width:0}
-  .mappa-guscio{max-width:none;margin:0 var(--bordo);height:44dvh}
+  /* --- 6 · INTESTAZIONE --- */
+  .hp-testa{display:flex;justify-content:space-between;align-items:flex-start;
+    gap:32px;flex-wrap:wrap;margin-bottom:var(--respiro)}
+  .hp-testa-testo{min-width:0}
+  .hp-testa h2{font-size:clamp(30px,2.2vw,40px);font-weight:750;letter-spacing:-.04em;
+    line-height:1.08}
+  .hp-testa p{font-size:clamp(13px,1vw,16px);color:var(--hp-testo-2);margin-top:9px;
+    line-height:1.45;max-width:56ch}
+  .hp-cerca{width:clamp(300px,21vw,390px);height:46px;flex:0 0 auto;align-self:flex-start}
 
-  /* ================= INTESTAZIONE ================= */
-  .scrivania{padding:0 0 28px}
-  .scrivania h2{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
-  .scrivania p{font-size:14px;margin-top:8px;color:rgba(255,255,255,.55)}
-  .scrivania .cercona{width:100%;height:48px;border-radius:14px;padding:0 18px;
-    flex:0 0 auto;align-self:flex-start;background:rgba(255,255,255,.025);
-    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
-  .scrivania .cercona input{font-size:14.5px}
-  .scrivania .tasto{font-size:11px;font-weight:600;color:rgba(255,255,255,.42);
-    padding:3px 7px;border-radius:6px;flex:0 0 auto;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+  /* --- 8 · le carte prendono la proporzione della reference --- */
+  .hp-card{aspect-ratio:1/1.195}
+  /* l'icona e un dettaglio d'angolo: sta sopra, non su una riga propria,
+     cosi l'illustrazione occupa tutta l'area superiore come nella reference */
+  .hp-card{grid-template-rows:1fr auto}
+  .hp-card-ico{position:absolute;left:clamp(16px,1.3vw,22px);top:clamp(16px,1.3vw,22px);
+    z-index:2;grid-row:auto}
+  .hp-card-art{grid-row:1;width:77%;height:100%}
 
-  /* ================= LE TRE CARTE ================= */
-  .carte{display:grid;grid-template-columns:repeat(var(--colonne),minmax(0,1fr));
-    gap:var(--spazio);width:100%;overflow:visible;flex:0 0 auto;align-items:stretch}
-  .hcard{position:relative;overflow:hidden;display:block;padding:20px;
-    height:var(--altezza-carta);min-height:var(--altezza-carta);max-height:none;
-    border-radius:var(--raggio);
-    background:
-      radial-gradient(56% 42% at 50% 40%, rgba(var(--c),.14), transparent 72%),
-      radial-gradient(120% 92% at 50% 50%, rgba(var(--c),.045), transparent 78%),
-      #0A0A0C;
-    box-shadow:inset 0 0 0 1px rgba(var(--c),.2),
-      0 24px 60px -28px rgba(var(--c),.32),0 8px 26px rgba(0,0,0,.5)}
-  .hcard::before{content:none}
-  .hcard:active{transform:scale(.99)}
-  .hcard .ico{position:absolute;left:20px;top:20px;width:48px;height:48px;
-    border-radius:999px;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;
-    box-shadow:inset 0 0 0 1.5px rgba(var(--c),.5)}
-  .hcard .art{position:absolute;left:50%;top:44%;right:auto;bottom:auto;
-    transform:translate(-50%,-50%);
-    width:78%;height:62%;max-width:none;max-height:none;aspect-ratio:auto;opacity:1;
-    display:flex;align-items:center;justify-content:center;
-    filter:drop-shadow(0 24px 56px rgba(var(--c),.42))}
-  .hcard .art>svg{width:100%;height:100%;object-fit:contain}
-  .hcard .tt{position:absolute;left:22px;right:22px;bottom:24px;max-width:none;z-index:3}
-  .hcard h3{font-size:24px;font-weight:700;letter-spacing:-.03em;white-space:normal}
-  .hcard p{font-size:14px;line-height:1.45;margin-top:9px;max-width:280px;
-    color:rgba(255,255,255,.55);-webkit-line-clamp:2}
-  .hcard .go{position:absolute;right:20px;bottom:22px;width:44px;height:44px;
-    border-radius:50%;background:rgba(var(--c),.08);
-    backdrop-filter:none;-webkit-backdrop-filter:none;
-    box-shadow:inset 0 0 0 1px rgba(var(--c),.5)}
-
-  /* ================= IL BANNER ================= */
-  .striscia{display:grid;grid-template-columns:auto auto 1fr auto;align-items:center;
-    width:100%;height:var(--cta);margin-top:var(--spazio);padding:0 26px 0 28px;gap:26px;
-    border-radius:var(--raggio);
-    background:linear-gradient(100deg,rgba(var(--c),.1),rgba(0,0,0,.28) 72%),#0A0A0C;
-    box-shadow:inset 0 0 0 1px rgba(var(--c),.3),
-      0 20px 48px -26px rgba(var(--c),.28),0 6px 22px rgba(0,0,0,.45)}
-  .striscia .ico{width:76px;height:76px;background:none;
-    box-shadow:inset 0 0 0 1.5px rgba(var(--c),.5)}
-  .striscia .tt{min-width:0;max-width:none}
-  .striscia .tt b{font-size:21px;font-weight:700;letter-spacing:-.03em;
-    display:flex;align-items:center;gap:12px}
-  .striscia .tt b .nuovo{font-style:normal;display:inline-flex}
-  .striscia .tt span{display:block;font-size:14px;line-height:1.45;margin-top:8px;
-    color:rgba(255,255,255,.55);white-space:normal}
-  .striscia .citta{display:none;width:100%;height:88px;min-width:0;opacity:.8}
-  .striscia .fr{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;
-    justify-content:center;opacity:1;background:rgba(var(--c),.08);
-    box-shadow:inset 0 0 0 1px rgba(var(--c),.5)}
-
-  /* ================= LE ALTRE SCHERMATE ================= */
-  .testa{justify-content:flex-start;gap:0;padding-top:26px;padding-bottom:6px}
-  .testa>.tondo[data-back]{width:auto;height:46px;padding:0 6px 0 14px;flex:0 0 auto;
-    border-radius:23px 0 0 23px;background:rgba(255,255,255,.05);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
-  .testa>h2{flex:0 1 auto!important;font-size:16.5px!important;font-weight:700;height:46px;
-    display:flex;align-items:center;padding:0 22px 0 6px;border-radius:0 23px 23px 0;
-    text-align:left!important;background:rgba(255,255,255,.05);
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
-  .testa>span{display:none}
-  .testa::after{content:none}
-
-  .titolone{font-size:32px!important;font-weight:700;text-align:left;letter-spacing:-.035em;
-    max-width:none;margin:16px 0 8px!important;line-height:1.1}
-  .paragrafo{text-align:left;font-size:15px!important;max-width:640px;margin:0;
-    color:rgba(255,255,255,.55)}
-
-  .cerca{max-width:none;height:52px;border-radius:14px}
-  .filtri{margin:16px 0 4px;gap:9px}
-  .filtro{padding:11px 18px;font-size:14.5px;border-radius:13px}
-  .griglia-drink{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
-    gap:14px;align-items:start}
-  .drink{margin-bottom:0;padding:13px;border-radius:var(--raggio);gap:16px}
-  .drink .fot{width:84px;height:84px;border-radius:16px}
-  .drink .n{font-size:18px}
-
-  .livelli{max-width:820px;margin:24px 0 0;gap:14px}
-  .liv{height:auto;padding:18px 22px;border-radius:20px}
-  .liv .tass{width:54px;height:54px;border-radius:16px;font-size:23px}
-  .liv .n{font-size:19px}
-  .divisore{max-width:820px;margin:22px 0}
-  .tris{max-width:none;gap:0;padding:0;margin-top:26px;border-radius:22px;
-    background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-  .tris>div{background:none!important;box-shadow:none!important;padding:26px 18px;
-    display:flex;flex-direction:column;align-items:center;border-radius:0;position:relative}
-  .tris>div+div::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;
-    background:rgba(255,255,255,.08)}
-  .tris .ist{display:flex}
-  .tris .v{font-size:32px;letter-spacing:-.04em}
-
-  .due-colonne{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:20px;align-items:start;max-width:none;margin:24px 0 0;
-    justify-content:initial!important}
-  .due-colonne .qdrink{padding:20px;border-radius:20px;gap:20px}
-  .due-colonne .qdrink .fot{width:110px;height:110px;border-radius:18px}
-  .due-colonne .qdrink .n{font-size:24px}
-  .due-colonne .dosi{padding:6px 22px!important;border-radius:20px}
-  .qdom{max-width:none;margin:24px 0 0}
-
-  .eroe{max-width:1000px;margin:20px auto 0;border-radius:var(--raggio) var(--raggio) 0 0;
-    height:clamp(240px,32dvh,320px)}
-  .eroe h1{font-size:38px}
-  .telo{max-width:1000px;margin:-24px auto 0;border-radius:var(--raggio);
-    padding:10px 28px 24px;
-    box-shadow:0 -10px 40px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.07)}
-  .telo .corpo,.telo>.cta,.telo>.link{max-width:none}
-
-  .capo-profilo{padding:20px 24px;border-radius:22px;margin:18px 0 0;
-    background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-  .capo-profilo .nome{font-size:25px}
-  .avatarone{width:72px;height:72px;border-radius:22px;font-size:25px}
-  .scelte{margin:0;padding:2px 0;flex-wrap:wrap;overflow:visible}
-  .scelta{padding:12px 18px;font-size:14.5px;border-radius:14px}
-
-  .elenco-locali{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-    gap:10px;align-items:start;max-height:none}
-  .elenco-locali .locale{margin-bottom:0}
-  .elenco-locali .vuoto{grid-column:1/-1}
-
-  .prep{max-width:760px;margin:0 auto}
-  .velo{align-items:center}
-  .foglio{border-radius:26px;max-width:560px;max-height:86dvh}
-  .foglio.scheda-luogo{max-width:600px}
-  .cta,.link{max-width:520px;margin-left:auto;margin-right:auto}
-  .prep .cta,.prep .link{max-width:520px}
+  /* --- 9 · il banner con lo skyline --- */
+  .hp-banner{grid-template-columns:auto auto 1fr auto;
+    margin-top:var(--stacco);
+    min-height:clamp(120px, 13.5vh, 140px);
+    padding-inline:clamp(24px,1.6vw,30px)}
+  .hp-banner-citta{display:block;width:100%;height:clamp(70px,7.5vh,104px);min-width:0;
+    opacity:.8;pointer-events:none}
+  .hp-banner-testo{max-width:38ch}
+  .hp-banner-ico{width:clamp(56px,4.4vw,78px);height:clamp(56px,4.4vw,78px)}
+  .hp-banner-freccia{width:clamp(44px,2.8vw,50px);height:clamp(44px,2.8vw,50px)}
 }
 
-/* ---- tablet largo: 900-1199 ---- */
-@media (min-width:900px){
-  :root{--barra:240px;--bordo:32px;--spazio:20px;--altezza-carta:400px}
-  .scrivania .cercona{width:300px}
+/* --- tablet orizzontale 900-1199: barra compatta, due colonne --- */
+@media (min-width:900px) and (max-width:1199px){
+  :root{--barra-l:clamp(220px,20vw,240px);--bordo:clamp(24px,2.4vw,28px)}
 }
 
-/* ---- computer: 1200-1439 ---- */
+/* --- tablet compatto 768-899: la barra si stringe ancora, altrimenti
+       su un tablet in verticale si mangerebbe un terzo della larghezza --- */
+@media (min-width:768px) and (max-width:899px){
+  :root{--barra-l:clamp(190px,23vw,216px);--bordo:clamp(20px,2.6vw,26px);
+    --gap:clamp(14px,2vw,18px)}
+  #lato{padding:clamp(20px,2.6vw,26px)}
+  .lato-titolo{font-size:19px}
+  .lato-sub{font-size:12.5px}
+  .lato-capo{padding-bottom:20px}
+  .nav-voce{padding:11px 13px;gap:10px;border-radius:22px}
+  .nav-nome{font-size:14px}
+  .nav-sub{font-size:11.5px}
+  .lato-cta{padding:11px 12px;gap:10px}
+  .lato-cta-ico{width:32px;height:32px}
+  .lato-cta-testo b{font-size:13px}
+  .lato-cta-testo span{font-size:11px}
+  .hp-dentro{padding-top:clamp(48px,5.5vh,72px)}
+  .hp-testa{margin-bottom:clamp(36px,5vh,60px)}
+  .hp-testa h2{font-size:26px}
+  .hp-testa p{font-size:14px}
+  .hp-cerca{width:100%;align-self:stretch}
+  .hp-banner-testo{max-width:none}
+}
+
+/* --- computer: tre colonne --- */
 @media (min-width:1200px){
-  :root{--barra:300px;--bordo:48px;--spazio:24px;--colonne:3;
-    --altezza-carta:460px;--cta:132px}
-  #lato{padding:32px 30px calc(28px + env(safe-area-inset-bottom))}
-  .lato-capo .ciao{font-size:26px}
-  .scrivania h2{font-size:32px}
-  .scrivania .cercona{width:360px}
-  .striscia .citta{display:block}
-  .eroe,.telo{max-width:1040px}
+  :root{--colonne:3}
 }
 
-/* ---- computer grande: da 1440 la scala piena del riferimento ---- */
-@media (min-width:1440px){
-  :root{--altezza-carta:520px}
-  .fermo,.scorre,.testa,.mappa-testa,.catfiltri,.elenco-locali,.mappa-guscio{max-width:1700px}
+/* --- hover solo dove il puntatore esiste davvero --- */
+@media (hover:hover) and (pointer:fine){
+  .hp-card:hover{transform:translateY(-2px);
+    box-shadow:inset 0 0 0 1px rgba(var(--tema),.36),
+      0 26px 60px -26px rgba(var(--tema),.42), 0 8px 26px rgba(0,0,0,.5)}
+  .hp-card:hover .hp-card-freccia{background:rgba(var(--tema),.16);
+    transform:translateX(2px)}
+  .hp-banner:hover{box-shadow:inset 0 0 0 1px rgba(var(--tema),.5),
+    0 22px 50px -26px rgba(var(--tema),.4), 0 6px 22px rgba(0,0,0,.5)}
 }
 
-/* ---- schermi bassi: le carte si accorciano quanto basta ---- */
-@media (min-width:1200px) and (max-height:900px){
-  :root{--altezza-carta:min(520px,52dvh)}
+/* --- tocco: bersagli sempre da 44px in su --- */
+@media (pointer:coarse){
+  .nav-voce,.nav-min,.lato-cta{min-height:48px}
 }
 
+
+/* =====================================================================
+   DIARIO — stesso linguaggio della Home
+   ===================================================================== */
+.dia-intro{padding:6px 0 18px}
+.dia-intro h3{font-size:clamp(21px,2vw,30px);font-weight:750;letter-spacing:-.035em;
+  line-height:1.1}
+.dia-intro p{font-size:clamp(13.5px,1vw,15px);color:var(--hp-testo-2);margin-top:8px;
+  line-height:1.45;max-width:52ch}
+.dia-elenco{display:grid;gap:10px}
+
+/* --- una riga del diario --- */
+.dia-riga{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  padding:14px 16px;border-radius:var(--raggio-p,16px);
+  background:var(--vetro-fondo,rgba(255,255,255,.03));
+  box-shadow:inset 0 0 0 1px var(--vetro-bordo,rgba(255,255,255,.1));
+  transition:background var(--tempo,200ms) var(--curva,ease),
+             box-shadow var(--tempo,200ms) var(--curva,ease)}
+.dia-riga:active{transform:scale(.99)}
+.dia-num{flex:0 0 auto;width:46px;height:46px;border-radius:14px;display:flex;
+  align-items:center;justify-content:center;font-size:14px;font-weight:800;
+  letter-spacing:.04em;color:rgb(var(--arancione,255,80,25));
+  background:rgba(255,80,25,.08);
+  box-shadow:inset 0 0 0 1.4px rgba(255,80,25,.4)}
+.dia-mid{flex:1;min-width:0}
+.dia-nome{display:block;font-size:16.5px;font-weight:700;letter-spacing:-.025em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dia-meta{display:block;font-size:12.5px;color:var(--hp-testo-3,rgba(255,255,255,.4));
+  margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dia-voto{flex:0 0 auto;font-size:13px;font-weight:700;
+  color:rgb(var(--arancione,255,80,25))}
+.dia-nfoglio{font-size:15px;font-weight:800;letter-spacing:.08em;
+  color:var(--hp-testo-3,rgba(255,255,255,.4));min-width:44px;text-align:right}
+
+/* --- il modulo --- */
+.dia-modulo{display:grid;gap:14px;padding-top:6px}
+.dia-blocco{padding:18px;border-radius:var(--raggio,20px);
+  background:var(--vetro-fondo,rgba(255,255,255,.03));
+  box-shadow:inset 0 0 0 1px var(--vetro-bordo,rgba(255,255,255,.1))}
+.dia-campo{display:block}
+.dia-campo+.dia-campo{margin-top:14px}
+.dia-et{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--hp-testo-3,rgba(255,255,255,.4));margin-bottom:8px}
+.dia-campo input,.dia-campo textarea{width:100%;background:rgba(255,255,255,.04);
+  border:0;outline:0;border-radius:13px;padding:13px 15px;
+  font-family:inherit;font-size:15px;font-weight:500;color:var(--ink);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);resize:vertical;line-height:1.5;
+  transition:box-shadow var(--tempo,200ms) var(--curva,ease)}
+.dia-campo input:focus,.dia-campo textarea:focus{
+  box-shadow:inset 0 0 0 1px rgba(255,80,25,.5)}
+.dia-campo input::placeholder,.dia-campo textarea::placeholder{
+  color:rgba(255,255,255,.28)}
+.dia-due{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.dia-due .dia-campo+.dia-campo{margin-top:0}
+
+/* --- forza e cuori --- */
+.dia-forza{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dia-f{padding:13px 8px;border-radius:13px;font-size:14px;font-weight:600;
+  color:var(--hp-testo-2,rgba(255,255,255,.58));background:rgba(255,255,255,.04);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);
+  transition:all var(--tempo,200ms) var(--curva,ease)}
+.dia-f[aria-pressed="true"]{color:rgb(var(--arancione,255,80,25));
+  background:linear-gradient(90deg,rgba(255,80,25,.2),rgba(255,80,25,.08));
+  box-shadow:inset 0 0 0 1px rgba(255,80,25,.4)}
+.dia-cuori{display:flex;gap:2px;flex-wrap:wrap}
+.dia-c{width:34px;height:38px;display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.22);transition:color var(--tempo,200ms) var(--curva,ease),
+    transform var(--tempo,200ms) var(--curva,ease)}
+.dia-c[aria-pressed="true"]{color:rgb(var(--arancione,255,80,25))}
+.dia-c[aria-pressed="true"] svg{fill:rgba(255,80,25,.22)}
+.dia-c:active{transform:scale(.86)}
+.dia-conta{display:block;font-size:13px;font-weight:700;margin-top:10px;
+  color:var(--hp-testo-2,rgba(255,255,255,.58))}
+
+/* --- la foto --- */
+.dia-foto{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;
+  background:rgba(255,255,255,.03);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.dia-foto-vuota{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;cursor:pointer;
+  color:var(--hp-testo-3,rgba(255,255,255,.4));font-size:13.5px;font-weight:600}
+.dia-foto img{width:100%;height:100%;object-fit:cover;display:none}
+.dia-foto.piena img{display:block}
+.dia-foto.piena .dia-foto-vuota{display:none}
+.dia-foto-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;
+  display:none;align-items:center;justify-content:center;font-size:15px;color:#fff;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(10px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.dia-foto.piena .dia-foto-x{display:flex}
+
+/* --- schermo largo --- */
+@media (min-width:768px){
+  .dia-elenco{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+  .dia-modulo{max-width:900px;grid-template-columns:1fr 1fr;align-items:start}
+  .dia-modulo>.cta,.dia-modulo>.link,.dia-modulo>div{grid-column:1/-1}
+  .dia-due{grid-template-columns:1fr 1fr}
+  .dia-blocco{padding:22px}
+  .dia-num{width:52px;height:52px;border-radius:16px;font-size:15px}
+  .dia-nome{font-size:18px}
+  .dia-c{width:38px;height:42px}
+  .dia-intro{padding:0 0 24px}
+}
+@media (min-width:1200px){
+  .dia-modulo{max-width:1100px}
+}
+@media (hover:hover) and (pointer:fine){
+  .dia-riga:hover{background:var(--vetro-fondo-su,rgba(255,255,255,.055));
+    box-shadow:inset 0 0 0 1px var(--vetro-bordo-su,rgba(255,255,255,.16))}
+  .dia-f:hover{color:var(--ink)}
+  .dia-c:hover{color:rgba(255,80,25,.6)}
+}
+@media (pointer:coarse){
+  .dia-riga{min-height:74px}
+  .dia-c{width:36px;height:44px}
+  .dia-f{min-height:48px}
+}
+
+/* --- ripiego per i browser senza dvh: li serve la misura in JavaScript --- */
+@supports not (height:100dvh){
+  body{height:var(--vh,100vh)}
+}
+/* --- niente trascinamento elastico: e un'app, non una pagina web --- */
+html,body{overscroll-behavior:none;-webkit-overflow-scrolling:auto}
+.hp,.scorre,.fermo,.telo .corpo,.elenco-locali,.foglio{overscroll-behavior:contain}
 </style>
 </head>
 <body>
@@ -1318,7 +1427,7 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
     </div>
   </div>
 </div>
-<aside id="lato" aria-hidden="true"></aside>
+<aside id="lato"></aside>
 <div id="app"></div>
 <div class="velo" id="velo"><div class="foglio" id="foglio"></div></div>
 <div class="avviso" id="avviso"></div>
@@ -1659,6 +1768,7 @@ it:{
  ricetta_pdf:"RICETTA CONDIVISA",proporzioni_pdf:"LE PROPORZIONI",
  pregio_fuori:"Tavoli fuori",pregio_wifi:"Wi-Fi",pregio_musica:"Musica dal vivo",pregio_artigianale:"Birra artigianale",pregio_accesso:"Accessibile",pregio_cucina:"Si mangia",pregio_fumo:"Area fumatori",pregio_aperitivo:"Aperitivo",pregio_prenota:"Su prenotazione",pregio_asporto:"Asporto",mappa_nessunfiltro:"Nessun locale di questo tipo qui intorno.",nuovo_b:"NUOVO",esci:"Esci",
  andiamo_lungo:"Scopri i migliori locali vicino a te e vivi l'esperienza del bere bene.",
+ diario:"Diario",diario_tit:"Il mio taccuino dei cocktail",diario_sub:"Segna quello che bevi e quello che prepari: nome, voto e impressioni.",diario_vuoto:"Nessuna voce. Tocca il più in alto per la prima.",senza_nome:"Senza nome",apri:"Apri",vedi_tutte:"Vedi tutte e {n}",nome_cocktail:"Nome del cocktail",ph_nome:"Come si chiama",tipo_cocktail_c:"Tipo",ph_tipo:"Sour, tiki, aperitivo…",origine:"Origine o ispirazione",ph_origine:"Dove nasce",si_beve:"Si beve bene quando",ph_quando:"Aperitivo, dopocena, estate…",forza:"Forza",forza_leggero:"Leggero",forza_medio:"Medio",forza_forte:"Forte",gradimento:"Gradimento",procedimento:"Procedimento",ph_ing:"Un ingrediente per riga",ph_proc:"Come si prepara",note_degust:"Note di degustazione",ph_note:"Che sapore aveva, cosa cambieresti",foto:"Foto o schizzo",aggiungi_foto:"Aggiungi una foto",carico_foto:"Sto riducendo la foto…",foto_errore:"Non sono riuscito a leggerla",elimina_voce:"Elimina questa voce",sicuro_elimina:"La voce e la sua foto verranno cancellate dal dispositivo. Non si torna indietro.",serve_nome:"Serve almeno il nome o una nota.",indietro:"Indietro",elimina:"Elimina",
  inizia:"Inizia da qui",inizia_d:"Tutto quello che ti serve per diventare il barman che vuoi essere.",cerca_qualcosa:"Cerca qualcosa…",
  a_piedi:"{n} min a piedi",oggi:"Oggi",apre:"apre alle {h}",sempre_aperto:"Sempre aperto",chiama:"Chiama",cerca_web:"Cerca sul web",cucina:"Cucina",gestore:"Gestore",posti:"Posti",citta:"Citt\u00e0",cerco_info:"Cerco informazioni\u2026",leggi_di_piu:"Leggi di pi\u00f9",
  no_trovata:"Ricetta non trovata.",tua_ricetta:"La tua ricetta",agg_ingr:"aggiungi gli ingredienti",st_mia:"Una ricetta tua, nata al tuo bancone.",pl_cocktail:["cocktail","cocktail"],pl_classici:["classico","classici"],pl_provati:["cocktail diverso provato","cocktail diversi provati"],pl_passi:["passo","passi"],pl_possib:["possibilità","possibilità"],pl_secondi:["secondo","secondi"],pl_locali:["locale","locali"],pl_ricette:["ricetta classica, dose per dose.","ricette classiche, dose per dose."],pl_archivio:["ricetta nell\u0027archivio","ricette nell\u0027archivio"]
@@ -1760,6 +1870,7 @@ en:{
  ricetta_pdf:"SHARED RECIPE",proporzioni_pdf:"THE PROPORTIONS",
  pregio_fuori:"Outdoor seating",pregio_wifi:"Wi-Fi",pregio_musica:"Live music",pregio_artigianale:"Craft beer",pregio_accesso:"Accessible",pregio_cucina:"Food served",pregio_fumo:"Smoking area",pregio_aperitivo:"Happy hour",pregio_prenota:"Booking needed",pregio_asporto:"Takeaway",mappa_nessunfiltro:"No places of this kind around here.",nuovo_b:"NEW",esci:"Sign out",
  andiamo_lungo:"Find the best places near you and enjoy drinking well.",
+ diario:"Journal",diario_tit:"My cocktail notebook",diario_sub:"Note what you drink and what you make: name, rating and impressions.",diario_vuoto:"No entries yet. Tap the plus above for the first one.",senza_nome:"Untitled",apri:"Open",vedi_tutte:"See all {n}",nome_cocktail:"Cocktail name",ph_nome:"What it is called",tipo_cocktail_c:"Type",ph_tipo:"Sour, tiki, aperitif…",origine:"Origin or inspiration",ph_origine:"Where it comes from",si_beve:"Best enjoyed when",ph_quando:"Aperitif, after dinner, summer…",forza:"Strength",forza_leggero:"Light",forza_medio:"Medium",forza_forte:"Strong",gradimento:"Rating",procedimento:"Method",ph_ing:"One ingredient per line",ph_proc:"How to make it",note_degust:"Tasting notes",ph_note:"How it tasted, what you would change",foto:"Photo or sketch",aggiungi_foto:"Add a photo",carico_foto:"Resizing the photo…",foto_errore:"Could not read it",elimina_voce:"Delete this entry",sicuro_elimina:"The entry and its photo will be removed from this device. This cannot be undone.",serve_nome:"A name or a note is needed.",indietro:"Back",elimina:"Delete",
  inizia:"Start here",inizia_d:"Everything you need to become the bartender you want to be.",cerca_qualcosa:"Search for anything…",
  a_piedi:"{n} min walk",oggi:"Today",apre:"opens at {h}",sempre_aperto:"Always open",chiama:"Call",cerca_web:"Search the web",cucina:"Food",gestore:"Run by",posti:"Seats",citta:"City",cerco_info:"Looking for details\u2026",leggi_di_piu:"Read more",
  no_trovata:"Recipe not found.",tua_ricetta:"Your recipe",agg_ingr:"add the ingredients",st_mia:"One of yours, born at your own bar.",pl_cocktail:["cocktail","cocktails"],pl_classici:["classic","classics"],pl_provati:["different cocktail tried","different cocktails tried"],pl_passi:["step","steps"],pl_possib:["option","options"],pl_secondi:["second","seconds"],pl_locali:["place","places"],pl_ricette:["classic recipe, measure by measure.","classic recipes, measure by measure."],pl_archivio:["recipe in the archive","recipes in the archive"]
@@ -1861,6 +1972,7 @@ fr:{
  ricetta_pdf:"RECETTE PARTAGÉE",proporzioni_pdf:"LES PROPORTIONS",
  pregio_fuori:"Terrasse",pregio_wifi:"Wi-Fi",pregio_musica:"Musique live",pregio_artigianale:"Bière artisanale",pregio_accesso:"Accessible",pregio_cucina:"On y mange",pregio_fumo:"Espace fumeurs",pregio_aperitivo:"Apéro",pregio_prenota:"Sur réservation",pregio_asporto:"À emporter",mappa_nessunfiltro:"Aucune adresse de ce type dans le coin.",nuovo_b:"NOUVEAU",esci:"Quitter",
  andiamo_lungo:"Découvre les meilleures adresses près de toi et savoure le bien boire.",
+ diario:"Journal",diario_tit:"Mon carnet de cocktails",diario_sub:"Note ce que tu bois et ce que tu prépares : nom, note et impressions.",diario_vuoto:"Aucune entrée. Touche le plus en haut pour la première.",senza_nome:"Sans nom",apri:"Ouvrir",vedi_tutte:"Voir les {n}",nome_cocktail:"Nom du cocktail",ph_nome:"Comment il s'appelle",tipo_cocktail_c:"Type",ph_tipo:"Sour, tiki, apéritif…",origine:"Origine ou inspiration",ph_origine:"D'où il vient",si_beve:"Se boit bien quand",ph_quando:"Apéro, après le dîner, été…",forza:"Force",forza_leggero:"Léger",forza_medio:"Moyen",forza_forte:"Fort",gradimento:"Appréciation",procedimento:"Préparation",ph_ing:"Un ingrédient par ligne",ph_proc:"Comment le préparer",note_degust:"Notes de dégustation",ph_note:"Quel goût, ce que tu changerais",foto:"Photo ou croquis",aggiungi_foto:"Ajouter une photo",carico_foto:"Réduction de la photo…",foto_errore:"Impossible de la lire",elimina_voce:"Supprimer cette entrée",sicuro_elimina:"L'entrée et sa photo seront effacées de cet appareil. Sans retour possible.",serve_nome:"Il faut au moins un nom ou une note.",indietro:"Retour",elimina:"Supprimer",
  inizia:"Commence ici",inizia_d:"Tout ce qu'il te faut pour devenir le barman que tu veux être.",cerca_qualcosa:"Cherche quelque chose…",
  a_piedi:"{n} min \u00e0 pied",oggi:"Aujourd\u0027hui",apre:"ouvre \u00e0 {h}",sempre_aperto:"Toujours ouvert",chiama:"Appeler",cerca_web:"Chercher sur le web",cucina:"Cuisine",gestore:"Tenu par",posti:"Places",citta:"Ville",cerco_info:"Je cherche des infos\u2026",leggi_di_piu:"Lire la suite",
  no_trovata:"Recette introuvable.",tua_ricetta:"Ta recette",agg_ingr:"ajoute les ingrédients",st_mia:"Une des tiennes, née à ton comptoir.",pl_cocktail:["cocktail","cocktails"],pl_classici:["classique","classiques"],pl_provati:["cocktail différent essayé","cocktails différents essayés"],pl_passi:["étape","étapes"],pl_possib:["possibilité","possibilités"],pl_secondi:["seconde","secondes"],pl_locali:["adresse","adresses"],pl_ricette:["recette classique, dose par dose.","recettes classiques, dose par dose."],pl_archivio:["recette dans l\u0027archive","recettes dans l\u0027archive"]
@@ -1962,6 +2074,7 @@ es:{
  ricetta_pdf:"RECETA COMPARTIDA",proporzioni_pdf:"LAS PROPORCIONES",
  pregio_fuori:"Terraza",pregio_wifi:"Wi-Fi",pregio_musica:"Música en vivo",pregio_artigianale:"Cerveza artesana",pregio_accesso:"Accesible",pregio_cucina:"Se come",pregio_fumo:"Zona de fumadores",pregio_aperitivo:"Aperitivo",pregio_prenota:"Con reserva",pregio_asporto:"Para llevar",mappa_nessunfiltro:"Ningún local de este tipo por aquí.",nuovo_b:"NUEVO",esci:"Salir",
  andiamo_lungo:"Descubre los mejores locales cerca de ti y disfruta del buen beber.",
+ diario:"Diario",diario_tit:"Mi cuaderno de cócteles",diario_sub:"Anota lo que bebes y lo que preparas: nombre, nota e impresiones.",diario_vuoto:"Ninguna entrada. Toca el más de arriba para la primera.",senza_nome:"Sin nombre",apri:"Abrir",vedi_tutte:"Ver las {n}",nome_cocktail:"Nombre del cóctel",ph_nome:"Cómo se llama",tipo_cocktail_c:"Tipo",ph_tipo:"Sour, tiki, aperitivo…",origine:"Origen o inspiración",ph_origine:"De dónde viene",si_beve:"Se bebe bien cuando",ph_quando:"Aperitivo, sobremesa, verano…",forza:"Fuerza",forza_leggero:"Suave",forza_medio:"Medio",forza_forte:"Fuerte",gradimento:"Valoración",procedimento:"Preparación",ph_ing:"Un ingrediente por línea",ph_proc:"Cómo se prepara",note_degust:"Notas de cata",ph_note:"A qué sabía, qué cambiarías",foto:"Foto o boceto",aggiungi_foto:"Añadir una foto",carico_foto:"Reduciendo la foto…",foto_errore:"No he podido leerla",elimina_voce:"Eliminar esta entrada",sicuro_elimina:"La entrada y su foto se borrarán del dispositivo. No hay vuelta atrás.",serve_nome:"Hace falta al menos un nombre o una nota.",indietro:"Atrás",elimina:"Eliminar",
  inizia:"Empieza aquí",inizia_d:"Todo lo que necesitas para ser el bartender que quieres ser.",cerca_qualcosa:"Busca algo…",
  a_piedi:"{n} min a pie",oggi:"Hoy",apre:"abre a las {h}",sempre_aperto:"Siempre abierto",chiama:"Llamar",cerca_web:"Buscar en la web",cucina:"Cocina",gestore:"Regentado por",posti:"Plazas",citta:"Ciudad",cerco_info:"Buscando informaci\u00f3n\u2026",leggi_di_piu:"Leer m\u00e1s",
  no_trovata:"Receta no encontrada.",tua_ricetta:"Tu receta",agg_ingr:"añade los ingredientes",st_mia:"Una tuya, nacida en tu barra.",pl_cocktail:["cóctel","cócteles"],pl_classici:["clásico","clásicos"],pl_provati:["cóctel distinto probado","cócteles distintos probados"],pl_passi:["paso","pasos"],pl_possib:["opción","opciones"],pl_secondi:["segundo","segundos"],pl_locali:["local","locales"],pl_ricette:["receta clásica, medida a medida.","recetas clásicas, medida a medida."],pl_archivio:["receta en el archivo","recetas en el archivo"]
@@ -2063,6 +2176,7 @@ de:{
  ricetta_pdf:"GETEILTES REZEPT",proporzioni_pdf:"DIE PROPORTIONEN",
  pregio_fuori:"Draußen sitzen",pregio_wifi:"WLAN",pregio_musica:"Livemusik",pregio_artigianale:"Craft-Bier",pregio_accesso:"Barrierefrei",pregio_cucina:"Es gibt Essen",pregio_fumo:"Raucherbereich",pregio_aperitivo:"Aperitif",pregio_prenota:"Mit Reservierung",pregio_asporto:"Zum Mitnehmen",mappa_nessunfiltro:"Kein Lokal dieser Art in der Nähe.",nuovo_b:"NEU",esci:"Beenden",
  andiamo_lungo:"Entdecke die besten Lokale in deiner Nähe und genieße gutes Trinken.",
+ diario:"Journal",diario_tit:"Mein Cocktail-Notizbuch",diario_sub:"Halte fest, was du trinkst und mixt: Name, Bewertung, Eindrücke.",diario_vuoto:"Noch keine Einträge. Tippe oben auf das Plus.",senza_nome:"Ohne Namen",apri:"Öffnen",vedi_tutte:"Alle {n} ansehen",nome_cocktail:"Name des Cocktails",ph_nome:"Wie er heißt",tipo_cocktail_c:"Art",ph_tipo:"Sour, Tiki, Aperitif…",origine:"Herkunft oder Inspiration",ph_origine:"Woher er kommt",si_beve:"Passt gut wenn",ph_quando:"Aperitif, nach dem Essen, Sommer…",forza:"Stärke",forza_leggero:"Leicht",forza_medio:"Mittel",forza_forte:"Stark",gradimento:"Bewertung",procedimento:"Zubereitung",ph_ing:"Eine Zutat pro Zeile",ph_proc:"Wie man ihn macht",note_degust:"Verkostungsnotizen",ph_note:"Wie er schmeckte, was du ändern würdest",foto:"Foto oder Skizze",aggiungi_foto:"Foto hinzufügen",carico_foto:"Foto wird verkleinert…",foto_errore:"Konnte nicht gelesen werden",elimina_voce:"Diesen Eintrag löschen",sicuro_elimina:"Eintrag und Foto werden vom Gerät gelöscht. Das lässt sich nicht rückgängig machen.",serve_nome:"Es braucht mindestens einen Namen oder eine Notiz.",indietro:"Zurück",elimina:"Löschen",
  inizia:"Hier starten",inizia_d:"Alles, was du brauchst, um der Barkeeper zu werden, der du sein willst.",cerca_qualcosa:"Etwas suchen…",
  a_piedi:"{n} Min zu Fu\u00df",oggi:"Heute",apre:"\u00f6ffnet um {h}",sempre_aperto:"Immer offen",chiama:"Anrufen",cerca_web:"Im Web suchen",cucina:"K\u00fcche",gestore:"Betrieben von",posti:"Pl\u00e4tze",citta:"Stadt",cerco_info:"Suche Informationen\u2026",leggi_di_piu:"Mehr lesen",
  no_trovata:"Rezept nicht gefunden.",tua_ricetta:"Dein Rezept",agg_ingr:"füge die Zutaten hinzu",st_mia:"Eines von dir, an deiner Bar entstanden.",pl_cocktail:["Cocktail","Cocktails"],pl_classici:["Klassiker","Klassiker"],pl_provati:["verschiedener Cocktail probiert","verschiedene Cocktails probiert"],pl_passi:["Schritt","Schritte"],pl_possib:["Möglichkeit","Möglichkeiten"],pl_secondi:["Sekunde","Sekunden"],pl_locali:["Lokal","Lokale"],pl_ricette:["klassisches Rezept, Maß für Maß.","klassische Rezepte, Maß für Maß."],pl_archivio:["Rezept im Archiv","Rezepte im Archiv"]
@@ -2164,6 +2278,7 @@ ru:{
  ricetta_pdf:"РЕЦЕПТ",proporzioni_pdf:"ПРОПОРЦИИ",
  pregio_fuori:"Столики на улице",pregio_wifi:"Wi-Fi",pregio_musica:"Живая музыка",pregio_artigianale:"Крафтовое пиво",pregio_accesso:"Доступно",pregio_cucina:"Есть кухня",pregio_fumo:"Зона для курения",pregio_aperitivo:"Аперитив",pregio_prenota:"По брони",pregio_asporto:"На вынос",mappa_nessunfiltro:"Поблизости нет заведений такого типа.",nuovo_b:"НОВОЕ",esci:"Выйти",
  andiamo_lungo:"Найди лучшие заведения рядом и получи удовольствие от хорошего бара.",
+ diario:"Дневник",diario_tit:"Моя книжка коктейлей",diario_sub:"Записывай, что пьёшь и что готовишь: название, оценку и впечатления.",diario_vuoto:"Записей пока нет. Нажми плюс вверху.",senza_nome:"Без названия",apri:"Открыть",vedi_tutte:"Показать все {n}",nome_cocktail:"Название коктейля",ph_nome:"Как называется",tipo_cocktail_c:"Тип",ph_tipo:"Сауэр, тики, аперитив…",origine:"Происхождение или идея",ph_origine:"Откуда он",si_beve:"Хорош когда",ph_quando:"Аперитив, после ужина, лето…",forza:"Крепость",forza_leggero:"Лёгкий",forza_medio:"Средний",forza_forte:"Крепкий",gradimento:"Оценка",procedimento:"Приготовление",ph_ing:"По одному ингредиенту в строке",ph_proc:"Как готовить",note_degust:"Заметки о вкусе",ph_note:"Каким был на вкус, что бы изменил",foto:"Фото или набросок",aggiungi_foto:"Добавить фото",carico_foto:"Уменьшаю фото…",foto_errore:"Не удалось прочитать",elimina_voce:"Удалить запись",sicuro_elimina:"Запись и фото будут удалены с устройства. Отменить нельзя.",serve_nome:"Нужно хотя бы название или заметка.",indietro:"Назад",elimina:"Удалить",
  inizia:"Начни отсюда",inizia_d:"Всё, что нужно, чтобы стать барменом, каким хочешь быть.",cerca_qualcosa:"Найти что-нибудь…",
  a_piedi:"{n} мин пешком",oggi:"Сегодня",apre:"откроется в {h}",sempre_aperto:"Всегда открыто",chiama:"Позвонить",cerca_web:"Искать в сети",cucina:"Кухня",gestore:"Управляет",posti:"Мест",citta:"Город",cerco_info:"Ищу информацию\u2026",leggi_di_piu:"Читать дальше",
  no_trovata:"Рецепт не найден.",tua_ricetta:"Твой рецепт",agg_ingr:"добавь ингредиенты",st_mia:"Твой собственный, рождённый за твоей стойкой.",pl_cocktail:["коктейль","коктейля","коктейлей"],pl_classici:["классический","классических","классических"],pl_provati:["разный коктейль попробован","разных коктейля попробовано","разных коктейлей попробовано"],pl_passi:["шаг","шага","шагов"],pl_possib:["вариант","варианта","вариантов"],pl_secondi:["секунда","секунды","секунд"],pl_locali:["заведение","заведения","заведений"],pl_ricette:["классический рецепт, доза за дозой.","классических рецепта, доза за дозой.","классических рецептов, доза за дозой."],pl_archivio:["рецепт в архиве","рецепта в архиве","рецептов в архиве"]
@@ -2265,6 +2380,7 @@ lt:{
  ricetta_pdf:"RECEPTAS",proporzioni_pdf:"PROPORCIJOS",
  pregio_fuori:"Staliukai lauke",pregio_wifi:"Wi-Fi",pregio_musica:"Gyva muzika",pregio_artigianale:"Kraftinis alus",pregio_accesso:"Pritaikyta",pregio_cucina:"Yra maisto",pregio_fumo:"Rūkymo zona",pregio_aperitivo:"Aperityvas",pregio_prenota:"Su rezervacija",pregio_asporto:"Išsinešti",mappa_nessunfiltro:"Aplinkui tokio tipo vietų nėra.",nuovo_b:"NAUJA",esci:"Išeiti",
  andiamo_lungo:"Atrask geriausias vietas netoliese ir mėgaukis geru gėrimu.",
+ diario:"Dienoraštis",diario_tit:"Mano kokteilių užrašinė",diario_sub:"Užsirašyk, ką geri ir ką gamini: pavadinimą, įvertinimą, įspūdžius.",diario_vuoto:"Įrašų dar nėra. Palieskite pliusą viršuje.",senza_nome:"Be pavadinimo",apri:"Atidaryti",vedi_tutte:"Žiūrėti visus {n}",nome_cocktail:"Kokteilio pavadinimas",ph_nome:"Kaip vadinasi",tipo_cocktail_c:"Tipas",ph_tipo:"Sour, tiki, aperityvas…",origine:"Kilmė ar įkvėpimas",ph_origine:"Iš kur jis",si_beve:"Tinka kai",ph_quando:"Aperityvas, po vakarienės, vasara…",forza:"Stiprumas",forza_leggero:"Lengvas",forza_medio:"Vidutinis",forza_forte:"Stiprus",gradimento:"Įvertinimas",procedimento:"Gaminimas",ph_ing:"Po vieną ingredientą eilutėje",ph_proc:"Kaip pagaminti",note_degust:"Degustacijos pastabos",ph_note:"Koks skonis, ką keistum",foto:"Nuotrauka ar eskizas",aggiungi_foto:"Pridėti nuotrauką",carico_foto:"Mažinu nuotrauką…",foto_errore:"Nepavyko perskaityti",elimina_voce:"Ištrinti šį įrašą",sicuro_elimina:"Įrašas ir nuotrauka bus ištrinti iš įrenginio. Atšaukti nebus galima.",serve_nome:"Reikia bent pavadinimo ar pastabos.",indietro:"Atgal",elimina:"Ištrinti",
  inizia:"Pradėk čia",inizia_d:"Viskas, ko reikia, kad taptum tokiu barmenu, kokiu nori.",cerca_qualcosa:"Ieškoti ko nors…",
  a_piedi:"{n} min pėsčiomis",oggi:"Šiandien",apre:"atsidaro {h}",sempre_aperto:"Visada atidaryta",chiama:"Skambinti",cerca_web:"Ieškoti internete",cucina:"Virtuvė",gestore:"Valdo",posti:"Vietos",citta:"Miestas",cerco_info:"Ieškau informacijos\u2026",leggi_di_piu:"Skaityti daugiau",
  no_trovata:"Receptas nerastas.",tua_ricetta:"Tavo receptas",agg_ingr:"pridėk ingredientų",st_mia:"Tavo paties, gimęs prie tavo baro.",pl_cocktail:["kokteilis","kokteiliai","kokteilių"],pl_classici:["klasikinis","klasikiniai","klasikinių"],pl_provati:["skirtingas kokteilis išbandytas","skirtingi kokteiliai išbandyti","skirtingų kokteilių išbandyta"],pl_passi:["žingsnis","žingsniai","žingsnių"],pl_possib:["variantas","variantai","variantų"],pl_secondi:["sekundė","sekundės","sekundžių"],pl_locali:["vieta","vietos","vietų"],pl_ricette:["klasikinis receptas, dozė po dozės.","klasikiniai receptai, dozė po dozės.","klasikinių receptų, dozė po dozės."],pl_archivio:["receptas archyve","receptai archyve","receptų archyve"]
@@ -2530,11 +2646,13 @@ if(!window.storage){
 /* ===================== memoria ===================== */
 let ST={porz:1,fatti:{},punti:0,record:0,cuori:[],lingua:null,tema:'nero'}, MIE=[], NOTE=[];
 /* le chiavi restano quelle vecchie: cambiarle azzererebbe i dati gia salvati */
-const KY=["bancone5:st","bancone5:mie","bancone5:note"];
+const KY=["bancone5:st","bancone5:mie","bancone5:note","bancone5:diario"];
 async function caricaDati(){
   try{const r=await window.storage.get(KY[0]); if(r) ST={...ST,...JSON.parse(r.value)};}catch(e){}
   try{const r=await window.storage.get(KY[1]); if(r) MIE=JSON.parse(r.value);}catch(e){}
   try{const r=await window.storage.get(KY[2]); if(r) NOTE=JSON.parse(r.value);}catch(e){}
+  try{const r=await window.storage.get(KY[3]); if(r) DIARIO=JSON.parse(r.value);}catch(e){}
+  migraAppunti();   /* i vecchi appunti diventano voci del diario */
 }
 const sST=()=>window.storage.set(KY[0],JSON.stringify(ST)).catch(()=>{});
 const sMIE=()=>window.storage.set(KY[1],JSON.stringify(MIE)).catch(()=>{});
@@ -2597,80 +2715,6 @@ const istat=(k,c)=>`<span class="ist" style="--c:${c}"><svg width="21" height="2
   fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
   stroke-linejoin="round">${ISTAT[k]}</svg></span>`;
 
-/* il pannello delle novita, richiamabile da piu punti */
-function fogliNovita(){
-  foglio(`<h3 style="font-size:21px;margin-bottom:12px">${t("novita")}</h3>
-    <div class="riquadro"><p>${t("hai_ricette",{n:pl(CK.length,"pl_archivio").replace(CK.length+" ",""),
-        m:MIE.length?t("e_tue",{n:MIE.length}):""}).replace("{n} ",CK.length+" ")}
-      ${ST.record?t("record_quiz",{n:ST.record}):t("no_sfida")}</p></div>
-    <div style="height:14px"></div><button class="cta bianca" data-chiudi>${t("chiudi")}</button>`);
-}
-
-/* =====================================================================
-   BARRA LATERALE — compare solo su tablet e computer
-   Sta fuori da #app perche dis() ne riscrive il contenuto a ogni schermata.
-   ===================================================================== */
-const VOCI=[
-  ["casa","home",'<path d="M3 10.6 12 3l9 7.6"/><path d="M5.6 9.6V20h12.8V9.6"/>'],
-  ["lista","ricette",'<path d="M4 4h16l-8 9z"/><path d="M12 13v7"/><path d="M8 20h8"/>'],
-  ["quiz0","esercitati",'<path d="M6 3h12"/><path d="M6 21h12"/><path d="M7 3c0 5 10 5 10 0"/><path d="M7 21c0-5 10-5 10 0"/><path d="M12 8v8"/>'],
-  ["profilo","profilo",'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>'],
-  ["bere","andiamo",'<path d="M9 3 3 5.4v15L9 18l6 3 6-2.4v-15L15 6z"/><path d="M9 3v15"/><path d="M15 6v15"/>']
-];
-function disLato(){
-  const lato=$("lato"); if(!lato) return;
-  const qui=P.length?P[P.length-1].n:"casa";
-  const attiva=n=> n===qui || (n==="lista"&&qui==="drink") || (n==="quiz0"&&["regole","quiz","quizfine"].includes(qui))
-    || (n==="profilo"&&["preferiti","nuova"].includes(qui));
-  lato.innerHTML=`
-    <div class="lato-capo">
-      <div class="ciao">${t("ciao")} 👋</div>
-      <div class="ciao-sub">${t("scegli")}</div>
-      <button class="tondino" data-campana>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5F2EC"
-          stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-          <path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bollo"></span></button>
-    </div>
-    <nav class="lato-voci">
-      ${VOCI.map(([n,k,ic])=>`<button class="voce" data-lato="${n}" aria-current="${attiva(n)}">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>
-        <span class="et">${t(k==="andiamo"?"andiamo":k==="profilo"?"profilo":k)}</span>
-        ${n==="bere"?`<span class="nuovo">${t("nuovo_b")}</span>
-          <span class="sub">${t("andiamo_d")}</span>`:""}</button>`).join("")}
-    </nav>
-    <div class="lato-fondo">
-      <button class="lato-bere" data-lato="bere">
-        <span class="ico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 3 3 5.4v15L9 18l6 3 6-2.4v-15L15 6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></span>
-        <span class="tt"><b>${t("andiamo")}</b><span>${t("andiamo_d")}</span></span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
-      <button class="voce piccola" data-lato="profilo">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/>
-          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.6a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg>
-        <span class="et">${t("impostazioni")}</span></button>
-      ${nativo?`<button class="voce piccola" data-esci>
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/><path d="M16 16l4-4-4-4"/>
-          <path d="M20 12H10"/></svg><span class="et">${t("esci")}</span></button>`:""}
-    </div>`;
-  const ex=lato.querySelector("[data-esci]");
-  if(ex) ex.onclick=()=>{ try{Cap.Plugins.App.exitApp();}catch(e){} };
-  lato.querySelectorAll("[data-lato]").forEach(b=>b.onclick=()=>{
-    const n=b.dataset.lato;
-    if(n===qui) return;
-    tocco("lieve");
-    if(n==="casa"||n==="profilo") navigando(()=>{P=[{n}];dis();});
-    else conOnda(()=>{P=[{n:"casa"}];P.push({n});dis();});
-  });
-  const camp=lato.querySelector("[data-campana]");
-  if(camp) camp.onclick=()=>fogliNovita();
-}
 
 /* ===================== navigazione ===================== */
 let P=[]; const S={},D={};
@@ -3284,6 +3328,281 @@ D.bere=async()=>{
 };
 
 
+/* =====================================================================
+   DIARIO DI DEGUSTAZIONE
+   Prende il posto degli appunti e li assorbe.
+   Le foto stanno in IndexedDB: e nel telefono, non serve nessun servizio
+   esterno, e regge molto piu dei 5 MB scarsi di localStorage.
+   ===================================================================== */
+
+/* ---------- archivio delle immagini ---------- */
+const FOTOTECA=(()=>{
+  let db=null;
+  const apri=()=>new Promise((ok,ko)=>{
+    if(db) return ok(db);
+    if(!window.indexedDB) return ko(new Error("niente indexedDB"));
+    const r=indexedDB.open("stir-foto",1);
+    r.onupgradeneeded=()=>{ if(!r.result.objectStoreNames.contains("f"))
+      r.result.createObjectStore("f"); };
+    r.onsuccess=()=>{db=r.result;ok(db);};
+    r.onerror=()=>ko(r.error);
+  });
+  const op=(modo,fn)=>apri().then(d=>new Promise((ok,ko)=>{
+    const tr=d.transaction("f",modo), st=tr.objectStore("f");
+    const q=fn(st);
+    q.onsuccess=()=>ok(q.result); q.onerror=()=>ko(q.error);
+  }));
+  return {
+    metti:(k,blob)=>op("readwrite",st=>st.put(blob,k)),
+    prendi:k=>op("readonly",st=>st.get(k)),
+    togli:k=>op("readwrite",st=>st.delete(k))
+  };
+})();
+
+/* riduce l'immagine prima di salvarla: 1100px al lato lungo, JPEG.
+   Una foto da 4 MB scende a circa 200 KB senza perdere qualita utile. */
+function riduciFoto(file){
+  return new Promise((ok,ko)=>{
+    const lettore=new FileReader();
+    lettore.onerror=()=>ko(new Error("lettura"));
+    lettore.onload=()=>{
+      const img=new Image();
+      img.onerror=()=>ko(new Error("immagine"));
+      img.onload=()=>{
+        const M=1100;
+        let {width:w,height:h}=img;
+        if(Math.max(w,h)>M){ const s=M/Math.max(w,h); w=Math.round(w*s); h=Math.round(h*s); }
+        const cv=document.createElement("canvas"); cv.width=w; cv.height=h;
+        cv.getContext("2d").drawImage(img,0,0,w,h);
+        cv.toBlob(b=>b?ok(b):ko(new Error("conversione")),"image/jpeg",.78);
+      };
+      img.src=lettore.result;
+    };
+    lettore.readAsDataURL(file);
+  });
+}
+
+/* ---------- i dati ---------- */
+let DIARIO=[];
+const sDIARIO=()=>window.storage.set("bancone5:diario",JSON.stringify(DIARIO)).catch(()=>{});
+const vuotaVoce=()=>({
+  id:"d"+Date.now()+Math.random().toString(36).slice(2,6),
+  n:(DIARIO.reduce((m,v)=>Math.max(m,v.n||0),0))+1,
+  nm:"", tipo:"", orig:"", quando:"", forza:1, cuori:0,
+  ing:"", proc:"", note:"", foto:null,
+  d:new Date().toISOString().slice(0,10)
+});
+/* gli appunti di prima diventano voci del diario, senza perdere niente */
+function migraAppunti(){
+  if(!NOTE.length) return false;
+  NOTE.forEach(n=>{
+    DIARIO.push({...vuotaVoce(), n:DIARIO.length+1, nm:n.su||t("appunto"),
+      note:n.tx||"", d:n.d||""});
+  });
+  NOTE=[]; sNOTE(); sDIARIO();
+  return true;
+}
+
+const dataLeggibile=iso=>{
+  if(!iso) return "";
+  try{ return new Date(iso).toLocaleDateString(LG,{day:"2-digit",month:"short",year:"numeric"}); }
+  catch(e){ return iso; }
+};
+const FORZE=["forza_leggero","forza_medio","forza_forte"];
+
+/* =====================================================================
+   ELENCO DEL DIARIO
+   ===================================================================== */
+S.diario=()=>{
+  const l=[...DIARIO].sort((a,b)=>(b.n||0)-(a.n||0));
+  return `<div class="testa">
+      <button class="tondo" data-back aria-label="${t("indietro")}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 style="flex:1;font-size:20px">${t("diario")}</h2>
+      <button class="tondo" data-nuova aria-label="${t("nuovo")}">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      </button></div>
+    <div class="scorre">
+      <div class="dia-intro">
+        <h3>${t("diario_tit")}</h3>
+        <p>${t("diario_sub")}</p></div>
+      <div class="dia-elenco">
+      ${l.length? l.map(v=>`
+        <button class="dia-riga" data-voce="${v.id}">
+          <span class="dia-num">${String(v.n||0).padStart(3,"0")}</span>
+          <span class="dia-mid">
+            <span class="dia-nome">${esc(v.nm)||t("senza_nome")}</span>
+            <span class="dia-meta">${[esc(v.tipo),dataLeggibile(v.d)].filter(Boolean).join(" · ")}</span>
+          </span>
+          <span class="dia-voto">${v.cuori? "♥ "+v.cuori+"/10" : ""}</span>
+        </button>`).join("")
+      : `<div class="vuoto" style="padding:40px 16px">${t("diario_vuoto")}</div>`}
+      </div>
+      <div style="height:16px"></div></div>`;
+};
+D.diario=()=>{
+  app.querySelector("[data-nuova]").onclick=()=>{ BOZZA=vuotaVoce(); vai("voce",{id:null}); };
+  app.querySelectorAll("[data-voce]").forEach(b=>b.onclick=()=>vai("voce",{id:b.dataset.voce}));
+};
+
+/* =====================================================================
+   LA SINGOLA VOCE
+   ===================================================================== */
+let BOZZA=null, FOTO_URL=null;
+
+S.voce=({id})=>{
+  const v = id ? (DIARIO.find(x=>x.id===id)||vuotaVoce()) : (BOZZA||vuotaVoce());
+  BOZZA={...v};
+  const campo=(k,et,ph,riga)=>`
+    <label class="dia-campo">
+      <span class="dia-et">${et}</span>
+      ${riga
+        ? `<textarea id="c-${k}" rows="${riga}" placeholder="${ph}">${esc(v[k]||"")}</textarea>`
+        : `<input id="c-${k}" type="text" value="${esc(v[k]||"")}" placeholder="${ph}">`}
+    </label>`;
+  return `<div class="testa">
+      <button class="tondo" data-back aria-label="${t("indietro")}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/></svg></button>
+      <h2 style="flex:1;font-size:20px">${t("diario")}</h2>
+      <span class="dia-nfoglio">${String(v.n||0).padStart(3,"0")}</span></div>
+
+    <div class="scorre">
+      <div class="dia-modulo">
+
+        <div class="dia-blocco">
+          ${campo("nm",t("nome_cocktail"),t("ph_nome"))}
+          <div class="dia-due">
+            ${campo("tipo",t("tipo_cocktail_c"),t("ph_tipo"))}
+            ${campo("orig",t("origine"),t("ph_origine"))}
+          </div>
+          ${campo("quando",t("si_beve"),t("ph_quando"))}
+        </div>
+
+        <div class="dia-blocco">
+          <span class="dia-et">${t("forza")}</span>
+          <div class="dia-forza" id="forza">
+            ${FORZE.map((k,i)=>`<button class="dia-f" data-forza="${i}"
+              aria-pressed="${v.forza===i}">${t(k)}</button>`).join("")}
+          </div>
+          <span class="dia-et" style="margin-top:18px">${t("gradimento")}</span>
+          <div class="dia-cuori" id="cuori" role="group" aria-label="${t("gradimento")}">
+            ${Array.from({length:10},(_,i)=>`<button class="dia-c" data-cuore="${i+1}"
+              aria-pressed="${(v.cuori||0)>=i+1}" aria-label="${i+1}/10">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.8" stroke-linejoin="round">
+                <path d="M12 20s-7.5-4.6-7.5-9.6A4.4 4.4 0 0 1 12 7.4a4.4 4.4 0 0 1 7.5 3c0 5-7.5 9.6-7.5 9.6z"/>
+              </svg></button>`).join("")}
+          </div>
+          <span class="dia-conta" id="conta">${v.cuori||0}/10</span>
+        </div>
+
+        <div class="dia-blocco">
+          ${campo("ing",t("ingredienti"),t("ph_ing"),5)}
+          ${campo("proc",t("procedimento"),t("ph_proc"),5)}
+          ${campo("note",t("note_degust"),t("ph_note"),4)}
+        </div>
+
+        <div class="dia-blocco">
+          <span class="dia-et">${t("foto")}</span>
+          <div class="dia-foto" id="riqfoto">
+            <div class="dia-foto-vuota" id="fotovuota">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="6" width="18" height="14" rx="3"/>
+                <circle cx="12" cy="13" r="3.4"/><path d="M8 6l1.6-2.4h4.8L16 6"/></svg>
+              <span>${t("aggiungi_foto")}</span></div>
+            <img id="anteprima" alt="">
+            <button class="dia-foto-x" id="togliefoto" aria-label="${t("elimina")}">✕</button>
+          </div>
+          <input id="filefoto" type="file" accept="image/*" hidden>
+        </div>
+
+        <button class="cta" data-salva>${t("salva")}</button>
+        <div style="height:8px"></div>
+        ${id?`<button class="link" data-elimina>${t("elimina_voce")}</button>`:""}
+        <div style="height:18px"></div>
+      </div>
+    </div>`;
+};
+
+D.voce=({id})=>{
+  const leggi=()=>{
+    ["nm","tipo","orig","quando","ing","proc","note"].forEach(k=>{
+      const e=$("c-"+k); if(e) BOZZA[k]=e.value;
+    });
+  };
+  app.querySelectorAll("[data-forza]").forEach(b=>b.onclick=()=>{
+    BOZZA.forza=+b.dataset.forza; tocco("lieve");
+    app.querySelectorAll("[data-forza]").forEach(x=>
+      x.setAttribute("aria-pressed", x===b));
+  });
+  app.querySelectorAll("[data-cuore]").forEach(b=>b.onclick=()=>{
+    const n=+b.dataset.cuore;
+    BOZZA.cuori = BOZZA.cuori===n ? 0 : n;
+    tocco("lieve");
+    app.querySelectorAll("[data-cuore]").forEach(x=>
+      x.setAttribute("aria-pressed", +x.dataset.cuore<=BOZZA.cuori));
+    $("conta").textContent=BOZZA.cuori+"/10";
+  });
+
+  /* --- la foto --- */
+  const riq=$("riqfoto"), img=$("anteprima"), vuota=$("fotovuota"), tolgo=$("togliefoto");
+  const mostra=blob=>{
+    if(FOTO_URL) URL.revokeObjectURL(FOTO_URL);
+    FOTO_URL=URL.createObjectURL(blob);
+    img.src=FOTO_URL; riq.classList.add("piena");
+  };
+  if(BOZZA.foto) FOTOTECA.prendi(BOZZA.foto).then(b=>{ if(b) mostra(b); }).catch(()=>{});
+  vuota.onclick=()=>$("filefoto").click();
+  img.onclick=()=>$("filefoto").click();
+  $("filefoto").onchange=async e=>{
+    const f=e.target.files&&e.target.files[0];
+    if(!f) return;
+    vuota.querySelector("span").textContent=t("carico_foto");
+    try{
+      const piccola=await riduciFoto(f);
+      const chiave=BOZZA.foto||("f"+BOZZA.id);
+      await FOTOTECA.metti(chiave,piccola);
+      BOZZA.foto=chiave; mostra(piccola);
+    }catch(err){
+      vuota.querySelector("span").textContent=t("foto_errore");
+    }
+  };
+  tolgo.onclick=async ev=>{
+    ev.stopPropagation();
+    if(BOZZA.foto){ try{ await FOTOTECA.togli(BOZZA.foto); }catch(e){} }
+    BOZZA.foto=null; img.removeAttribute("src"); riq.classList.remove("piena");
+    vuota.querySelector("span").textContent=t("aggiungi_foto");
+  };
+
+  app.querySelector("[data-salva]").onclick=()=>{
+    leggi();
+    if(!BOZZA.nm.trim() && !BOZZA.note.trim()){ avviso(t("serve_nome")); return; }
+    const i=DIARIO.findIndex(x=>x.id===BOZZA.id);
+    if(i>=0) DIARIO[i]={...BOZZA}; else DIARIO.push({...BOZZA});
+    sDIARIO(); tocco(); back();
+  };
+  const el=app.querySelector("[data-elimina]");
+  if(el) el.onclick=()=>{
+    foglio(`<h3 style="font-size:20px;margin-bottom:10px">${t("elimina_voce")}</h3>
+      <p style="color:var(--ink2);font-size:14.5px;line-height:1.5">${t("sicuro_elimina")}</p>
+      <div style="height:16px"></div>
+      <button class="cta" id="siElimina">${t("elimina")}</button>
+      <div style="height:8px"></div>
+      <button class="cta bianca" data-chiudi>${t("annulla")}</button>`);
+    $("siElimina").onclick=async()=>{
+      if(BOZZA.foto){ try{ await FOTOTECA.togli(BOZZA.foto); }catch(e){} }
+      DIARIO=DIARIO.filter(x=>x.id!==BOZZA.id); sDIARIO();
+      chiudiF(); back();
+    };
+  };
+};
+
 /* ===================== transizioni fra schermate ===================== */
 
 /* onda liquida: per i tre grandi passaggi dalla home */
@@ -3432,105 +3751,169 @@ const artTumbler=()=>`<svg class="art" viewBox="0 0 200 210" fill="none">
  </g>
 </svg>`;
 
-S.casa=()=>{
-  const preparati=Object.values(ST.fatti).reduce((a,b)=>a+b,0);
-  const TE=TEMI[ST.tema||"nero"]||TEMI.nero;
-  const [c1,c2,c3]=TE.carte;
-  const fr=`<span class="go"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9 5l7 7-7 7"/></svg></span>`;
-  return `<div class="cima">
-      <div style="min-width:0">
-        <h1 class="ciao">${t("ciao")} 👋</h1>
-        <p class="ciao-sub">${t("scegli")}</p></div>
-      <div style="display:flex;gap:10px;flex:0 0 auto">
-        <button class="tondino" data-campana>
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#F5F2EC"
-            stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bollo"></span></button>
-</div>
+/* =====================================================================
+   HOME — ricostruita da zero
+   Un solo markup per telefono, tablet e computer: cambia solo il CSS.
+   Le illustrazioni sono gli SVG gia presenti, riusati senza modifiche.
+   ===================================================================== */
+
+/* ---------- le voci di navigazione, condivise fra barra laterale e altro ---- */
+const NAV=[
+  ["casa","home",'<path d="M3 10.6 12 3l9 7.6"/><path d="M5.6 9.6V20h12.8V9.6"/>'],
+  ["lista","ricette",'<path d="M4 4h16l-8 9z"/><path d="M12 13v7"/><path d="M8 20h8"/>'],
+  ["quiz0","esercitati",'<path d="M6 3h12"/><path d="M6 21h12"/><path d="M7 3c0 5 10 5 10 0"/><path d="M7 21c0-5 10-5 10 0"/><path d="M12 8v8"/>'],
+  ["profilo","profilo",'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>'],
+  ["bere","andiamo",'<path d="M9 3 3 5.4v15L9 18l6 3 6-2.4v-15L15 6z"/><path d="M9 3v15"/><path d="M15 6v15"/>']
+];
+const nvIco=(d,dim)=>`<svg width="${dim||21}" height="${dim||21}" viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+  aria-hidden="true">${d}</svg>`;
+const FRECCIA=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+  stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M9 5l7 7-7 7"/></svg>`;
+
+/* lo skyline del banner: decorativo, non interferisce col testo */
+const SKYLINE=c=>`<svg class="hp-banner-citta" viewBox="0 0 420 90" fill="none" aria-hidden="true"
+  preserveAspectRatio="xMidYMid meet">
+  <g stroke="rgb(${c})" stroke-opacity=".5" stroke-width="1.4">
+    <path d="M8 74h34V44h10v30h16V54h12v20h14V34h11v40h20V50h13v24h18V28h12v46h22V48h14v26h17V38h11v36h20V56h13v18h26"/>
+    <path d="M0 82h420"/><path d="M64 82l-22 8M150 82l-14 8M276 82l16 8M356 82l26 8"/>
+    <path d="M20 90h380"/></g>
+  <g stroke="rgb(${c})" stroke-opacity=".9" stroke-width="1.8">
+    <path d="M210 26a11 11 0 0 1 11 11c0 8-11 19-11 19s-11-11-11-19a11 11 0 0 1 11-11z"/>
+    <circle cx="210" cy="37" r="3.4"/></g>
+</svg>`;
+
+/* =====================================================================
+   BARRA LATERALE — vive fuori da #app perche dis() lo riscrive
+   ===================================================================== */
+function disLato(){
+  const lato=$("lato"); if(!lato) return;
+  const qui=P.length?P[P.length-1].n:"casa";
+  const attiva=n=> n===qui
+    || (n==="lista"   && qui==="drink")
+    || (n==="quiz0"   && ["regole","quiz","quizfine"].includes(qui))
+    || (n==="profilo" && ["preferiti","nuova"].includes(qui));
+
+  lato.innerHTML=`
+    <div class="lato-capo">
+      <h1 class="lato-titolo">${t("ciao")} 👋</h1>
+      <p class="lato-sub">${t("scegli")}</p>
     </div>
-    <div class="fermo casa">
-      <div class="scrivania">
-        <div class="riga">
-          <div><h2>${t("inizia")}</h2><p>${t("inizia_d")}</p></div>
-          <div class="cercona">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgba(245,242,236,.45)"
-              stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/>
-              <path d="M20 20l-3.6-3.6"/></svg>
-            <input id="qglob" type="search" placeholder="${t("cerca_qualcosa")}" autocomplete="off">
-            <span class="tasto">⌘K</span>
+
+    <nav class="lato-nav" aria-label="${t("impostazioni")}">
+      ${NAV.map(([n,k,d])=>`<button class="nav-voce${n==="bere"?" nav-oro":""}"
+        data-hp="${n}"${attiva(n)?' aria-current="page"':""}>
+        ${nvIco(d)}
+        <span class="nav-testo">
+          <span class="nav-nome">${t(k)}${n==="bere"
+            ?`<span class="badge-nuovo">${t("nuovo_b")}</span>`:""}</span>
+          ${n==="bere"?`<span class="nav-sub">${t("andiamo_d")}</span>`:""}
+        </span></button>`).join("")}
+    </nav>
+
+    <div class="lato-piede">
+      <button class="lato-cta" data-hp="bere">
+        <span class="lato-cta-ico">${nvIco(NAV[4][2],20)}</span>
+        <span class="lato-cta-testo"><b>${t("andiamo")}</b><span>${t("andiamo_d")}</span></span>
+        ${FRECCIA}</button>
+      <button class="nav-voce nav-min" data-hp="profilo">
+        ${nvIco('<circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.6a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/>',19)}
+        <span class="nav-testo"><span class="nav-nome">${t("impostazioni")}</span></span></button>
+      ${nativo?`<button class="nav-voce nav-min" data-esci>
+        ${nvIco('<path d="M10 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/><path d="M16 16l4-4-4-4"/><path d="M20 12H10"/>',19)}
+        <span class="nav-testo"><span class="nav-nome">${t("esci")}</span></span></button>`:""}
+      <p class="lato-versione">v ${VERSIONE}</p>
+    </div>`;
+
+  lato.querySelectorAll("[data-hp]").forEach(b=>b.onclick=()=>{
+    const n=b.dataset.hp;
+    if(n===qui) return;
+    tocco("lieve");
+    if(n==="casa"||n==="profilo") navigando(()=>{P=[{n}];dis();});
+    else conOnda(()=>{P=[{n:"casa"},{n}];dis();});
+  });
+  const ex=lato.querySelector("[data-esci]");
+  if(ex) ex.onclick=()=>{ try{Cap.Plugins.App.exitApp();}catch(e){} };
+}
+
+/* =====================================================================
+   LA HOME
+   ===================================================================== */
+S.casa=()=>{
+  const T=TEMI[ST.tema||"nero"]||TEMI.nero;
+  const [c1,c2,c3]=T.carte;
+  const carta=(vai,tinta,arte,icona,titolo,testo)=>`
+    <button class="hp-card" data-hp="${vai}" style="--tema:${tinta}">
+      <span class="hp-card-ico">${nvIco(icona,24)}</span>
+      <span class="hp-card-art">${arte}</span>
+      <span class="hp-card-piede">
+        <span class="hp-card-testo">
+          <span class="hp-card-titolo">${titolo}</span>
+          <span class="hp-card-desc">${testo}</span></span>
+        <span class="hp-card-freccia">${FRECCIA}</span>
+      </span>
+    </button>`;
+
+  return `
+    <header class="hp-saluto">
+      <div class="hp-saluto-testo">
+        <h1>${t("ciao")} 👋</h1>
+        <p>${t("scegli")}</p></div>
+    </header>
+
+    <main class="hp">
+      <div class="hp-dentro">
+
+        <header class="hp-testa">
+          <div class="hp-testa-testo">
+            <h2>${t("inizia")}</h2>
+            <p>${t("inizia_d")}</p></div>
+          <div class="hp-cerca">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+            <input id="qglob" type="search" autocomplete="off"
+              placeholder="${t("cerca_qualcosa")}" aria-label="${t("cerca_qualcosa")}">
+            <kbd>⌘K</kbd>
           </div>
-        </div>
+        </header>
+
+        <section class="hp-griglia" aria-label="${t("inizia")}">
+          ${carta("lista", c1, artCoppetta(), NAV[1][2], t("ricette"),
+                  t("ricette_d",{n:CK.length}))}
+          ${carta("quiz0", c2, artShaker(), NAV[2][2], t("esercitati"), t("esercitati_d"))}
+          ${carta("profilo", c3, artTumbler(), NAV[3][2], t("profilo"), t("profilo_d"))}
+        </section>
+
+        <button class="hp-banner" data-hp="bere" style="--tema:${T.striscia}">
+          <span class="hp-banner-ico">${nvIco(NAV[4][2],26)}</span>
+          <span class="hp-banner-testo">
+            <span class="hp-banner-titolo">${t("andiamo")}
+              <span class="badge-nuovo">${t("nuovo_b")}</span></span>
+            <span class="hp-banner-desc">${t("andiamo_lungo")}</span></span>
+          ${SKYLINE(T.striscia)}
+          <span class="hp-banner-freccia">${FRECCIA}</span>
+        </button>
+
       </div>
-      <div class="carte">
-
-        <button class="hcard" data-go="lista" style="--c:${c1}">
-          ${artCoppetta()}
-          <span class="ico"><svg width="25" height="25" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16l-8 9z"/><path d="M12 13v7"/><path d="M8 20h8"/></svg></span>
-          <span class="tt"><h3>${t("ricette")}</h3>
-            <p>${pl(CK.length,"pl_ricette")}</p></span>
-          ${fr}</button>
-
-        <button class="hcard" data-go="quiz0" style="--c:${c2}">
-          ${artShaker()}
-          <span class="ico"><svg width="25" height="25" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 3h12"/><path d="M6 21h12"/><path d="M7 3c0 5 10 5 10 0"/>
-            <path d="M7 21c0-5 10-5 10 0"/><path d="M12 8v8"/></svg></span>
-          <span class="tt"><h3>${t("esercitati")}</h3>
-            <p>${t("esercitati_d")}</p></span>
-          ${fr}</button>
-
-        <button class="hcard" data-go="profilo" style="--c:${c3}">
-          ${artTumbler()}
-          <span class="ico"><svg width="25" height="25" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span>
-          <span class="tt"><h3>${t("profilo")}</h3>
-            <p>${t("profilo_d")}</p></span>
-          ${fr}</button>
-      </div>
-
-      <button class="striscia" data-go="bere" style="--c:${TE.striscia}">
-                <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 3 3 5.4v15L9 18l6 3 6-2.4v-15L15 6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></span>
-        <span class="tt"><b>${t("andiamo")}<i class="nuovo">${t("nuovo_b")}</i></b>
-          <span>${t("andiamo_lungo")}</span></span>
-        <svg class="citta" viewBox="0 0 420 90" fill="none" aria-hidden="true">
-          <g stroke="rgb(${TE.striscia})" stroke-opacity=".5" stroke-width="1.4">
-            <path d="M8 74h34V44h10v30h16V54h12v20h14V34h11v40h20V50h13v24h18V28h12v46h22V48h14v26h17V38h11v36h20V56h13v18h26"/>
-            <path d="M0 82h420"/><path d="M64 82l-22 8M150 82l-14 8M276 82l16 8M356 82l26 8"/>
-            <path d="M20 90h380"/>
-          </g>
-          <g stroke="rgb(${TE.striscia})" stroke-opacity=".9" stroke-width="1.8">
-            <path d="M210 26a11 11 0 0 1 11 11c0 8-11 19-11 19s-11-11-11-19a11 11 0 0 1 11-11z"/>
-            <circle cx="210" cy="37" r="3.4"/></g>
-        </svg>
-        <span class="fr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 5l7 7-7 7"/></svg></span></button>
-
-    </div>${barra("casa")}`;
+    </main>${barra("casa")}`;
 };
+
 D.casa=()=>{
-  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>conOnda(()=>vai(b.dataset.go)));
-  const qg=$("qglob");
-  if(qg){
-    qg.onkeydown=e=>{ if(e.key==="Enter" && qg.value.trim())
-      conOnda(()=>vai("lista",{q:qg.value.trim()})); };
-    /* ⌘K o Ctrl+K portano il cursore nella ricerca */
+  app.querySelectorAll("[data-hp]").forEach(b=>b.onclick=()=>
+    conOnda(()=>vai(b.dataset.hp)));
+  const q=$("qglob");
+  if(q){
+    q.onkeydown=e=>{ if(e.key==="Enter" && q.value.trim())
+      conOnda(()=>vai("lista",{q:q.value.trim()})); };
     document.onkeydown=e=>{
-      if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==="k"){ e.preventDefault(); qg.focus(); }
+      if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==="k"){ e.preventDefault(); q.focus(); }
     };
   }
-  const cp=app.querySelector("[data-campana]");
-  if(cp) cp.onclick=fogliNovita;
 };
+
+
 
 /* =====================================================================
    ELENCO
@@ -4424,7 +4807,8 @@ S.profilo=()=>{
           <div class="k">${t("punti")}</div></div>
         <div>${istat("coppa","154,130,240")}<div class="v">${ST.record}</div>
           <div class="k">${t("record")}</div></div></div>
-      <div class="sezione"><h3>${t("impostazioni")}</h3></div>
+      <div class="sezione"><h3>${t("impostazioni")}</h3>
+        <span class="occhio">v ${VERSIONE}</span></div>
       <div class="riquadro" style="padding:15px 17px">
         <div class="k" style="margin-bottom:10px">${t("lingua")}</div>
         <div class="scelte">${LINGUE.map(l=>`<button class="scelta" data-lin="${l.c}"
@@ -4446,12 +4830,20 @@ S.profilo=()=>{
         <button class="piu" data-nuova>${t("nuova")}</button></div>
       ${MIE.length?MIE.map(m=>cartaDrink({...m,mia:true})).join("")
         :`<div class="vuoto" style="padding:26px 10px">${t("inventi")}</div>`}
-      <div class="sezione"><h3>${t("appunti")}</h3>
-        <button class="piu" data-nota>${t("nuovo")}</button></div>
-      ${NOTE.length?NOTE.map((n,i)=>`<div class="nota">
-          <div class="c"><div class="d">${n.d} · ${esc(n.su)}</div><p>${esc(n.tx)}</p></div>
-          <button class="x" data-del="${i}">✕</button></div>`).join("")
-        :`<div class="vuoto" style="padding:26px 10px">${t("nessun_appunto")}</div>`}
+      <div class="sezione"><h3>${t("diario")}</h3>
+        <button class="piu" data-diario>${t("apri")}</button></div>
+      ${DIARIO.length
+        ? [...DIARIO].sort((a,b)=>(b.n||0)-(a.n||0)).slice(0,3).map(v=>`
+            <button class="dia-riga" data-voce="${v.id}">
+              <span class="dia-num">${String(v.n||0).padStart(3,"0")}</span>
+              <span class="dia-mid">
+                <span class="dia-nome">${esc(v.nm)||t("senza_nome")}</span>
+                <span class="dia-meta">${[esc(v.tipo),dataLeggibile(v.d)].filter(Boolean).join(" · ")}</span></span>
+              <span class="dia-voto">${v.cuori?"♥ "+v.cuori+"/10":""}</span>
+            </button>`).join("")
+          + (DIARIO.length>3?`<button class="link" data-diario style="padding:10px 0">
+              ${t("vedi_tutte",{n:DIARIO.length})}</button>`:"")
+        : `<div class="vuoto" style="padding:26px 10px">${t("diario_vuoto")}</div>`}
       <div style="height:14px"></div>
     </div>${dentro?"":barra("profilo")}`;
 };
@@ -4463,9 +4855,9 @@ D.profilo=()=>{
     ST.tema=b.dataset.tem; sST(); applicaTema(ST.tema); dis();});
   app.querySelector("[data-nuova]").onclick=()=>{
     BZ=bozzaVuota(); vai("nuova");};
-  app.querySelector("[data-nota]").onclick=()=>modNota("");
-  app.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{
-    NOTE.splice(+b.dataset.del,1);await sNOTE();dis();avviso(t("eliminato"));});
+  app.querySelectorAll("[data-diario]").forEach(b=>b.onclick=()=>vai("diario"));
+  app.querySelectorAll("[data-voce]").forEach(b=>b.onclick=()=>{
+    P.push({n:"diario"}); vai("voce",{id:b.dataset.voce});});
 };
 
 /* ===================== nuova ricetta ===================== */
@@ -4637,6 +5029,9 @@ function modNota(su){
    ===================================================================== */
 /* L'altezza reale della finestra: su iOS le unita CSS mentono quando le barre
    compaiono o spariscono, e resta una fascia vuota in fondo. Qui la misuro. */
+/* marchio della versione: serve a capire se stai vedendo il file nuovo */
+const VERSIONE="05/09 21:04";
+
 /* la fotografia dell'apertura resta in memoria: fa da sfondo alle schede */
 let SFONDO_BAR="";
 (function(){const i=document.querySelector("#marchio .scena"); if(i) SFONDO_BAR=i.src;})();
@@ -4649,7 +5044,13 @@ document.addEventListener("contextmenu",e=>{
 /* niente trascinamento di immagini */
 document.addEventListener("dragstart",e=>e.preventDefault());
 
+/* Rete di sicurezza solo per i browser che non conoscono dvh.
+   Dove dvh esiste non si tocca niente: ci pensa il browser da solo, e una
+   misura presa qui sarebbe sempre in ritardo di un movimento — era li che
+   nasceva la fascia nera in fondo e l'allungamento al trascinamento. */
+const CONOSCE_DVH = !!(window.CSS && CSS.supports && CSS.supports("height","100dvh"));
 function altezzaVera(){
+  if(CONOSCE_DVH) return;
   const h=window.visualViewport?Math.round(window.visualViewport.height):window.innerHeight;
   if(h>200) document.documentElement.style.setProperty("--vh",h+"px");
 }
@@ -4743,11 +5144,27 @@ async function condividiFile(byte,nome,titolo){
   return false;
 }
 
-/* --- registrazione del lavoratore di rete: e questo che la fa girare offline --- */
-if("serviceWorker" in navigator && location.protocol!=="blob:" && !nativo){
-  window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("sw.js").catch(()=>{});
-  });
+/* --- SERVIZIO DI RETE DISATTIVATO ---
+   Serviva a far girare l'app senza connessione, ma serviva index.html
+   sempre dalla cache: si restava indietro di una versione a ogni modifica.
+   Finche lavoriamo sulla grafica resta spento, e qui sotto ripulisco
+   anche le copie gia installate, altrimenti continuerebbero a servirti
+   la versione vecchia. */
+const SW_ACCESO = false;
+
+if("serviceWorker" in navigator){
+  if(SW_ACCESO && location.protocol!=="blob:" && !nativo){
+    window.addEventListener("load",()=>{
+      navigator.serviceWorker.register("sw.js").catch(()=>{});
+    });
+  } else {
+    navigator.serviceWorker.getRegistrations()
+      .then(r=>r.forEach(x=>x.unregister()))
+      .catch(()=>{});
+    if(window.caches) caches.keys()
+      .then(k=>k.forEach(n=>caches.delete(n)))
+      .catch(()=>{});
+  }
 }
 
 
@@ -4760,16 +5177,9 @@ if("serviceWorker" in navigator && location.protocol!=="blob:" && !nativo){
 (function(){
   const PEZZI=[
     ["finestra",null],
-    ["barra laterale","#lato"],
-    ["saluto","#lato .ciao"],
-    ["campanella","#lato .tondino"],
-    ["voce attiva","#lato .voce[aria-current='true']"],
-    ["icona della voce","#lato .voce svg"],
-    ["riquadro in fondo","#lato .lato-bere"],
-    ["area contenuto","#app"],
-    ["contenitore","#app .fermo, #app .scorre"],
-    ["titolo scrivania",".scrivania h2"],
-    ["ricerca",".scrivania .cercona"],
+    ["vista",".vista"],
+    ["intestazione",".cima"],
+    ["contenitore",".fermo, .scorre"],
     ["griglia carte",".carte"],
     ["prima carta",".hcard"],
     ["icona carta",".hcard .ico"],
@@ -4777,19 +5187,19 @@ if("serviceWorker" in navigator && location.protocol!=="blob:" && !nativo){
     ["titolo carta",".hcard h3"],
     ["freccia carta",".hcard .go"],
     ["striscia",".striscia"],
-    ["icona striscia",".striscia .ico"],
-    ["skyline",".striscia .citta"],
     ["barra in fondo",".tabbar"],
     ["eroe",".eroe"],
     ["telo",".telo"],
-    ["griglia ricette",".griglia-drink"],
-    ["prima ricetta",".griglia-drink .drink"]
-  ];
-  function misura(){
+    ["elenco ricette",".griglia-drink"],
+    ["prima ricetta",".griglia-drink .drink"],
+    ["mappa",".mappa-guscio"],
+    ["elenco locali",".elenco-locali"]
+  ];  function misura(){
     const R=[];
     R.push("SCHERMO "+screen.width+"x"+screen.height+
            "  FINESTRA "+innerWidth+"x"+innerHeight+
            "  densita "+devicePixelRatio);
+    R.push("VERSIONE "+VERSIONE);
     R.push("schermata: "+(P.length?P[P.length-1].n:"?")+
            "   lingua: "+LG+"   tema: "+(ST.tema||"nero"));
     R.push("");
