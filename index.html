@@ -58,7 +58,7 @@ body{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;
      spariscono le barre: qualunque misura presa in JavaScript la
      scavalcherebbe con un valore vecchio, ed e li che nasceva la
      fascia nera in fondo. */
-  height:100vh;height:100dvh;
+  height:100%;height:100dvh;
   overflow:hidden;overscroll-behavior:none;
   touch-action:pan-y;
   background:var(--sfondo);color:var(--ink);
@@ -708,6 +708,13 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 .elenco-locali .locale .ap{display:block;font-size:10.5px;font-weight:700;margin-top:4px}
 .elenco-locali .locale .ap.si{color:var(--verde)}.elenco-locali .locale .ap.no{color:rgba(245,242,236,.4)}
 
+.allarga{display:block;width:100%;margin-top:10px;padding:15px;border-radius:16px;
+  font-size:14.5px;font-weight:600;color:var(--oro);
+  background:rgba(255,190,0,.05);
+  box-shadow:inset 0 0 0 1px rgba(255,190,0,.3);
+  transition:background .2s var(--curva,ease)}
+.allarga:active{background:rgba(255,190,0,.12)}
+
 /* ---- scheda del locale ---- */
 .sfondobar{position:absolute;inset:-60px;z-index:0;pointer-events:none;
   background-size:cover;background-position:center 38%;
@@ -1088,19 +1095,33 @@ h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.032em;line-height:1.05}
 
 /* ============ 11 · TELEFONO: le carte riempiono lo schermo ============ */
 @media (max-width:767px){
-  .hp-card{grid-template-rows:auto 1fr auto}
-  .hp-card-ico{position:static;grid-row:1}
-  .hp-card-art{grid-row:2}
+  /* Sul telefono la carta e bassa: l'illustrazione non puo stare su una
+     riga propria fra icona e testo, non le resterebbe spazio. Va di lato,
+     sovrapposta, come nella versione che funzionava. */
   .hp{display:flex;flex-direction:column}
-  .hp-dentro{flex:1;min-height:0;padding-top:4px}
-  .hp-griglia{flex:1 1 auto;min-height:0;grid-template-rows:repeat(3,minmax(0,1fr))}
-  .hp-card{aspect-ratio:auto;min-height:0}
-  .hp-card-art{width:auto;height:100%;aspect-ratio:200/210}
-  .hp-card-desc{-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;
-    overflow:hidden}
+  .hp-dentro{flex:1;min-height:0;padding-top:4px;padding-bottom:10px}
+  .hp-griglia{flex:1 1 auto;min-height:0;
+    grid-template-rows:repeat(3,minmax(0,1fr))}
+
+  .hp-card{display:block;position:relative;aspect-ratio:auto;min-height:0;
+    overflow:hidden;padding:14px 16px}
+  .hp-card-ico{position:absolute;left:16px;top:14px;
+    width:clamp(38px,10vw,46px);height:clamp(38px,10vw,46px);z-index:2}
+  .hp-card-art{position:absolute;right:-7%;top:50%;transform:translateY(-50%);
+    width:auto;height:104%;aspect-ratio:200/210;min-height:0;z-index:1;
+    display:flex;align-items:center;justify-content:center}
+  .hp-card-piede{position:absolute;left:16px;right:16px;bottom:14px;z-index:3;
+    display:flex;align-items:flex-end;gap:12px;justify-content:space-between}
+  .hp-card-testo{max-width:54%}
+  .hp-card-titolo{font-size:clamp(19px,5.4vw,24px)}
+  .hp-card-desc{font-size:13px;margin-top:5px;-webkit-line-clamp:2;
+    display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+  .hp-card-freccia{width:42px;height:42px}
+
   .hp-banner{grid-template-columns:auto 1fr auto;min-height:60px;flex:0 0 auto}
   .hp-banner-desc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
+
 
 /* ============ 10 · TABLET E COMPUTER ============ */
 @media (min-width:768px){
@@ -1748,7 +1769,7 @@ it:{
  mappa_nessuno:"Nessun locale trovato nel raggio di {n} km.",
  mappa_noperm:"Serve il permesso di posizione per mostrarti i locali vicini.",
  mappa_riprova:"Riprova",mappa_offline:"Per la mappa serve la connessione.",
- mappa_locali:"{n} locali",mappa_apri:"Portami lì",mappa_ampia:"Allarga la ricerca",
+ mappa_locali:"{n} locali",mappa_apri:"Portami lì",mappa_ampia:"Allarga la ricerca",allarga:"Cerca fino a {n}",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Cocktail bar",tipo_wine:"Enoteca",
  tipo_night:"Locale notturno",tipo_birra:"Birreria",tipo_caffe:"Caffè",
@@ -1850,7 +1871,7 @@ en:{
  mappa_nessuno:"No places found within {n} km.",
  mappa_noperm:"I need location permission to show you nearby places.",
  mappa_riprova:"Try again",mappa_offline:"The map needs a connection.",
- mappa_locali:"{n} places",mappa_apri:"Take me there",mappa_ampia:"Widen the search",
+ mappa_locali:"{n} places",mappa_apri:"Take me there",mappa_ampia:"Widen the search",allarga:"Search up to {n}",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Cocktail bar",tipo_wine:"Wine bar",
  tipo_night:"Nightclub",tipo_birra:"Beer bar",tipo_caffe:"Café",
@@ -1952,7 +1973,7 @@ fr:{
  mappa_nessuno:"Aucune adresse dans un rayon de {n} km.",
  mappa_noperm:"J'ai besoin de la localisation pour te montrer les adresses proches.",
  mappa_riprova:"Réessayer",mappa_offline:"La carte a besoin d'une connexion.",
- mappa_locali:"{n} adresses",mappa_apri:"M'y emmener",mappa_ampia:"Élargir la recherche",
+ mappa_locali:"{n} adresses",mappa_apri:"M'y emmener",mappa_ampia:"Élargir la recherche",allarga:"Chercher jusqu'à {n}",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Bar à cocktails",tipo_wine:"Bar à vin",
  tipo_night:"Boîte de nuit",tipo_birra:"Bar à bières",tipo_caffe:"Café",
@@ -2054,7 +2075,7 @@ es:{
  mappa_nessuno:"Ningún local en {n} km a la redonda.",
  mappa_noperm:"Necesito el permiso de ubicación para mostrarte los locales cercanos.",
  mappa_riprova:"Reintentar",mappa_offline:"El mapa necesita conexión.",
- mappa_locali:"{n} locales",mappa_apri:"Llévame allí",mappa_ampia:"Ampliar la búsqueda",
+ mappa_locali:"{n} locales",mappa_apri:"Llévame allí",mappa_ampia:"Ampliar la búsqueda",allarga:"Buscar hasta {n}",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Coctelería",tipo_wine:"Vinoteca",
  tipo_night:"Discoteca",tipo_birra:"Cervecería",tipo_caffe:"Café",
@@ -2156,7 +2177,7 @@ de:{
  mappa_nessuno:"Kein Lokal im Umkreis von {n} km gefunden.",
  mappa_noperm:"Ich brauche die Standortfreigabe, um dir Lokale in der Nähe zu zeigen.",
  mappa_riprova:"Nochmal versuchen",mappa_offline:"Die Karte braucht eine Verbindung.",
- mappa_locali:"{n} Lokale",mappa_apri:"Bring mich hin",mappa_ampia:"Suche erweitern",
+ mappa_locali:"{n} Lokale",mappa_apri:"Bring mich hin",mappa_ampia:"Suche erweitern",allarga:"Bis {n} suchen",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Bar",tipo_pub:"Pub",tipo_cocktail:"Cocktailbar",tipo_wine:"Weinbar",
  tipo_night:"Nachtclub",tipo_birra:"Bierlokal",tipo_caffe:"Café",
@@ -2258,7 +2279,7 @@ ru:{
  mappa_nessuno:"В радиусе {n} км ничего не найдено.",
  mappa_noperm:"Нужен доступ к геопозиции, чтобы показать заведения рядом.",
  mappa_riprova:"Попробовать снова",mappa_offline:"Для карты нужно соединение.",
- mappa_locali:"{n} заведений",mappa_apri:"Проложить маршрут",mappa_ampia:"Расширить поиск",
+ mappa_locali:"{n} заведений",mappa_apri:"Проложить маршрут",mappa_ampia:"Расширить поиск",allarga:"Искать до {n}",
  dist_m:"{n} м",dist_km:"{n} км",
  tipo_bar:"Бар",tipo_pub:"Паб",tipo_cocktail:"Коктейль-бар",tipo_wine:"Винный бар",
  tipo_night:"Ночной клуб",tipo_birra:"Пивной бар",tipo_caffe:"Кафе",
@@ -2360,7 +2381,7 @@ lt:{
  mappa_nessuno:"{n} km spinduliu nieko nerasta.",
  mappa_noperm:"Reikia vietos leidimo, kad parodyčiau vietas netoliese.",
  mappa_riprova:"Bandyti dar kartą",mappa_offline:"Žemėlapiui reikia ryšio.",
- mappa_locali:"{n} vietos",mappa_apri:"Nuvesk mane",mappa_ampia:"Praplėsti paiešką",
+ mappa_locali:"{n} vietos",mappa_apri:"Nuvesk mane",mappa_ampia:"Praplėsti paiešką",allarga:"Ieškoti iki {n}",
  dist_m:"{n} m",dist_km:"{n} km",
  tipo_bar:"Baras",tipo_pub:"Pubas",tipo_cocktail:"Kokteilių baras",tipo_wine:"Vyno baras",
  tipo_night:"Naktinis klubas",tipo_birra:"Alaus baras",tipo_caffe:"Kavinė",
@@ -2879,7 +2900,10 @@ const CAT={
 const catIco=(k,dim)=>`<svg width="${dim||18}" height="${dim||18}" viewBox="0 0 24 24" fill="none"
   stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${CAT[k].i}</svg>`;
 
-let MAPPA=null, MARCATORI=[], LOCALI=[], DOVE=null, RAGGIO=1400, CARICANDO=false;
+let MAPPA=null, MARCATORI=[], LOCALI=[], DOVE=null, CARICANDO=false;
+/* si parte stretti: quello che hai davvero a due passi. Poi allarghi tu. */
+const RAGGI=[300,600,1200,2500,5000];
+let RAGGIO=RAGGI[0];
 let FILTRI=new Set();   /* vuoto = mostra tutto */
 
 function carica(url,tipo){
@@ -3138,7 +3162,7 @@ D.bere=async()=>{
     if(elenco.length){
       try{ MAPPA.fitBounds(L.featureGroup(MARCATORI).getBounds().pad(0.2),{maxZoom:16}); }catch(e){}
     }
-    conta.textContent=pl(elenco.length,"pl_locali");
+    conta.textContent=pl(elenco.length,"pl_locali")+" · "+scriviDist(RAGGIO);
 
     lista.innerHTML = elenco.length
       ? elenco.map((p,i)=>{
@@ -3155,13 +3179,20 @@ D.bere=async()=>{
       : `<div class="vuoto">${FILTRI.size?t("mappa_nessunfiltro"):t("mappa_nessuno",{n:(RAGGIO/1000).toFixed(1).replace(".",",")})}
          ${FILTRI.size?"":`<br><br><button class="cta bianca" id="mampia" style="width:auto;padding:0 24px;
            height:46px;display:inline-flex">${t("mappa_ampia")}</button>`}</div>`;
+    /* in fondo, il comando per cercare piu lontano */
+    const su=RAGGI.find(r=>r>RAGGIO);
+    if(su) lista.insertAdjacentHTML("beforeend",
+      `<button class="allarga" id="mallarga">${t("allarga",{n:scriviDist(su)})}</button>`);
+
     lista.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{
       const p=elenco[+b.dataset.i];
       MAPPA.flyTo([p.lat,p.lon],17,{duration:.7});
       tocco("lieve"); scheda(p);
     });
+    const al=$("mallarga");
+    if(al) al.onclick=()=>{ RAGGIO=su; tocco("lieve"); avvia(); };
     const amp=$("mampia");
-    if(amp) amp.onclick=()=>{RAGGIO=Math.min(RAGGIO*2,8000);DOVE&&avvia();};
+    if(amp) amp.onclick=()=>{ RAGGIO=su||RAGGIO; DOVE&&avvia(); };
   }
 
   /* ---------- che ore fa oggi: estrae la fascia del giorno corrente ---------- */
@@ -3323,7 +3354,7 @@ D.bere=async()=>{
     }
   }
 
-  $("mricarica").onclick=()=>{DOVE=null;FILTRI.clear();avvia();};
+  $("mricarica").onclick=()=>{DOVE=null;FILTRI.clear();RAGGIO=RAGGI[0];avvia();};
   requestAnimationFrame(()=>setTimeout(avvia,140));
 };
 
@@ -5030,7 +5061,7 @@ function modNota(su){
 /* L'altezza reale della finestra: su iOS le unita CSS mentono quando le barre
    compaiono o spariscono, e resta una fascia vuota in fondo. Qui la misuro. */
 /* marchio della versione: serve a capire se stai vedendo il file nuovo */
-const VERSIONE="05/09 21:04";
+const VERSIONE="06/09 16:48";
 
 /* la fotografia dell'apertura resta in memoria: fa da sfondo alle schede */
 let SFONDO_BAR="";
